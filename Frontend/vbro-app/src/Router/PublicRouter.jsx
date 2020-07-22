@@ -1,10 +1,10 @@
 import React from "react"
 import {Switch,Route} from "react-router-dom"
-import OwnerHelp from  "./RouterComponents/OwnerHelp"
-import TravellerHelp from  "./RouterComponents/TravelerHelp"
-import TrustAndSafety from  "./RouterComponents/TrustAndSafety"
-import PropertyManagerHelp from  "./RouterComponents/PropertyManagerHelp"
-import ListYourProperty from  "./RouterComponents/ListYourProperty"
+import OwnerHelp from  "./RouterComponents/NavbarRoutes/OwnerHelp"
+import TravellerHelp from  "./RouterComponents/NavbarRoutes/TravelerHelp"
+import TrustAndSafety from  "./RouterComponents/NavbarRoutes/TrustAndSafety"
+import PropertyManagerHelp from  "./RouterComponents/NavbarRoutes/PropertyManagerHelp"
+import ListYourProperty from  "./RouterComponents/NavbarRoutes/ListYourProperty"
 
 
 function PublicRouter(){

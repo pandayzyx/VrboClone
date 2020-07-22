@@ -1,7 +1,7 @@
 import React from "react"
 import {Link} from  "react-router-dom"
-import SignUPModal from './Models/SignupModal/SignUpModal'
-import TravellerLoginModal from './Models/TravellerLoginModal/TravellerLoginModal'
+import SignUPModal from './Modals/SignupModal/SignUpModal'
+import TravellerLoginModal from './Modals/TravellerLoginModal/TravellerLoginModal'
 
 class Navbar extends React.Component{
     constructor(props){
