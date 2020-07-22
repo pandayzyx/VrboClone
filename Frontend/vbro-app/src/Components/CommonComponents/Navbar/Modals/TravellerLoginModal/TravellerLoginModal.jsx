@@ -50,7 +50,6 @@ class TravellerLoginModal extends React.Component {
 								</button>
 							</div>
 
-
 							<div class="modal-body py-5 col-10 offset-1 shadow-lg">
 								<div className="row card">
 									<div className="col-12">
@@ -63,8 +62,6 @@ class TravellerLoginModal extends React.Component {
 										/>
 									</div>
 
-
-
 									<div className="col-6 offset-2 mt-5">
 										<button
 											style={{ borderRadius: "20px" }}
@@ -75,7 +72,6 @@ class TravellerLoginModal extends React.Component {
 										<br></br>
 										<br></br>
 										<p className="offset-3">Or continue with</p>
-
 
 										<div className="offset-3">
 											<GoogleLogin
@@ -100,7 +96,6 @@ class TravellerLoginModal extends React.Component {
 								</div>
 							</div>
 
-							
 							<div style={{ height: "200px" }} class="modal-footer ">
 								<p className="mr-5">
 									Use of this Web site constitutes acceptance of the Vrbo{" "}

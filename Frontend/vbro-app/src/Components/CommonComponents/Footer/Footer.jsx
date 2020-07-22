@@ -3,7 +3,7 @@ import React from "react"
 
 function Footer(){
    return(
-       <div>Hellow</div>
+       <div></div>
    )
 }
 export default Footer

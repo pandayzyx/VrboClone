@@ -6,19 +6,19 @@ class SignUPModal extends React.Component {
 		super(props);
 		this.state = {
 			token: "",
-			email:""
+			email: "",
 		};
 	}
 
 	responseGoogle = (response) => {
 		console.log(response);
 	};
-	handleChange =(e)=>{
-		console.log(e.target.value)
+	handleChange = (e) => {
+		console.log(e.target.value);
 		this.setState({
-			[e.target.name]:e.target.value
-		})
-	}
+			[e.target.name]: e.target.value,
+		});
+	};
 
 	render() {
 		return (
@@ -55,7 +55,10 @@ class SignUPModal extends React.Component {
 							<div class="modal-body col-10 offset-1 pb-4 shadow-lg">
 								<div className="row card">
 									<div className="col-12">
-										<input name = "email" value =  {this.state.email} onChange = {(e)=>this.handleChange(e)}
+										<input
+											name="email"
+											value={this.state.email}
+											onChange={(e) => this.handleChange(e)}
 											className="form-control mt-4"
 											placeholder="Email Address"
 										/>
