@@ -5,6 +5,7 @@ import HomeCard2 from "../../Components/CommonComponents/Cards/HomeCard/HomeCard
 import { v4 as uuidv4 } from "uuid";
 import data from "../../data.json";
 import { Card } from "react-bootstrap";
+import styles from "./home.module.css";
 
 const breakPoints = [
 	{ width: 1, itemsToShow: 1 },
@@ -15,15 +16,52 @@ const breakPoints = [
 function Home() {
 	console.log(data.crousel1);
 	return (
-		<div className="container">
+		<div className="container-fluid border border-primary">
+			<div className={`${styles.img} col-12 border border-primary`}>
+				<h2
+					style={{ marginLeft: "120px", marginTop: "100px" }}
+					className="font-weight-bold text-white float-left"
+				>
+					Beach House Condo?Cabin?<br></br>Find the perfect vaccation rental
+				</h2>
+				<div
+					style={{ marginLeft: "120px"}}
+					className="col-10 card border border-rounded"
+				>
+					<div className="row p-3">
+						<div className="col-3 card shadow-sm">Locations</div>
+						<div className="col-2 card shadow-sm ml-2">Arrival</div>
+						<div className="col-2 card shadow-sm">Departure</div>
+						<div className="col-2 card shadow-sm ml-2">Guest</div>
+						<div className="col-2">
+							<button
+								
+								style={{ borderRadius: "40px" }}
+								class="btn btn-primary bg bg-primary text-white btn-block ml-4 py-2"
+							>
+								Search
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div>
 				<h4 style={{ marginLeft: "6%" }} className="float-left mb-3">
-                Find spaces that suit your style
+					Find spaces that suit your style
 				</h4>
-				<Carousel pagination = {false} focusOnSelect = {true} breakPoints={breakPoints}>
+				<Carousel
+					pagination={false}
+					focusOnSelect={true}
+					breakPoints={breakPoints}
+				>
 					{data.crousel2.map((item) => (
-						<div  key = {uuidv4()}  className="p-1">
-							<HomeCard2 text = {item.text} address={item.address} title={item.name} />
+						<div key={uuidv4()} className="p-1">
+							<HomeCard2
+								text={item.text}
+								address={item.address}
+								title={item.name}
+							/>
 						</div>
 					))}
 				</Carousel>
@@ -32,9 +70,9 @@ function Home() {
 				<h4 style={{ marginLeft: "6%" }} className="float-left mb-3">
 					Best places in the United States for going to the beach
 				</h4>
-				<Carousel pagination = {false}  breakPoints={breakPoints}>
+				<Carousel pagination={false} breakPoints={breakPoints}>
 					{data.crousel1.map((item) => (
-						<div key = {uuidv4()} className="p-1">
+						<div key={uuidv4()} className="p-1">
 							<HomeCard address={item.address} title={item.name} />
 						</div>
 					))}
@@ -45,9 +83,9 @@ function Home() {
 				<h4 style={{ marginLeft: "6%" }} className="float-left mb-3">
 					Best places in the United States for nature
 				</h4>
-				<Carousel pagination = {false}  breakPoints={breakPoints}>
+				<Carousel pagination={false} breakPoints={breakPoints}>
 					{data.crousel1.map((item) => (
-						<div  key = {uuidv4()}  className="p-1">
+						<div key={uuidv4()} className="p-1">
 							<HomeCard address={item.address} title={item.name} />
 						</div>
 					))}

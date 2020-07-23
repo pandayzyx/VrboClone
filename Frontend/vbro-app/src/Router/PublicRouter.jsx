@@ -1,6 +1,6 @@
 import React from "react"
 import {Switch,Route} from "react-router-dom"
-import Home from  "./RouterComponents/Home"
+import Home from "./RouterComponents/Home.jsx"
 // import OwnerHelp from  "./RouterComponents/NavbarRoutes/OwnerHelp"
 import  TravellerHelp from "./RouterComponents/NavBarRoutes/TravelerHelp"
 // import TrustAndSafety from  "./RouterComponents/NavbarRoutes/TrustAndSafety"
