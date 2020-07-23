@@ -22,7 +22,7 @@ function Home() {
 				</h4>
 				<Carousel pagination = {false} focusOnSelect = {true} breakPoints={breakPoints}>
 					{data.crousel2.map((item) => (
-						<div className="p-1">
+						<div  key = {uuidv4()}  className="p-1">
 							<HomeCard2 text = {item.text} address={item.address} title={item.name} />
 						</div>
 					))}
@@ -34,7 +34,7 @@ function Home() {
 				</h4>
 				<Carousel pagination = {false}  breakPoints={breakPoints}>
 					{data.crousel1.map((item) => (
-						<div className="p-1">
+						<div key = {uuidv4()} className="p-1">
 							<HomeCard address={item.address} title={item.name} />
 						</div>
 					))}
@@ -47,7 +47,7 @@ function Home() {
 				</h4>
 				<Carousel pagination = {false}  breakPoints={breakPoints}>
 					{data.crousel1.map((item) => (
-						<div className="p-1">
+						<div  key = {uuidv4()}  className="p-1">
 							<HomeCard address={item.address} title={item.name} />
 						</div>
 					))}
