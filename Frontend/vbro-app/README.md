@@ -70,3 +70,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 //Modules used for the project
 1.react-elastic-carousel "https://www.npmjs.com/package/react-elastic-carousel"
 2.react-google-login "https://www.npmjs.com/package/react-google-login"
+3.email-validator   "https://www.npmjs.com/package/email-validator"

@@ -1,18 +1,37 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login";
+var validator = require("email-validator");
+validator.validate("test@email.com"); 
 
 class SignUPModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			token: "",
+			googleToken: "",
 			email: "",
+			fbisLoggedIn:"",
+			fbuserID:"",
+			fbname:"",
+			fbemail:"",
+			fbpicture:""
 		};
 	}
 
 	responseGoogle = (response) => {
 		console.log(response);
 	};
+	responseFacebook = (response) => {
+		console.log(response);
+		this.setState({
+			fbisLoggedIn: true,
+			fbuserID: response.userID,
+			fbname: response.name,
+			fbemail: response.email,
+			fbpicture: response.picture.data.url
+		  });
+	};
+
 	handleChange = (e) => {
 		console.log(e.target.value);
 		this.setState({
@@ -73,7 +92,7 @@ class SignUPModal extends React.Component {
 										<br></br>
 										<br></br>
 										<p className="offset-3">Or continue with</p>
-										<div className="offset-3">
+										<div className="offset-3 d-flex">
 											<GoogleLogin
 												clientId="232104637002-j10cga87s4j7mgsnan80h24suv229o1i.apps.googleusercontent.com"
 												render={(renderProps) => (
@@ -90,6 +109,22 @@ class SignUPModal extends React.Component {
 												onSuccess={this.responseGoogle}
 												onFailure={this.esponseGoogle}
 												cookiePolicy={"single_host_origin"}
+											/>
+
+											<FacebookLogin
+												appId="2958340954291415"
+												autoLoad={true}
+												fields="name,email,picture"
+												callback={this.responseFacebook}
+												cssClass="border-0 bg bg-white ml-4"
+												icon={
+													<img
+														style={{ height: "40px", width: "40px" }}
+														classname="header img-fluid"
+														alt = "facebook"
+														src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHkAAAB5CAMAAAAqJH57AAAAaVBMVEUYd/L///8AbPH7/P8AcvIAbvGnwfkAY/AAcPF8pPbn7/0PdfJ+qfcAavGaufgAaPHM3Pvt8/7c6P24zvo8hfM5gfNyofWZvPjR3/tLi/Ozy/osfvPD1vutxvmRtPdXlPUAV/BmmvWHsPd6z/5iAAAFBUlEQVRogcXba3ejIBAGYBKhtaJNNOZic9vm///IRXNTMzC8YE7n0549bp5FRGEYxAyNpDocT5tzvddCCL2vz5vT8VAl8O8I6OpqldcyVWkqtWhhQwstU/M3ss5X1ZvkcpmvtUr1VRyH1qnS63xZTi0nhrWqfd3gnjfeSy63TZE60Wek82br1XAPOculcjd21HQl82wCOdssJOJ2tlxsWJuRy6+FBNlryMUXc8/d8jYNczs73QbLuxrq33FoVe+C5OQS5V7ti32IWeWqUZFuG6qxvths8o8M7+F+SPmDyXkxidtGkQNyMsmdvodqyM6m5Kye5k7fQ9bUa4WQq/20sKH3xHP2Kk8P0/SL/A6YpMdy9ha4pcd9PZKTiR+uHl0nTrl5F2zoxiXnYeNYay2vYf5kfdmr3C7/BLy5tFaFaH6/8jY2v2Y2nM4LRd664scmV/it1kqfP3ZlrwuTMtsdtps11XRZ0XKCd3K6/rbMer6pGaPsv0d78gXtZKm31s/vN/lj6kLJOxSenx0zLVoW6jlLeco1OANZfNtdq6zrV3kLNnmxcsE2WajHtPAulynW5OLDCVtlnd676C5/Yc91aplosLKQX0M5W0CwXnPLNqssFtlA3mBNVgcGdshy05fBJsszBzvke6Ovcg422bV2YGWZP+USWy3qxolyspblQwbH8pwZUYx8G9OtnDTYWJ57rMtdsu4+HK28nEOwpmfubROyqtp1UeWu7MZ8eZOdV72GtLxFslMj5sXiGs6f7N5DRi7XECwU3c2ngssdPWNddvIS/FYUSwr+RbpMLTsZvNmP19/wiYKelfZ2G5mcMjmiICYECTZ31OtWrrx75xZz4tE+gsNDV0ZewbMgQga/OEKtjIx2MymjPWY6WsDzL0pO0B4z8zGRwLlFSsa6uf1qJKJCb/YkskgrcYAXcZPI6iCOf9Tmozj9kXwS6EicSJYbcYbTqpPI+ixq9N9MIxt3/0dt3gs8hz1Nm71crQbxScifw0sUPGBouPkYBJEoSLbDSz4usdsBXTxWf0AcPBrN/+dCZDJBM3L5ZztEZt9P5tnmx3OIzM8Uao93WIjMTgjNO4x/bwfIGTu+zXub/1YFyPxH33yr+O9zgHzk5aPHnCRAvrDNMXMSfh4WIPOPrZmH8XPPAJlzu7knP9/G5YRNNbXzbX6NgcsVK3drDHZdhcsrdjh36yp2LYnL7PfiupZk37G4zKZvr+tntqNtGRl7sFmuW86AzZOkn4P4R8xJ/g2uYEfzLU+C5oYmmAHeckPo2j1evufD0BxgvPzIAYJ5z2j5mfcEc73R8jPXC+a3Y+V+fhvL6cfK/Zw+to8RKw/2MaBMWqQ83LuBGh0pj/arkD26OHm8R4fsS0bJr/uSwJiOkl/3YoH95xiZ2n/233OPkck9d+86gwiZrjPwrq0Il221Fb71JBGypZ7Et4YmWLbX0HjWDYXKrrohv1qpQNldK+VVHxYmc/VhPjVxQTJbE+dTBxgie9QBetABslftI0/jsme9J1vjCsveNa5cXS8qA3W9M3ctMyhDtcwzZ/02JMP1266adUQOqFk3v3ay1On7y1qdAur0Z9azCb5y8NmENsjzGJ5yzHmMGX0GxUuOPYMyo87d8PIU5246e3TWiJOnOmvURrlt5s81iFPWU56v6n66d6bMKr/hTFkXj3N0pPy2c3S36M4OkvuS7zw7+FAoIOC85H/tL0hZbz5UDQAAAABJRU5ErkJggg=="
+													/>
+												}
 											/>
 										</div>
 									</div>
@@ -111,5 +146,17 @@ class SignUPModal extends React.Component {
 		);
 	}
 }
+const MapStateToProps = (state) => {
+	return {
+		message:state.login.message,
+		isSent:state.login.isSent
+	};
+};
+const MapDisaptchToProps = (dispatch) => {
+	return {
+		// sendLoginData: (payload) => dispatch(sendLoginData(payload)),
+		
+	};
+};
 
 export default SignUPModal;

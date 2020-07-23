@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
+
 class OwnerLoginModal extends React.Component {
 	constructor(props) {
 		super(props);
@@ -18,10 +20,13 @@ class OwnerLoginModal extends React.Component {
 		console.log(e.target.value);
 		this.setState({
 			[e.target.name]: e.target.value,
+			isInputTagEmpty:false
 		});
 	};
 
+
 	render() {
+		let {email,password,flag,isInputTagEmpty}  =  this.state
 		return (
 			<>
 				<div
@@ -60,7 +65,7 @@ class OwnerLoginModal extends React.Component {
 								<div className="row card">
 									<div className="col-12">
 										<input
-											name="name"
+											name="email"
 											value={this.state.email}
 											onChange={(e) => this.handleChange(e)}
 											className="form-control mt-4"
@@ -84,6 +89,7 @@ class OwnerLoginModal extends React.Component {
 												onChange={(e) => this.handleChange(e)}
 												
 											/>
+											<p></p>
 										</div>
 
 										<div className = "ml-2">Remeber me</div>
@@ -91,8 +97,8 @@ class OwnerLoginModal extends React.Component {
 
 									<div className="col-6 offset-2 mt-5">
 										<button
-											style={{ borderRadius: "20px" }}
-											class="btn btn-primary btn-block disabled ml-4"
+											style={{ borderRadius: "40px" }}
+											class= {email === "" || password === ""?"btn btn-primary btn-block disabled ml-4 py-3":"btn btn-primary btn-block ml-4 py-3" }  
 										>
 											Login
 										</button>

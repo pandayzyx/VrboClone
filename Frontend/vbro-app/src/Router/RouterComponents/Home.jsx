@@ -20,7 +20,7 @@ function Home() {
 				<h4 style={{ marginLeft: "6%" }} className="float-left mb-3">
                 Find spaces that suit your style
 				</h4>
-				<Carousel breakPoints={breakPoints}>
+				<Carousel pagination = {false} focusOnSelect = {true} breakPoints={breakPoints}>
 					{data.crousel2.map((item) => (
 						<div className="p-1">
 							<HomeCard2 text = {item.text} address={item.address} title={item.name} />
@@ -32,7 +32,7 @@ function Home() {
 				<h4 style={{ marginLeft: "6%" }} className="float-left mb-3">
 					Best places in the United States for going to the beach
 				</h4>
-				<Carousel breakPoints={breakPoints}>
+				<Carousel pagination = {false}  breakPoints={breakPoints}>
 					{data.crousel1.map((item) => (
 						<div className="p-1">
 							<HomeCard address={item.address} title={item.name} />
@@ -45,7 +45,7 @@ function Home() {
 				<h4 style={{ marginLeft: "6%" }} className="float-left mb-3">
 					Best places in the United States for nature
 				</h4>
-				<Carousel breakPoints={breakPoints}>
+				<Carousel pagination = {false}  breakPoints={breakPoints}>
 					{data.crousel1.map((item) => (
 						<div className="p-1">
 							<HomeCard address={item.address} title={item.name} />
