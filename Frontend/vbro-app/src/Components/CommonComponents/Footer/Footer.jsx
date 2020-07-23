@@ -41,7 +41,7 @@ class Footer extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className={`col ${styles.box} column`}>
+                        <div className={`col ${styles.box}`}>
                             <div style={{fontWeight: 'bolder', fontSize: '16px', textAlign: 'justify'}}>Get special offers, travel inspiration, and more from Vrbo</div>
                             <div>
                                 <div class="input-group my-3">
@@ -65,12 +65,29 @@ class Footer extends React.Component {
                                         <button class="btn btn-primary" type="button" id="button-addon2">Send</button>
                                     </div>
                                 </div>
-                                <small className='text-muted' style={{marginLeft: '-180px'}}>Available for iOS and Android. Messaging rates may apply.</small>
+                                <small className='text-muted'>Available for iOS and Android. Messaging rates may apply.</small>
                             </div>
                         </div>
                     </div>
                     <div className={`row ${styles.header}`}>
-
+                        <div className={`col ${styles.box}`}>
+                            <div>© 2020 Vrbo, an<span className={styles.blue}> Expedia Group </span>company. All rights reserved.</div>
+                            <div className={styles.blue}> 
+                                <a href="https://www.vrbo.com/legal/terms-and-conditions">Terms and Conditions</a> ·
+                                <a href="https://www.vrbo.com/legal/privacy-policy">Privacy Policy</a>  · 
+                                <a href="https://www.vrbo.com/dnsmpi">Do Not Sell My Personal Information</a> 
+                            </div>
+                        </div>
+                        <div className={`col ${styles.box}`}>
+                            <div>
+                                <a href="http://youtube.com/vrbo"><span className={styles.iconsize}><i class="fa fa-youtube" aria-hidden="true"></i></span></a>
+                                <a href="http://twitter.com/vrbo"><span className={styles.iconsize}><i class="fa fa-twitter" aria-hidden="true"></i></span></a>
+                                <a href="http://pinterest.com/vrbo"><span className={styles.iconsize}><i class="fa fa-pinterest" aria-hidden="true"></i></span></a>
+                                <a href="http://linkedin.com/company/vrbo"><span className={styles.iconsize}><i class="fa fa-linkedin" aria-hidden="true"></i></span></a>
+                                <a href="http://instagram.com/vrbo"><span className={styles.iconsize}><i class="fa fa-instagram" aria-hidden="true"></i></span></a>
+                                <a href="http://facebook.com/VRBO"><span className={styles.iconsize}><i class="fa fa-facebook-official" aria-hidden="true"></i></span></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

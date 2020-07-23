@@ -55,7 +55,7 @@ class Navbar extends React.Component{
                     Help
                   </Link>
                   <div class="dropdown-menu "aria-labelledby="navbarDropdown">
-                    <Link class="dropdown-item text-primary ml-4" href="#">Traveller Help</Link>
+                    <Link to ="/travellerhelp" class="dropdown-item text-primary ml-4" href="#">Traveller Help</Link>
                     <div class="dropdown-divider"></div>
                     <Link class="dropdown-item text-primary ml-4" href="#">Owner Help</Link>
                     <div class="dropdown-divider"></div>
@@ -65,7 +65,8 @@ class Navbar extends React.Component{
                   </div>
                 </li>
                 <li class="nav-item">
-                <button style = {{borderRadius:"40px"}} class="btn btn-outline-primary my-2 my-sm-0 ml-4" type="submit">List Your Property</button>
+                  <Link to='/listyourproperty'><button style = {{borderRadius:"40px"}} class="btn btn-outline-primary my-2 my-sm-0 ml-4" type="submit">List Your Property</button></Link>
+                
                 {/* <Link class="nav-link text-primary" href="#">SignUp</Link> */}
                 
                 </li>

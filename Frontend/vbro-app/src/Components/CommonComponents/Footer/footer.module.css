@@ -1,7 +1,7 @@
 .header {
-    border: 1px solid black;
     height: 100px;
     width: auto;
+    margin-top: 20px;
 }
 
 .logo {
@@ -11,8 +11,8 @@
 
 .box {
     width: 600px;
-    border: 1px solid black;
     padding: 20px;
+    text-align: justify;
 }
 
 .box2 {
@@ -22,4 +22,16 @@
 
 .box2 a {
     color: black;
+}
+
+.blue {
+    color: rgb(14, 14, 141);
+    font-size: 15px;
+}
+
+.iconsize {
+    float: right;
+    color: rgb(56, 114, 238);
+    font-size: 30px;
+    padding: 8px;
 }
