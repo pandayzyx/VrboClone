@@ -73,5 +73,20 @@
 			"address": "https://odis.homeaway.com/odis/destination/397eabda-51d4-45d4-82c8-da3ad409ff84.carousel-m.jpg",
 			"text": "View 181,449 condos"
 		}
+	],
+	"list":[
+
+		{
+			"title": "BRAND NEW LISTING in SEASIDE!! - WEST INDIAN – 15% Off August!! - 90-Seconds to Beach, 2 Minutes...",
+			"category": "house",
+			"sleeps": 2,
+			"bedRooms": 4,
+			"bathRooms": 3,
+			"halfBaths": 3,
+			"area":  "737 sq.ft",
+			"pricePerNight":  304,
+			"totalPrice": 6166,
+			"rating": 4
+		  }
 	]
 }

@@ -14,7 +14,7 @@ function PublicRouter(){
         <Switch>
         <Route exact path = "/" render = {()=><Home/>} ></Route>
         <Route path = "/travellerhelp" render = {()=><TravellerHelp/>}  ></Route>
-        <Route path = "/listing" render={()=><ListingPage/>} ></Route>
+        <Route exact path = "/listing" render={(props)=><ListingPage{...props}/>} ></Route>
         {/* <Route path = "/ownerhelp" render = {()=> <OwnerHelp/>}  ></Route>
         <Route path = "/propertymanager" render = {()=><PropertyManagerHelp/> } ></Route>
         <Route path = "/trustandsafety" render = {()=><TrustAndSafety/>}  ></Route> */}

@@ -9,7 +9,7 @@ const initState = {
     isSent:false,
     isError:false,
     uesername:"",
-    isUserLoggedIn:true,
+    isUserLoggedIn:false,
     token:""
 
 }

@@ -1,18 +1,172 @@
-import React from "react"
-import ListingCard from  "../../Components/CommonComponents/Cards/ListingCards/ListingCard"
+import React from "react";
+import ListingCard from "../../Components/CommonComponents/Cards/ListingCards/ListingCard";
+import { Link } from "react-router-dom";
+import data from   "../../data.json"
+import { v4 as uuidv4 } from 'uuid'
+import {connect} from "react-redux"
+import {getListData} from "../../Redux/Listing/action"
 
-class ListingPage extends React.Component{
-    constructor(props){
-        super(props)
-       
+class ListingPage extends React.Component {
+	constructor(props) {
+		super(props);
     }
+    // shouldComponentUpdate(){
+    //     if(this.props.match.url){
+    //         console.log("Component ur chnaged")
+    //         console.log(this.props.match)
+    //     }
+    // }
+  componentDidMount(){
+      let {getListData} = this.props
+      getListData()
+  }
 
-    render(){
-        return(
-           <ListingCard/> 
-        )
-    }
+	render() {
+        let userData =  data.list
+        let {dataListingPage} = this.props
+        console.log(dataListingPage)
+		return (
+			<>
+				<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary mt-3 ">
+					
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
 
+					<div
+						class="collapse navbar-collapse"
+						id="navbarSupportedContent"
+					>
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item active">
+								<Link class="nav-link text-primary" href="#">
+									Trip Boards<span class="sr-only">(current)</span>
+								</Link>
+							</li>
+							<li class="nav-item dropdown">
+								<Link
+									class="nav-link dropdown-toggle text-primary ml-4"
+									to=""
+									id="navbarDropdown"
+									role="button"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									Sort by Price
+								</Link>
+								<div
+									class="dropdown-menu mt-2 "
+									aria-labelledby="navbarDropdownMenuLink"
+								>
+									{/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
+									<Link class="dropdown-item text-primary" to="/listing?price=asc">
+									  INC
+									</Link>
+									<div class="dropdown-divider"></div>
+									<Link
+										class="dropdown-item text-primary"
+										to = "/listing?price=desc"
+										
+										
+									>
+										Desc
+									</Link>
+								</div>
+							</li>
+							{/* This component is shown when user is loggen in */}
+							<li class="nav-item dropdown">
+								<Link
+									class="nav-link dropdown-toggle text-primary ml-4"
+									
+									id="navbarDropdown"
+									role="button"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									Sort by Ratings
+								</Link>
+								<div
+									class="dropdown-menu mt-2 "
+									aria-labelledby="navbarDropdownMenuLink"
+								>
+									{/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
+		
+									<div class = "dropdown-divider"></div>
+									<Link
+										class="dropdown-item text-primary"
+										to = "/listing?ratings=asc"
+										
+									>
+										INC
+									</Link>
+									<div class="dropdown-divider"></div>
 
+									<Link
+										class="dropdown-item text-primary"
+										to = "/listing?ratings=desc"
+									
+									>
+										DESC
+									</Link>
+								</div>
+							</li>
+							{/* This signup button is shown when user is not logged in */}
+
+                           <button className = "btn btn-primary rounded-pill ml-3">More Filter</button>
+
+								
+										
+									
+									
+
+                            
+							
+							
+							
+										
+							
+						
+						</ul>
+				
+					</div>
+				</nav>
+                { dataListingPage && dataListingPage.map(item=><ListingCard key = {uuidv4()}
+                 title = {item.title}
+                 category = {item.category}
+                 bedrooms = {item.bedRooms}
+                 sleeps = {item.sleeps}
+                 area = {item.area}
+                 rating = {item.rating}
+                 price = {item.pricePerNight}
+                
+                
+                />)}
+				
+			</>
+		);
+	}
 }
-export default ListingPage
+
+const MapStateToProps = (state) => {
+	return {
+        dataListingPage:state.list.dataListingPage
+	};
+};
+const MapDisaptchToProps = (dispatch) => {
+	return {
+		getListData: (payload) => dispatch(getListData(payload)),
+		
+	};
+};
+export default connect(MapStateToProps,MapDisaptchToProps)(ListingPage)
+

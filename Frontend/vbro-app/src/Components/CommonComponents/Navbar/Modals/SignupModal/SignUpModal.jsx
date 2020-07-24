@@ -2,8 +2,8 @@ import React from "react";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import { sendRegisterData } from "../../../../../Redux/RegisterUser/action";
-import {connect} from 'react-redux'
-import { sendLoginData } from "../../../../../Redux/LoginUser/action"
+import { connect } from "react-redux";
+import { sendLoginData } from "../../../../../Redux/LoginUser/action";
 var passwordValidator = require("password-validator");
 var validator = require("email-validator");
 var schema = new passwordValidator();
@@ -54,40 +54,37 @@ class SignUPModal extends React.Component {
 		});
 	};
 
-	checkValidEmail = async() => {
-		let {isUserRegistered}  = this.props
-		console.log(isUserRegistered)
-	
+	checkValidEmail = async () => {
+		let { isUserRegistered } = this.props;
+		console.log(isUserRegistered);
+
 		let { email } = this.state;
-		let {sendRegisterData} = this.props
-		
+		let { sendRegisterData } = this.props;
+
 		if (
 			validator.validate(email)
 			//"response from databse is that its new mail"
-		) {  await sendRegisterData({email:email})
-		     if(isUserRegistered){
+		) {
+			await sendRegisterData({ email: email });
+			if (isUserRegistered) {
 				this.setState({
-					isMailAlreadyPresnt:true,
-					isDefaultComponent:false
+					isMailAlreadyPresnt: true,
+					isDefaultComponent: false,
 				});
-			 }
-			 else if(isUserRegistered === false){
+			} else if (isUserRegistered === false) {
 				this.setState({
-					isMailAlreadyPresnt:false,
-					isDefaultComponent:false,
-					isValidMailNew:true
+					isMailAlreadyPresnt: false,
+					isDefaultComponent: false,
+					isValidMailNew: true,
 				});
-			 }
-			
-		}  else {
+			}
+		} else {
 			this.setState({
 				isValidEmail: false,
 			});
 		}
 	};
-	checkLogin = () => {
-        
-	};
+	checkLogin = () => {};
 
 	checkSignUp = () => {
 		let { password } = this.state;
@@ -102,14 +99,11 @@ class SignUPModal extends React.Component {
 			.digits() // Must have digits
 			.has();
 		if (schema.validate(password)) {
-
-		
 		} else {
 			this.setState({
 				isNewPasswordValid: false,
 			});
 		}
-
 	};
 
 	render() {
@@ -344,8 +338,8 @@ const MapStateToProps = (state) => {
 		message: state.login.message,
 		isSent: state.login.isSent,
 		registermessage: state.register.message,
-		isUserLoggedIn:state.login.isUserLoggedIn,
-		isUserRegistered:state.register.isUserRegistered
+		isUserLoggedIn: state.login.isUserLoggedIn,
+		isUserRegistered: state.register.isUserRegistered,
 	};
 };
 const MapDisaptchToProps = (dispatch) => {
@@ -356,5 +350,3 @@ const MapDisaptchToProps = (dispatch) => {
 };
 
 export default connect(MapStateToProps, MapDisaptchToProps)(SignUPModal);
-
-

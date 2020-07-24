@@ -1,12 +1,13 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import {registerreducer} from "../Redux/RegisterUser/registerreducer"
 import {loginreducer} from "../Redux/LoginUser/loginreducer"
+import {listingreducer} from  "../Redux/Listing/listingreducer"
 // import thunk from "redux-thunk"
 
 const thunk = store => (next) => (action) => {
 	typeof action === "function"?action(store.dispatch):next(action)
 };
-const rootreducer = combineReducers({register:registerreducer,login:loginreducer});
+const rootreducer = combineReducers({register:registerreducer,login:loginreducer,list:listingreducer});
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__|| compose;
 
