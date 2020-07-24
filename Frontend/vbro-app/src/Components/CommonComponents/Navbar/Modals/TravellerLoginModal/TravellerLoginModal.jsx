@@ -1,13 +1,15 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
+import { sendRegisterData } from "../../../../../Redux/RegisterUser/action";
+import {connect} from  "react-redux"
+import { sendLoginData } from "../../../../../Redux/LoginUser/action"
 var validator = require("email-validator");
-validator.validate("test@email.com"); 
+validator.validate("test@email.com");
 var passwordValidator = require("password-validator");
 var schema = new passwordValidator();
 
 class TravellerLoginModal extends React.Component {
-	
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -80,7 +82,7 @@ class TravellerLoginModal extends React.Component {
 	checkLogin = () => {};
 
 	checkSignUp = () => {
-		let {password} = this.state
+		let { password } = this.state;
 		schema
 			.is()
 			.min(7) // Minimum length 7
@@ -90,15 +92,14 @@ class TravellerLoginModal extends React.Component {
 			.letters() //Should have letters
 			.has()
 			.digits() // Must have digits
-			.has()
-			if(schema.validate(password)){
-               //Call the api for register
-			}
-			else{
-				this.setState({
-					isNewPasswordValid:false
-				})
-			}
+			.has();
+		if (schema.validate(password)) {
+			//Call the api for register
+		} else {
+			this.setState({
+				isNewPasswordValid: false,
+			});
+		}
 	};
 
 	render() {
@@ -111,7 +112,7 @@ class TravellerLoginModal extends React.Component {
 			email,
 			isValidEmail,
 			isDefaultComponent,
-			isNewPasswordValid
+			isNewPasswordValid,
 		} = this.state;
 		return (
 			<>
@@ -119,7 +120,7 @@ class TravellerLoginModal extends React.Component {
 					className="container"
 					style={{ marginTop: "40px" }}
 					class="modal fade"
-					id="signupModal"
+					id="TravellerLoginModal"
 					tabindex="-1"
 					role="dialog"
 					aria-labelledby="exampleModalLabel"
@@ -179,7 +180,7 @@ class TravellerLoginModal extends React.Component {
 											<br></br>
 											<br></br>
 											<p className="offset-3">Or continue with</p>
-											<div className="offset-3 d-flex">
+											<div className="offset-1 d-flex">
 												<GoogleLogin
 													clientId="232104637002-j10cga87s4j7mgsnan80h24suv229o1i.apps.googleusercontent.com"
 													render={(renderProps) => (
@@ -248,9 +249,10 @@ class TravellerLoginModal extends React.Component {
 											/>
 											{!isNewPasswordValid && (
 												<p className="text-danger">
-											    Your Password must be in between 7 and 32 <br></br>	
-												characters and contains atleast 1 number and 1 <br></br>
-												 letter
+													Your Password must be in between 7 and 32 <br></br>
+													characters and contains atleast 1 number and 1{" "}
+													<br></br>
+													letter
 												</p>
 											)}
 										</div>
@@ -330,12 +332,15 @@ class TravellerLoginModal extends React.Component {
 const MapStateToProps = (state) => {
 	return {
 		message: state.login.message,
-		isSent: state.login.isSent,
+		isUserLoggedIn:state.login.isUserLoggedIn,
+		isUserRegistered:state.register.isUserRegistered
 	};
 };
 const MapDisaptchToProps = (dispatch) => {
 	return {
-		// sendLoginData: (payload) => dispatch(sendLoginData(payload)),
+		sendLoginData: (payload) => dispatch(sendLoginData(payload)),
+		sendRegisterData: (payload) => dispatch(sendRegisterData(payload)),
 	};
 };
-export default TravellerLoginModal;
+export default connect(MapStateToProps,MapDisaptchToProps)(TravellerLoginModal)
+

@@ -23,15 +23,16 @@ const userDataSendFailed =(payload)=>{
 }
 
 
-export const sendData = payload=>dispatch=>{
+export const sendRegisterData = payload=>dispatch=>{
     console.log("u are in registration")
     dispatch(sendUserData(payload))
-    return axios.post("http://localhost:8080/auth/register",
+    return axios.post("http://2239cc759ca5.ngrok.io/checkStatus",
     {
         ...payload
     }
     
     
-    ).then(res=>res.data.message).then(res=>dispatch(userDataSent(res)))
+    )
+    .then(res=>dispatch(userDataSent(res)))
     .catch(err=>dispatch(userDataSendFailed(err)))
 }

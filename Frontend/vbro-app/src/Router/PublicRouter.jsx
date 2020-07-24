@@ -1,6 +1,7 @@
 import React from "react"
 import {Switch,Route} from "react-router-dom"
 import Home from "./RouterComponents/Home.jsx"
+import ListingPage from  "./RouterComponents/ListingPage"
 // import OwnerHelp from  "./RouterComponents/NavbarRoutes/OwnerHelp"
 import  TravellerHelp from "./RouterComponents/NavBarRoutes/TravelerHelp"
 // import TrustAndSafety from  "./RouterComponents/NavbarRoutes/TrustAndSafety"
@@ -13,6 +14,7 @@ function PublicRouter(){
         <Switch>
         <Route exact path = "/" render = {()=><Home/>} ></Route>
         <Route path = "/travellerhelp" render = {()=><TravellerHelp/>}  ></Route>
+        <Route path = "/listing" render={()=><ListingPage/>} ></Route>
         {/* <Route path = "/ownerhelp" render = {()=> <OwnerHelp/>}  ></Route>
         <Route path = "/propertymanager" render = {()=><PropertyManagerHelp/> } ></Route>
         <Route path = "/trustandsafety" render = {()=><TrustAndSafety/>}  ></Route> */}

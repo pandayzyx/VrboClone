@@ -1,6 +1,9 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
+import { sendRegisterData } from "../../../../../Redux/RegisterUser/action";
+import {connect} from 'react-redux'
+import { sendLoginData } from "../../../../../Redux/LoginUser/action"
 var passwordValidator = require("password-validator");
 var validator = require("email-validator");
 var schema = new passwordValidator();
@@ -51,34 +54,43 @@ class SignUPModal extends React.Component {
 		});
 	};
 
-	checkValidEmail = () => {
+	checkValidEmail = async() => {
+		let {isUserRegistered}  = this.props
+		console.log(isUserRegistered)
+	
 		let { email } = this.state;
+		let {sendRegisterData} = this.props
+		
 		if (
-			validator.validate(email) &&
-			"response from databse is that its new mail"
-		) {
-			this.setState({
-				isValidMailNew: true,
-				isDefaultComponent: false,
-			});
-		} else if (
-			validator.validate(email) &&
-			"response from database is that user exsists"
-		) {
-			this.setState({
-				isMailAlreadyPresnt: true,
-				isDefaultComponent: false,
-			});
-		} else {
+			validator.validate(email)
+			//"response from databse is that its new mail"
+		) {  await sendRegisterData({email:email})
+		     if(isUserRegistered){
+				this.setState({
+					isMailAlreadyPresnt:true,
+					isDefaultComponent:false
+				});
+			 }
+			 else if(isUserRegistered === false){
+				this.setState({
+					isMailAlreadyPresnt:false,
+					isDefaultComponent:false,
+					isValidMailNew:true
+				});
+			 }
+			
+		}  else {
 			this.setState({
 				isValidEmail: false,
 			});
 		}
 	};
-	checkLogin = () => {};
+	checkLogin = () => {
+        
+	};
 
 	checkSignUp = () => {
-		let {password} = this.state
+		let { password } = this.state;
 		schema
 			.is()
 			.min(7) // Minimum length 7
@@ -88,15 +100,16 @@ class SignUPModal extends React.Component {
 			.letters() //Should have letters
 			.has()
 			.digits() // Must have digits
-			.has()
-			if(schema.validate(password)){
-               //Call the api for register
-			}
-			else{
-				this.setState({
-					isNewPasswordValid:false
-				})
-			}
+			.has();
+		if (schema.validate(password)) {
+
+		
+		} else {
+			this.setState({
+				isNewPasswordValid: false,
+			});
+		}
+
 	};
 
 	render() {
@@ -109,7 +122,7 @@ class SignUPModal extends React.Component {
 			email,
 			isValidEmail,
 			isDefaultComponent,
-			isNewPasswordValid
+			isNewPasswordValid,
 		} = this.state;
 		return (
 			<>
@@ -177,7 +190,7 @@ class SignUPModal extends React.Component {
 											<br></br>
 											<br></br>
 											<p className="offset-3">Or continue with</p>
-											<div className="offset-3 d-flex">
+											<div className="offset-1 d-flex">
 												<GoogleLogin
 													clientId="232104637002-j10cga87s4j7mgsnan80h24suv229o1i.apps.googleusercontent.com"
 													render={(renderProps) => (
@@ -246,9 +259,10 @@ class SignUPModal extends React.Component {
 											/>
 											{!isNewPasswordValid && (
 												<p className="text-danger">
-											    Your Password must be in between 7 and 32 <br></br>	
-												characters and contains atleast 1 number and 1 <br></br>
-												 letter
+													Your Password must be in between 7 and 32 <br></br>
+													characters and contains atleast 1 number and 1{" "}
+													<br></br>
+													letter
 												</p>
 											)}
 										</div>
@@ -329,12 +343,18 @@ const MapStateToProps = (state) => {
 	return {
 		message: state.login.message,
 		isSent: state.login.isSent,
+		registermessage: state.register.message,
+		isUserLoggedIn:state.login.isUserLoggedIn,
+		isUserRegistered:state.register.isUserRegistered
 	};
 };
 const MapDisaptchToProps = (dispatch) => {
 	return {
-		// sendLoginData: (payload) => dispatch(sendLoginData(payload)),
+		sendLoginData: (payload) => dispatch(sendLoginData(payload)),
+		sendRegisterData: (payload) => dispatch(sendRegisterData(payload)),
 	};
 };
 
-export default SignUPModal;
+export default connect(MapStateToProps, MapDisaptchToProps)(SignUPModal);
+
+

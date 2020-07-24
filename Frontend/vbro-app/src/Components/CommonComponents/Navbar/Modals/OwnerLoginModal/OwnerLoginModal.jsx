@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {connect} from "react-redux"
+import {sendLoginData} from  "../../../../../Redux/LoginUser/action"
 
 class OwnerLoginModal extends React.Component {
 	constructor(props) {
@@ -126,5 +128,21 @@ class OwnerLoginModal extends React.Component {
 		);
 	}
 }
+const MapStateToProps = (state) => {
+	return {
+		message: state.login.message,
+		isSent: state.login.isSent,
+		registermessage: state.register.message,
+		isUserLoggedIn:state.login.isUserLoggedIn,
+		isUserRegistered:state.register.isUserRegistered
+	};
+};
+const MapDisaptchToProps = (dispatch) => {
+	return {
+		sendLoginData: (payload) => dispatch(sendLoginData(payload)),
+		
+	};
+};
 
-export default OwnerLoginModal;
+export default connect(MapStateToProps, MapDisaptchToProps)(OwnerLoginModal);
+

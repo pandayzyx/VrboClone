@@ -4,7 +4,8 @@ const initState = {
     isSending:false,
     isSent:false,
     isError:false,
-    message:""
+    message:"",
+    isUserRegistered:false
 
 }
 
@@ -17,13 +18,18 @@ switch(action.type){
         }
     }
     case USER_DATA_SENT:{
+        console.log(action.payload)
+       let res  =  action.payload.data.isExistingUser
         return{
             ...state,
             isSent:true,
-            message:action.payload
+            isUserRegistered:res,
+            message:action.payload,
+
         }
     }
     case USER_DATA_SENDING_FAILED:{
+       
         return{
             ...state,
             message:action.payload.message,
