@@ -57,8 +57,12 @@
 			"address": "https://odis.homeaway.com/odis/destination/adf45333-140a-40cf-987f-bc49b711c3d9.carousel-m.jpg",
 			"text": "View 52,227 cottages"
 		},
-		{ "name": "Bungalows", "address": "https://odis.homeaway.com/odis/destination/9af508c6-3dd9-453f-9a0d-8726a705328d.carousel-m.jpg", "text": "View 52,227 bungalows" },
-		
+		{
+			"name": "Bungalows",
+			"address": "https://odis.homeaway.com/odis/destination/9af508c6-3dd9-453f-9a0d-8726a705328d.carousel-m.jpg",
+			"text": "View 52,227 bungalows"
+		},
+
 		{
 			"name": "Houses",
 			"address": "https://odis.homeaway.com/odis/destination/8621e10e-7950-41b4-814e-8817969887f4.carousel-m.jpg",

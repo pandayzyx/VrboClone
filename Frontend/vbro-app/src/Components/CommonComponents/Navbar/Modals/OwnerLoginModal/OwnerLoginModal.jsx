@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-
+import {connect} from "react-redux"
+import {sendLoginData} from  "../../../../../Redux/LoginUser/action"
 
 class OwnerLoginModal extends React.Component {
 	constructor(props) {
@@ -20,13 +20,12 @@ class OwnerLoginModal extends React.Component {
 		console.log(e.target.value);
 		this.setState({
 			[e.target.name]: e.target.value,
-			isInputTagEmpty:false
+			isInputTagEmpty: false,
 		});
 	};
 
-
 	render() {
-		let {email,password,flag,isInputTagEmpty}  =  this.state
+		let { email, password} = this.state;
 		return (
 			<>
 				<div
@@ -80,32 +79,35 @@ class OwnerLoginModal extends React.Component {
 											placeholder="Password"
 										/>
 									</div>
-									<div className = "d-flex mt-3 text-muted">
-										<div className = "ml-3">
+									<div className="d-flex mt-3 text-muted">
+										<div className="ml-3">
 											<input
 												name="checkbox"
 												type="checkbox"
 												value={this.state.checkbox}
 												onChange={(e) => this.handleChange(e)}
-												
 											/>
 											<p></p>
 										</div>
 
-										<div className = "ml-2">Remeber me</div>
+										<div className="ml-2">Remeber me</div>
 									</div>
 
 									<div className="col-6 offset-2 mt-5">
 										<button
 											style={{ borderRadius: "40px" }}
-											class= {email === "" || password === ""?"btn btn-primary btn-block disabled ml-4 py-3":"btn btn-primary btn-block ml-4 py-3" }  
+											class={
+												email === "" || password === ""
+													? "btn btn-primary btn-block disabled ml-4 py-3"
+													: "btn btn-primary btn-block ml-4 py-3"
+											}
 										>
 											Login
 										</button>
 										<br></br>
 										<br></br>
 										<Link className="ml-1">I forgot my password</Link>
-										<p className="offset-3">Or continue with</p>
+
 										<div className="offset-3"></div>
 									</div>
 								</div>
@@ -126,5 +128,21 @@ class OwnerLoginModal extends React.Component {
 		);
 	}
 }
+const MapStateToProps = (state) => {
+	return {
+		message: state.login.message,
+		isSent: state.login.isSent,
+		registermessage: state.register.message,
+		isUserLoggedIn:state.login.isUserLoggedIn,
+		isUserRegistered:state.register.isUserRegistered
+	};
+};
+const MapDisaptchToProps = (dispatch) => {
+	return {
+		sendLoginData: (payload) => dispatch(sendLoginData(payload)),
+		
+	};
+};
 
-export default OwnerLoginModal;
+export default connect(MapStateToProps, MapDisaptchToProps)(OwnerLoginModal);
+

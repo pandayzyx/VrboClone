@@ -30,7 +30,16 @@ export const sendLoginData = (payload) => (dispatch) => {
 	return axios
 		.post("http://localhost:8080/auth/login", {
 			...payload,
-		})
+		},
+		{
+			params:{}
+		},
+		{
+			headers:{}
+		}
+
+		
+		)
 		.then((res) => res.data.token)
 		.then((res) => {
             dispatch(userDataSent(res))
