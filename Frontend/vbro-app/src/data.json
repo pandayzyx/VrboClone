@@ -1,0 +1,73 @@
+{
+	"crousel1": [
+		{
+			"name": "Gulf Shores",
+			"address": "https://odis.homeaway.com/odis/destination/380ae421-bdcf-441a-9ecb-2a6dad3f7339.hw6.jpg"
+		},
+		{
+			"name": "Panama City Beach",
+			"address": "https://odis.homeaway.com/odis/destination/ace06059-7a3e-48c1-a19c-1b00f8dcc286.hw6.jpg"
+		},
+
+		{
+			"name": "Myrtle Beach",
+			"address": "https://odis.homeaway.com/odis/destination/d41b04fd-4c3b-4351-af6f-cc468b71ebe7.hw6.jpg"
+		},
+		{
+			"name": "Orange Beach",
+			"address": "https://odis.homeaway.com/odis/destination/6c255cc6-ec18-4187-aeff-5e1481c54b9a.hw6.jpg"
+		},
+		{
+			"name": "Lahaina",
+			"address": "https://odis.homeaway.com/odis/destination/8d8674f3-9a6f-4828-a6d0-0853bd96e557.hw6.jpg"
+		},
+		{
+			"name": "Destin",
+			"address": "https://odis.homeaway.com/odis/destination/d87e4c30-b5f1-4a30-bb12-7883a29cabbc.hw6.jpg"
+		},
+		{
+			"name": "Kihei",
+			"address": "https://odis.homeaway.com/odis/destination/e765227d-26c2-49a3-a9e5-4e9394e60fef.hw6.jpg"
+		},
+		{
+			"name": "Hilton Head Island",
+			"address": "https://odis.homeaway.com/odis/destination/82813bea-04a0-4262-8d57-d6ead375e843.hw6.jpg"
+		}
+	],
+
+	"crousel2": [
+		{
+			"name": "Houses",
+			"address": "https://odis.homeaway.com/odis/destination/8621e10e-7950-41b4-814e-8817969887f4.carousel-m.jpg",
+			"text": "View 211,307 houses"
+		},
+		{
+			"name": "Condos/Apartments",
+			"address": "https://odis.homeaway.com/odis/destination/397eabda-51d4-45d4-82c8-da3ad409ff84.carousel-m.jpg",
+			"text": "View 181,449 condos"
+		},
+
+		{
+			"name": "Cabins",
+			"address": "https://odis.homeaway.com/odis/destination/5941b1e0-2600-4b2a-b27e-c667abf7e510.carousel-m.jpg",
+			"text": "View 52,227 cabins"
+		},
+		{
+			"name": "Cottages",
+			"address": "https://odis.homeaway.com/odis/destination/adf45333-140a-40cf-987f-bc49b711c3d9.carousel-m.jpg",
+			"text": "View 52,227 cottages"
+		},
+		{ "name": "Bungalows", "address": "https://odis.homeaway.com/odis/destination/9af508c6-3dd9-453f-9a0d-8726a705328d.carousel-m.jpg", "text": "View 52,227 bungalows" },
+		
+		{
+			"name": "Houses",
+			"address": "https://odis.homeaway.com/odis/destination/8621e10e-7950-41b4-814e-8817969887f4.carousel-m.jpg",
+			"text": "View 211,307 houses"
+		},
+		{
+			"name": "Condos/Apartments",
+			"address": "https://odis.homeaway.com/odis/destination/397eabda-51d4-45d4-82c8-da3ad409ff84.carousel-m.jpg",
+			"text": "View 181,449 condos"
+		}
+	]
+}

@@ -1,0 +1,37 @@
+.header {
+    height: 100px;
+    width: auto;
+    margin-top: 20px;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+}
+
+.box {
+    width: 600px;
+    padding: 20px;
+    text-align: justify;
+}
+
+.box2 {
+    margin-top: 20px;
+    text-align: justify;
+}
+
+.box2 a {
+    color: black;
+}
+
+.blue {
+    color: rgb(14, 14, 141);
+    font-size: 15px;
+}
+
+.iconsize {
+    float: right;
+    color: rgb(56, 114, 238);
+    font-size: 30px;
+    padding: 8px;
+}
