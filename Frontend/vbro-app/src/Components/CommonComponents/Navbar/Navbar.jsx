@@ -57,9 +57,9 @@ class Navbar extends React.Component{
                   <div class="dropdown-menu "aria-labelledby="navbarDropdown">
                     <Link to ="/travellerhelp" class="dropdown-item text-primary ml-4" href="#">Traveller Help</Link>
                     <div class="dropdown-divider"></div>
-                    <Link class="dropdown-item text-primary ml-4" href="#">Owner Help</Link>
+                    <Link to ="/ownerhelp" class="dropdown-item text-primary ml-4" href="#">Owner Help</Link>
                     <div class="dropdown-divider"></div>
-                    <Link class="dropdown-item text-primary ml-4" href="#">Property Manager Help</Link>
+                    <Link to ="/propertymanager" class="dropdown-item text-primary ml-4" href="#">Property Manager Help</Link>
                     <div class="dropdown-divider"></div>
                     <Link class="dropdown-item text-primary ml-4" href="#">Trust And safety</Link>
                   </div>

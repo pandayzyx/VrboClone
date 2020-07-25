@@ -13,10 +13,51 @@
     color: black;
 }
 
+.bgimg {
+    background-image: url('https://www.vrbo.com/list/static/images/lyp-hero.svg');
+    background-position: right;
+    background-repeat: no-repeat;
+    height: 570px;
+}
+
 .propertycard {
-    max-width: 500px;
+    max-width: 470px;
 }
 
 .textalignleft {
     text-align: left;
+}
+
+.grid1 {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.header {
+    height: 100px;
+    width: auto;
+    margin-top: 20px;
+}
+
+.box {
+    width: 600px;
+    padding: 20px;
+    text-align: justify;
+}
+
+.blue {
+    color: rgb(14, 14, 141);
+    font-size: 15px;
+}
+
+.iconsize {
+    float: right;
+    color: rgb(56, 114, 238);
+    font-size: 30px;
+    padding: 8px;
 }
