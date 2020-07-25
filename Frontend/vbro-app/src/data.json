@@ -57,8 +57,12 @@
 			"address": "https://odis.homeaway.com/odis/destination/adf45333-140a-40cf-987f-bc49b711c3d9.carousel-m.jpg",
 			"text": "View 52,227 cottages"
 		},
-		{ "name": "Bungalows", "address": "https://odis.homeaway.com/odis/destination/9af508c6-3dd9-453f-9a0d-8726a705328d.carousel-m.jpg", "text": "View 52,227 bungalows" },
-		
+		{
+			"name": "Bungalows",
+			"address": "https://odis.homeaway.com/odis/destination/9af508c6-3dd9-453f-9a0d-8726a705328d.carousel-m.jpg",
+			"text": "View 52,227 bungalows"
+		},
+
 		{
 			"name": "Houses",
 			"address": "https://odis.homeaway.com/odis/destination/8621e10e-7950-41b4-814e-8817969887f4.carousel-m.jpg",
@@ -69,5 +73,30 @@
 			"address": "https://odis.homeaway.com/odis/destination/397eabda-51d4-45d4-82c8-da3ad409ff84.carousel-m.jpg",
 			"text": "View 181,449 condos"
 		}
+	],
+	"list":[
+
+		{
+			"title": "BRAND NEW LISTING in SEASIDE!! - WEST INDIAN – 15% Off August!! - 90-Seconds to Beach, 2 Minutes...",
+			"category": "house",
+			"sleeps": 2,
+			"bedRooms": 4,
+			"bathRooms": 3,
+			"halfBaths": 3,
+			"area":  "737 sq.ft",
+			"pricePerNight":  304,
+			"totalPrice": 6166,
+			"rating": 4
+		  }
+	],
+	"filter":[
+		
+		{"title":"Propery Reviews","options":["1 Star","2 Star","3 Star","4 Star"]},
+		{"title":"Property Features","options":["Pool","Kitchen","Air Conditioning"]},
+		{"title":"Neighbourhoods","options":["OceanLakes","Myrtle Beach Resort","Kingston Plantation","Ocean Creek Resort"]},
+		{"title":"Property Type","options":["House","Apartment","Villa","Cottage"]},
+	
+		{"title":"Property Location","options":["Oceanfront","Beachfront","Beach","Beach view"]},
+		{"title":"Booking Options","options":["Free cancellation","InstantConfirmation"]}
 	]
 }
