@@ -91,12 +91,12 @@
 	],
 	"filter":[
 		
-		{"title":"Propery Reviews","options":["1 Star","2Star","3Star","4 Star"]},
-		{"title":"Features","options":["Pool","Kitchen","Air Conditioning"]},
+		{"title":"Propery Reviews","options":["1 Star","2 Star","3 Star","4 Star"]},
+		{"title":"Property Features","options":["Pool","Kitchen","Air Conditioning"]},
 		{"title":"Neighbourhoods","options":["OceanLakes","Myrtle Beach Resort","Kingston Plantation","Ocean Creek Resort"]},
 		{"title":"Property Type","options":["House","Apartment","Villa","Cottage"]},
 	
-		{"title":"Location","options":["Oceanfront","Beachfront","Beach","Beach view"]},
+		{"title":"Property Location","options":["Oceanfront","Beachfront","Beach","Beach view"]},
 		{"title":"Booking Options","options":["Free cancellation","InstantConfirmation"]}
 	]
 }

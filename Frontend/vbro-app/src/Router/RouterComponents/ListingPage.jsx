@@ -47,6 +47,7 @@ class ListingPage extends React.Component {
 			[e.target.name]:e.target.value
 		})
 	};
+	
 
 	render() {
 		let { dataListingPage } = this.props;
