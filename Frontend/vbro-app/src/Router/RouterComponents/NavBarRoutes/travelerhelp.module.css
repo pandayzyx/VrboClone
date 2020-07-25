@@ -1,0 +1,31 @@
+.grid1 {
+    display: grid;
+    grid-template-columns: 250px auto;
+}
+
+.leftmenu1 {
+    color: rgba(73, 72, 72, 0.466);
+}
+
+.leftmenu {
+    font-size: 17px; 
+    border: 1px solid rgba(201, 198, 198, 0.466); 
+    color: rgba(73, 72, 72, 0.466); 
+    padding: 10px; 
+    text-align: justify;
+}
+
+.ho div:hover {
+    background-color: rgba(201, 198, 198, 0.466);
+    transition: background-color .5s;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 500px auto;
+}
+
+.grid3 {
+    display: grid;
+    grid-template-columns: 60px 440px;
+}

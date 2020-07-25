@@ -5,7 +5,7 @@ import TravellerLoginModal from "./Modals/TravellerLoginModal/TravellerLoginModa
 import OwnerLoginModal from "./Modals/OwnerLoginModal/OwnerLoginModal";
 import { connect } from "react-redux";
 
-import {userLogout} from "../../../Redux/LoginUser/action";
+import { userLogout } from "../../../Redux/LoginUser/action";
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Navbar extends React.Component {
 
   handlelogout = () => {
     this.props.userLogout();
-  }
+  };
 
   render() {
     let { isUserLoggedIn, username } = this.props;
@@ -140,6 +140,7 @@ class Navbar extends React.Component {
                     >
                       My profile
                     </Link>
+
                     <div class="dropdown-divider"></div>
 
                     <Link
@@ -190,11 +191,19 @@ class Navbar extends React.Component {
                     Traveller Help
                   </Link>
                   <div class="dropdown-divider"></div>
-                  <Link class="dropdown-item text-primary" href="#">
+                  <Link
+                    to="/ownerhelp"
+                    class="dropdown-item text-primary"
+                    href="#"
+                  >
                     Owner Help
                   </Link>
                   <div class="dropdown-divider"></div>
-                  <Link class="dropdown-item text-primary" href="#">
+                  <Link
+                    to="/propertymanager"
+                    class="dropdown-item text-primary"
+                    href="#"
+                  >
                     Property Manager Help
                   </Link>
                   <div class="dropdown-divider"></div>
@@ -236,8 +245,8 @@ const MapStateToProps = (state) => {
 };
 
 const MapDisaptchToProps = (dispatch) => {
-	return {
-		userLogout: (payload) => dispatch(userLogout(payload)),
-	};
+  return {
+    userLogout: (payload) => dispatch(userLogout(payload)),
+  };
 };
 export default connect(MapStateToProps, MapDisaptchToProps)(Navbar);
