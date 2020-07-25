@@ -26,9 +26,10 @@ const listingDataSendFailed = (payload) => {
 
 export const getListData = (payload) => (dispatch) => {
 	dispatch(sendListingData(payload));
+	let url  =  payload
 	return axios
 		.get(
-			"http://6c023c51f27c.ngrok.io/properties?",
+			  url,
 			{
 				...payload,
 			},

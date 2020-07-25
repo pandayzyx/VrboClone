@@ -23,6 +23,7 @@ class OwnerLoginModal extends React.Component {
   };
 
   handleSubmit = () => {
+	  console.log("gaurav")
     const { email, password } = this.state;
     this.props.sendLoginData({
       data: {
@@ -32,7 +33,7 @@ class OwnerLoginModal extends React.Component {
       IncorrectPasscallback: () => {
         this.setState({ isPasswordIncorrect: true });
       },
-    });
+	});
   };
 
   render() {
@@ -86,7 +87,8 @@ class OwnerLoginModal extends React.Component {
                       name="password"
                       value={this.state.password}
                       onChange={(e) => this.handleChange(e)}
-                      className="form-control mt-4"
+					  className="form-control mt-4"
+					  type = "password"
                       placeholder="Password"
                     />
                     {isPasswordIncorrect && (
@@ -117,7 +119,7 @@ class OwnerLoginModal extends React.Component {
                           ? "btn btn-primary btn-block disabled ml-4 py-3"
                           : "btn btn-primary btn-block ml-4 py-3"
                       }
-                      onClick={this.handleSubmit}
+                      onClick = {this.handleSubmit}
                     >
                       Login
                     </button>

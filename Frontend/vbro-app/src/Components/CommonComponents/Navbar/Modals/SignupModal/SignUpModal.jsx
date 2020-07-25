@@ -96,6 +96,8 @@ class SignUPModal extends React.Component {
     });
   };
 
+  
+
   handleChange = (e) => {
     console.log(e.target.value);
     this.setState({
@@ -331,6 +333,7 @@ class SignUPModal extends React.Component {
                         value={this.state.password}
                         onChange={(e) => this.handleChange(e)}
                         className="form-control mt-4"
+                        type = "password"
                         placeholder="Password"
                       />
                       {!isNewPasswordValid && (
@@ -376,6 +379,7 @@ class SignUPModal extends React.Component {
                         onChange={(e) => this.handleChange(e)}
                         className="form-control mt-4"
                         placeholder="Password"
+                        type = "password"
                       />
                       {isPasswordIncorrect && (
                         <p className="text-danger">

@@ -101,8 +101,10 @@ class TravellerLoginModal extends React.Component {
       [e.target.name]: e.target.value,
     });
   };
+  
 
   checkValidEmail = () => {
+	  console.log("validemail")
     let { email } = this.state;
     if (validator.validate(email)) {
       sendRegisterData({
@@ -132,7 +134,7 @@ class TravellerLoginModal extends React.Component {
     }
   };
   checkLogin = () => {
-    const { email, password } = this.state;
+    const { email, password,isUserLoggedIn } = this.state;
 
     this.props.sendLoginData({
       data: {
@@ -142,11 +144,17 @@ class TravellerLoginModal extends React.Component {
       IncorrectPasscallback: () => {
         this.setState({ isPasswordIncorrect: true });
       },
-    });
+	});
+	console.log(isUserLoggedIn)
+	if(isUserLoggedIn){
+    
+	}
   };
+  
 
   checkSignUp = () => {
-    let { password, firstName, lastName, email } = this.state;
+	let { password, firstName, lastName, email } = this.state;
+	
 
     schema
       .is()
@@ -326,7 +334,8 @@ class TravellerLoginModal extends React.Component {
                         name="password"
                         value={this.state.password}
                         onChange={(e) => this.handleChange(e)}
-                        className="form-control mt-4"
+						className="form-control mt-4"
+						type = "password"
                         placeholder="Password"
                       />
                       {!isNewPasswordValid && (
@@ -370,7 +379,8 @@ class TravellerLoginModal extends React.Component {
                         name="password"
                         value={this.state.password}
                         onChange={(e) => this.handleChange(e)}
-                        className="form-control mt-4"
+						className="form-control mt-4"
+						type = "password"
                         placeholder="Password"
                       />
                       {isPasswordIncorrect && (

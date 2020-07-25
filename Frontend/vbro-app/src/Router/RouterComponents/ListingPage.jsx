@@ -18,18 +18,15 @@ class ListingPage extends React.Component {
 			isClearFilterBtn: false,
 		};
 	}
-	// shouldComponentUpdate(){
-	//     if(this.props.match.url){
-	//         console.log("Component ur chnaged")
-	//         console.log(this.props.match)
-	//     }
-	// }
+
 	componentDidMount() {
 		let { getListData } = this.props;
-		getListData();
+		let url = "http://10183f54e926.ngrok.io/properties";
+		getListData(url);
 	}
 
 	handleChange = (e) => {
+		console.log(e.target.id);
 		console.log(e.target.checked);
 		if (e.target.checked) {
 			this.setState({
@@ -45,15 +42,11 @@ class ListingPage extends React.Component {
 		}
 
 		console.log(this.props);
-		//this.props.history.push(e.target.id)
 	};
 	handleFilterBtn = () => {
 		this.setState({
 			isFilterClicked: true,
 		});
-	};
-	handleClearFilterBtn = () => {
-		this.setState({});
 	};
 
 	handelCancelBtn = () => {
@@ -69,25 +62,23 @@ class ListingPage extends React.Component {
 				isClearFilterBtn: true,
 				isFilterClicked: false,
 			});
-		}
-		else if(filterCounter === 0){
+		} else if (filterCounter === 0) {
 			this.setState({
-				isFilterClicked:false
-			})
+				isFilterClicked: false,
+			});
 		}
 	};
-	hideClearFilterBtn =()=>{
+	hideClearFilterBtn = () => {
 		this.setState({
-			isClearFilterBtn:false,
-			filterCounter:0
-		})
-	}
+			isClearFilterBtn: false,
+			filterCounter: 0,
+		});
+	};
 
 	render() {
 		let { dataListingPage } = this.props;
 		let { isFilterClicked, isClearFilterBtn } = this.state;
 		let filterData = data.filter;
-		//console.log(dataListingPage)
 		return (
 			<>
 				<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary mt-3 ">
@@ -201,12 +192,13 @@ class ListingPage extends React.Component {
 				{isFilterClicked && (
 					<div class="container-fluid card shadow-lg p-3">
 						<div className="row">
-							{filterData.map((item) => (
-								<div className="col-4 mt-3 text-center">
+							{filterData.map((item, index) => (
+								<div key={item.title} className="col-4 mt-3 text-center">
 									<h4 className="text-center">{item.title}</h4>
 									{item.options.map((item) => (
 										<CheckBox
-											label={item}
+											key={item}
+											label={index === 0 ? item + " " + "Star" : item}
 											name="checkboxBoolean"
 											value={this.state.checkboxBoolean}
 											id={item}
