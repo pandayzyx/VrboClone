@@ -29,23 +29,54 @@ export const sendLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://localhost:3000/login", {
-		...payload.data
-	})
-	.then(res => {
-		console.log("res", res);
-		if (!res.data.isLoginSuccess) {
-			payload.IncorrectPasscallback();
-			throw Error("Incorrect Pass Handled");
-		}
-		return res;
-	})
+    .post("http://localhost:3001/login", {
+      ...payload.data,
+    })
     .then((res) => {
+      console.log("res", res);
+      if (!res.data.isLoginSuccess) {
+        payload.IncorrectPasscallback();
+        throw Error("Incorrect Pass Handled");
+      }
+      return res;
+    })
+    .then((res) => {
+      res.statusParam = "isLoginSuccess";
       dispatch(userDataSent(res));
     })
     .catch((err) => {
-		if (err.message !== "Incorrect Pass Handled") {
-			dispatch(userDataSendFailed(err))
-		}
-	});
+      if (err.message !== "Incorrect Pass Handled") {
+        dispatch(userDataSendFailed(err));
+      }
+    });
+};
+
+export const sendGoogleLoginData = (payload) => (dispatch) => {
+  console.log("Google oauth");
+  console.log("payload", payload);
+  dispatch(sendUserData(payload.data));
+  return axios
+    .post("http://localhost:3001/oauth/google", {
+      ...payload.data,
+    })
+    .then((res) => {
+      res.statusParam = "isAuthenticated";
+      dispatch(userDataSent(res));
+    })
+    .catch((err) => dispatch(userDataSendFailed(err)));
+};
+
+export const sendFacebookLoginData = (payload) => (dispatch) => {
+  console.log("Facebook oauth");
+  console.log("payload", payload);
+  dispatch(sendUserData(payload.data));
+  return axios
+    .post("http://localhost:3001/oauth/facebook", {
+      ...payload.data,
+    })
+    .then((res) => {
+      res.statusParam = "isAuthenticated";
+      dispatch(userDataSent(res));
+    })
+    .catch((err) => dispatch(userDataSendFailed(err)));
 };

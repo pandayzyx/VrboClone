@@ -38,7 +38,7 @@ export const sendRegisterData = (payload) => (dispatch) => {
   console.log("u are in Account availabilty checking");
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://localhost:3000/checkStatus", {
+    .post("http://localhost:3001/checkStatus", {
       ...payload.data,
     })
     .then((res) => dispatch(userDataSent(res)))
@@ -53,7 +53,7 @@ export const registerUser = (payload) => (dispatch) => {
   console.log("u are in registration");
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://localhost:3000/register", {
+    .post("http://localhost:3001/register", {
       ...payload.data,
     })
     .then((res) => dispatch(receiveRegisteredData(res)))

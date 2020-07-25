@@ -25,12 +25,13 @@ switch(action.type){
     case USER_LOGIN_DATA_SENT:{
         console.log(action);
         const {email, name} = action.payload.data.user;
+        const {statusParam} = action.payload;
         return{
             ...state,
             isSent:true,
             email: email,
             username: name,
-            isUserLoggedIn: action.payload.data.isLoginSuccess
+            isUserLoggedIn: action.payload.data[statusParam]
         }
     }
     case USER__LOGIN_DATA_SENDING_FAILED:{

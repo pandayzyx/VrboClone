@@ -1,9 +1,16 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
-import { sendRegisterData, registerUser } from "../../../../../Redux/RegisterUser/action";
+import {
+  sendRegisterData,
+  registerUser,
+} from "../../../../../Redux/RegisterUser/action";
 import { connect } from "react-redux";
-import { sendLoginData } from "../../../../../Redux/LoginUser/action";
+import {
+  sendLoginData,
+  sendGoogleLoginData,
+  sendFacebookLoginData,
+} from "../../../../../Redux/LoginUser/action";
 var passwordValidator = require("password-validator");
 var validator = require("email-validator");
 var schema = new passwordValidator();
@@ -28,23 +35,64 @@ class SignUPModal extends React.Component {
       isValidEmail: true,
       isNewPasswordValid: true,
       isUserLoggedIn: "",
-	  isGoogleLoggedIn: "",
-	  isPasswordIncorrect: false
+      isGoogleLoggedIn: "",
+      isPasswordIncorrect: false,
     };
   }
 
   responseGoogle = (response) => {
     console.log(response);
+    const { email, name, imageUrl } = response.profileObj;
+    const {
+      access_token,
+      expires_at,
+      expires_in,
+      first_issued_at,
+    } = response.tokenObj;
+
+    this.props.sendGoogleLoginData({
+      data: {
+        name: name,
+        email: email,
+        accessToken: access_token,
+        googleId: response.googleId,
+        imageUrl: imageUrl,
+        expires_at: expires_at,
+        expires_in: expires_in,
+        first_issued_at: first_issued_at,
+      },
+    });
   };
 
   responseFacebook = (response) => {
     console.log(response);
+    const {
+      name,
+      email,
+      picture,
+      accessToken,
+      expiresIn,
+      data_access_expiration_time,
+      userID,
+    } = response;
+    this.props.sendFacebookLoginData({
+      data: {
+        name: name,
+        email: email,
+        accessToken: accessToken,
+        fbId: userID,
+        imageUrl: picture.data.url,
+        expires_at: data_access_expiration_time,
+        expires_in: expiresIn,
+        first_issued_at: "2736232323",
+      },
+    });
     this.setState({
       fbisLoggedIn: true,
-      fbuserID: response.userID,
-      fbname: response.name,
-      fbemail: response.email,
-      fbpicture: response.picture.data.url,
+      fbuserID: userID,
+      fbname: name,
+      fbemail: email,
+      fbpicture: picture.data.url,
     });
   };
 
@@ -95,13 +143,13 @@ class SignUPModal extends React.Component {
   checkLogin = () => {
     const { email, password } = this.state;
     this.props.sendLoginData({
-		data: {
-			email: email,
-			password: password,
-		},
-		IncorrectPasscallback: () => {
-			this.setState({isPasswordIncorrect: true});
-		}
+      data: {
+        email: email,
+        password: password,
+      },
+      IncorrectPasscallback: () => {
+        this.setState({ isPasswordIncorrect: true });
+      },
     });
   };
 
@@ -118,17 +166,23 @@ class SignUPModal extends React.Component {
       .digits() // Must have digits
       .has();
     if (schema.validate(password)) {
-		this.props.registerUser({
-			data: {
-				email: email, 
-				password: password,
-				firstName: firstName,
-				lastName: lastName
-			},
-			callback: () => {
-				console.log("Registered");
-			}
-		});
+      this.props.registerUser({
+        data: {
+          email: email,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+        },
+        callback: () => {
+          console.log("Registered");
+          this.setState({
+            password: "",
+            isMailAlreadyPresnt: true,
+            isDefaultComponent: false,
+            isValidMailNew: false,
+          });
+        },
+      });
     } else {
       this.setState({
         isNewPasswordValid: false,
@@ -146,8 +200,8 @@ class SignUPModal extends React.Component {
       email,
       isValidEmail,
       isDefaultComponent,
-	  isNewPasswordValid,
-	  isPasswordIncorrect
+      isNewPasswordValid,
+      isPasswordIncorrect,
     } = this.state;
     return (
       <>
@@ -378,6 +432,9 @@ const MapDisaptchToProps = (dispatch) => {
     sendLoginData: (payload) => dispatch(sendLoginData(payload)),
     sendRegisterData: (payload) => dispatch(sendRegisterData(payload)),
     registerUser: (payload) => dispatch(registerUser(payload)),
+    sendGoogleLoginData: (payload) => dispatch(sendGoogleLoginData(payload)),
+    sendFacebookLoginData: (payload) =>
+      dispatch(sendFacebookLoginData(payload)),
   };
 };
 
