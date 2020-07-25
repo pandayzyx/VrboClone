@@ -61,7 +61,7 @@ class Navbar extends React.Component{
                     <div class="dropdown-divider"></div>
                     <Link to ="/propertymanager" class="dropdown-item text-primary ml-4" href="#">Property Manager Help</Link>
                     <div class="dropdown-divider"></div>
-                    <Link class="dropdown-item text-primary ml-4" href="#">Trust And safety</Link>
+                    <Link to ="/trustandsafety" class="dropdown-item text-primary ml-4" href="#">Trust And safety</Link>
                   </div>
                 </li>
                 <li class="nav-item">
