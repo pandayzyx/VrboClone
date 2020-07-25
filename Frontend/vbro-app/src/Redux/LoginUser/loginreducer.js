@@ -8,10 +8,9 @@ const initState = {
     isSending:false,
     isSent:false,
     isError:false,
-    uesername:"",
+    username:"",
+    email: "",
     isUserLoggedIn:false,
-    token:""
-
 }
 export const loginreducer = (state = initState,action)=>{
     
@@ -24,11 +23,15 @@ switch(action.type){
         }
     }
     case USER_LOGIN_DATA_SENT:{
+        console.log(action);
+        const {email, name} = action.payload.data.user;
+        const {statusParam} = action.payload;
         return{
             ...state,
             isSent:true,
-            token:action.payload
-           
+            email: email,
+            username: name,
+            isUserLoggedIn: action.payload.data[statusParam]
         }
     }
     case USER__LOGIN_DATA_SENDING_FAILED:{
