@@ -7,22 +7,15 @@ import { connect } from "react-redux";
 import CheckBox from "../../Components/CommonComponents/CheckBox/CheckBox";
 import { getListData } from "../../Redux/Listing/action";
 
-let fiterArray = [
-	"Booking Options",
-	"Property Reviews",
-	"Property Type",
-	"Location",
-	"Features",
-	"NeighbourHood",
-];
-
 class ListingPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			checkboxBoolean: "",
 			urlArray: [],
+			filterCounter: 0,
 			isFilterClicked: false,
+			isClearFilterBtn: false,
 		};
 	}
 	// shouldComponentUpdate(){
@@ -35,25 +28,66 @@ class ListingPage extends React.Component {
 		let { getListData } = this.props;
 		getListData();
 	}
-	handleFilter = ()=>{
-      this.setState({
-		  isFilterClicked:true
-	  })
-	}
 
 	handleChange = (e) => {
-		console.log(e.id)
-		this.setState({
-			[e.target.name]:e.target.value
-		})
+		console.log(e.target.checked);
+		if (e.target.checked) {
+			this.setState({
+				[e.target.name]: e.target.value,
+				filterCounter: this.state.filterCounter + 1,
+			});
+		} else {
+			this.setState({
+				[e.target.name]: e.target.value,
+				filterCounter:
+					this.state.countercounter <= 0 ? 0 : this.state.filterCounter - 1,
+			});
+		}
+
+		console.log(this.props);
+		//this.props.history.push(e.target.id)
 	};
-	
+	handleFilterBtn = () => {
+		this.setState({
+			isFilterClicked: true,
+		});
+	};
+	handleClearFilterBtn = () => {
+		this.setState({});
+	};
+
+	handelCancelBtn = () => {
+		this.setState({
+			isFilterClicked: false,
+			filterCounter: 0,
+		});
+	};
+	handleSearchBtn = () => {
+		let { filterCounter } = this.state;
+		if (filterCounter !== 0) {
+			this.setState({
+				isClearFilterBtn: true,
+				isFilterClicked: false,
+			});
+		}
+		else if(filterCounter === 0){
+			this.setState({
+				isFilterClicked:false
+			})
+		}
+	};
+	hideClearFilterBtn =()=>{
+		this.setState({
+			isClearFilterBtn:false,
+			filterCounter:0
+		})
+	}
 
 	render() {
 		let { dataListingPage } = this.props;
-		let {isFilterClicked} = this.state
+		let { isFilterClicked, isClearFilterBtn } = this.state;
 		let filterData = data.filter;
-		console.log(dataListingPage)
+		//console.log(dataListingPage)
 		return (
 			<>
 				<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary mt-3 ">
@@ -145,48 +179,66 @@ class ListingPage extends React.Component {
 							</li>
 							{/* This signup button is shown when user is not logged in */}
 
-							<button onClick = {()=>this.handleFilter()} className="btn border border-primary text-primary rounded-pill ml-3">
-								More Filter
+							<button
+								onClick={() => this.handleFilterBtn()}
+								className="btn border border-primary text-primary rounded-pill ml-3"
+							>
+								More Filter({this.state.filterCounter})
 							</button>
+							{isClearFilterBtn && (
+								<button
+									onClick={() => this.hideClearFilterBtn()}
+									className="btn  text-primary rounded-pill ml-3"
+								>
+									Clear Filter
+								</button>
+							)}
 						</ul>
 					</div>
 				</nav>
-                 
-				 {/* Filter Component which is visible only when filter Component is clicked */}
-				 {
-					 isFilterClicked && 
-				 
-				<div class="container-fluid card shadow-lg p-3">
-					<div className="row">
-						{filterData.map((item) => (
-							<div className="col-4 mt-3 text-center">
-								<h4 className="text-center">{item.title}</h4>
-								{item.options.map((item) => (
-									<CheckBox
-										label={item}
-										name="checkboxBoolean"
-										value={this.state.checkboxBoolean}
-										id={item}
-										onchange={this.handleChange}
-									/>
-								))}
-							</div>
-						))}
-					</div>
-					<div className = "row">
-						<div className= "col-6 offset-6">
-							<div className = "offset-2">
-						<button onClick = {()=>isFilterClicked()} className="btn btn-primary px-5 rounded-pill offset-1">Cancel</button>
-						<button onClick = {()=>isFilterClicked()} className="btn btn-primary px-5 rounded-pill ml-2">Search</button>
-							</div>
-						
-						</div>
-						
-					</div>
-				</div>
-	}
 
-				{!isFilterClicked && dataListingPage &&
+				{/* Filter Component which is visible only when filter Component is clicked */}
+				{isFilterClicked && (
+					<div class="container-fluid card shadow-lg p-3">
+						<div className="row">
+							{filterData.map((item) => (
+								<div className="col-4 mt-3 text-center">
+									<h4 className="text-center">{item.title}</h4>
+									{item.options.map((item) => (
+										<CheckBox
+											label={item}
+											name="checkboxBoolean"
+											value={this.state.checkboxBoolean}
+											id={item}
+											onchange={this.handleChange}
+										/>
+									))}
+								</div>
+							))}
+						</div>
+						<div className="row">
+							<div className="col-6 offset-6">
+								<div className="offset-2">
+									<button
+										onClick={() => this.handelCancelBtn()}
+										className="btn btn-primary px-5 rounded-pill offset-1"
+									>
+										Cancel
+									</button>
+									<button
+										onClick={() => this.handleSearchBtn()}
+										className="btn btn-primary px-5 rounded-pill ml-2"
+									>
+										Search
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
+
+				{!isFilterClicked &&
+					dataListingPage &&
 					dataListingPage.map((item) => (
 						<ListingCard
 							key={uuidv4()}
