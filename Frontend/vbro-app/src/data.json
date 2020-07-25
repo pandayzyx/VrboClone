@@ -88,5 +88,15 @@
 			"totalPrice": 6166,
 			"rating": 4
 		  }
+	],
+	"filter":[
+		
+		{"title":"Propery Reviews","options":["1 Star","2Star","3Star","4 Star"]},
+		{"title":"Features","options":["Pool","Kitchen","Air Conditioning"]},
+		{"title":"Neighbourhoods","options":["OceanLakes","Myrtle Beach Resort","Kingston Plantation","Ocean Creek Resort"]},
+		{"title":"Property Type","options":["House","Apartment","Villa","Cottage"]},
+	
+		{"title":"Location","options":["Oceanfront","Beachfront","Beach","Beach view"]},
+		{"title":"Booking Options","options":["Free cancellation","InstantConfirmation"]}
 	]
 }
