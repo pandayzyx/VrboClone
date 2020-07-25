@@ -110,10 +110,7 @@ class SignUPModal extends React.Component {
     let { email } = this.state;
     let { sendRegisterData } = this.props;
 
-    if (
-      validator.validate(email)
-      //"response from databse is that its new mail"
-    ) {
+    if (validator.validate(email)) {
       sendRegisterData({
         data: {
           email: email,
@@ -140,6 +137,7 @@ class SignUPModal extends React.Component {
       });
     }
   };
+  
   checkLogin = () => {
     const { email, password } = this.state;
     this.props.sendLoginData({

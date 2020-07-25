@@ -5,6 +5,8 @@ import TravellerLoginModal from "./Modals/TravellerLoginModal/TravellerLoginModa
 import OwnerLoginModal from "./Modals/OwnerLoginModal/OwnerLoginModal";
 import { connect } from "react-redux";
 
+import {userLogout} from "../../../Redux/LoginUser/action";
+
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +14,11 @@ class Navbar extends React.Component {
       help: "",
     };
   }
+
+  handlelogout = () => {
+    this.props.userLogout();
+  }
+
   render() {
     let { isUserLoggedIn, username } = this.props;
     return (
@@ -140,6 +147,7 @@ class Navbar extends React.Component {
                       href="#"
                       data-toggle="modal"
                       data-target="#OwnerLoginModal"
+                      onClick={this.handlelogout}
                     >
                       Logout
                     </Link>
@@ -226,4 +234,10 @@ const MapStateToProps = (state) => {
     isUserLoggedIn: state.login.isUserLoggedIn,
   };
 };
-export default connect(MapStateToProps, null)(Navbar);
+
+const MapDisaptchToProps = (dispatch) => {
+	return {
+		userLogout: (payload) => dispatch(userLogout(payload)),
+	};
+};
+export default connect(MapStateToProps, MapDisaptchToProps)(Navbar);

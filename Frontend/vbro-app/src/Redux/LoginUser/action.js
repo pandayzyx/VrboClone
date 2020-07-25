@@ -2,6 +2,7 @@ import {
   USER__LOGIN_DATA_SENDING_FAILED,
   SEND_LOGIN_USER_DATA,
   USER_LOGIN_DATA_SENT,
+  USER_LOGOUT
 } from "./actionType";
 import axios from "axios";
 const sendUserData = (payload) => {
@@ -24,12 +25,19 @@ const userDataSendFailed = (payload) => {
   };
 };
 
+export const userLogout = (payload) => {
+  return {
+    type: USER_LOGOUT,
+    payload: payload,
+  };
+};
+
 export const sendLoginData = (payload) => (dispatch) => {
   console.log("uareinsendlogin");
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://6648d683efda.ngrok.io/login", {
+    .post("http://777c7d706151.ngrok.io/login", {
       ...payload.data,
     })
     .then((res) => {
@@ -56,7 +64,7 @@ export const sendGoogleLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://6648d683efda.ngrok.io/oauth/google", {
+    .post("http://777c7d706151.ngrok.io/oauth/google", {
       ...payload.data,
     })
     .then((res) => {
@@ -71,7 +79,7 @@ export const sendFacebookLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://6648d683efda.ngrok.io/oauth/facebook", {
+    .post("http://777c7d706151.ngrok.io/oauth/facebook", {
       ...payload.data,
     })
     .then((res) => {
