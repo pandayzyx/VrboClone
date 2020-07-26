@@ -37,7 +37,7 @@ export const sendLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://777c7d706151.ngrok.io/login", {
+    .post("http://localhost:6002/login", {
       ...payload.data,
     })
     .then((res) => {
@@ -64,7 +64,7 @@ export const sendGoogleLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://777c7d706151.ngrok.io/oauth/google", {
+    .post("http://localhost:6002/oauth/google", {
       ...payload.data,
     })
     .then((res) => {
@@ -79,7 +79,7 @@ export const sendFacebookLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://777c7d706151.ngrok.io/oauth/facebook", {
+    .post("http://localhost:6002/oauth/facebook", {
       ...payload.data,
     })
     .then((res) => {
