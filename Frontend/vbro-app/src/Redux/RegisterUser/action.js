@@ -53,7 +53,7 @@ export const registerUser = (payload) => (dispatch) => {
   console.log("u are in registration");
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://localhost:6002/register", {
+    .post("http://3a1bc5b4a4ce.ngrok.io/register", {
       ...payload.data,
     })
     .then((res) => dispatch(receiveRegisteredData(res)))

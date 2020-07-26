@@ -6,18 +6,26 @@ import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
 import CheckBox from "../../Components/CommonComponents/CheckBox/CheckBox";
 import { getListData } from "../../Redux/Listing/action";
+import Pagination from "../../Components/CommonComponents/Pagination/Pagination";
+
+const queryString = require('query-string')
 
 class ListingPage extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {
-      checkboxBoolean: "",
-      urlArray: [],
-      filterCounter: 0,
-      isFilterClicked: false,
-      isClearFilterBtn: false,
-    };
-  }
+		super(props);
+		this.state = {
+			checkboxBoolean: "",
+			urlArray: [
+				{ type: "rating", values: [] },
+				{ type: "category", values: [] },
+			],
+			filterCounter: 0,
+			isFilterClicked: false,
+			isClearFilterBtn: false,
+			curr_page: 1,
+			query: [],
+		};
+	}
 
   componentDidMount() {
     console.log("this.state in mount", this.state);
@@ -43,23 +51,38 @@ class ListingPage extends React.Component {
   }
 
   handleChange = (e) => {
-    console.log(e.target.id);
-    console.log(e.target.checked);
-    if (e.target.checked) {
-      this.setState({
-        [e.target.name]: e.target.value,
-        filterCounter: this.state.filterCounter + 1,
-      });
-    } else {
-      this.setState({
-        [e.target.name]: e.target.value,
-        filterCounter:
-          this.state.countercounter <= 0 ? 0 : this.state.filterCounter - 1,
-      });
-    }
+		console.log(e.target.id, e.target.name);
+		let { rating } = this.state;
+		let url = "?rating=1,2,3&category= House";
+		this.props.history.push(url);
+		const values = queryString.parse(this.props.location.search)
+		console.log(values)
+		this.props.history.push(url);
 
-    console.log(this.props);
-  };
+		console.log(this.props.location.search);
+		console.log(e.target.id, e.target.name);
+		console.log(e.target.checked);
+		if (e.target.checked) {
+			this.setState({
+				[e.target.name]: e.target.value,
+				filterCounter: this.state.filterCounter + 1,
+			});
+		} else {
+			this.setState({
+				[e.target.name]: e.target.value,
+				filterCounter:
+					this.state.countercounter <= 0 ? 0 : this.state.filterCounter - 1,
+			});
+    }
+    
+  }
+	
+	handlePagination = (item) => {
+		console.log(item);
+		this.setState({
+			curr_page: item,
+		});
+	};
 
   handleFilterBtn = () => {
     this.setState({
@@ -208,64 +231,71 @@ class ListingPage extends React.Component {
           </div>
         </nav>
 
-        {/* Filter Component which is visible only when filter Component is clicked */}
-        {isFilterClicked && (
-          <div class="container-fluid card shadow-lg p-3">
-            <div className="row">
-              {filterData.map((item, index) => (
-                <div key={item.title} className="col-4 mt-3 text-center">
-                  <h4 className="text-center">{item.title}</h4>
-                  {item.options.map((item) => (
-                    <CheckBox
-                      key={item}
-                      label={index === 0 ? item + " " + "Star" : item}
-                      name="checkboxBoolean"
-                      value={this.state.checkboxBoolean}
-                      id={item}
-                      onchange={this.handleChange}
-                    />
-                  ))}
-                </div>
-              ))}
-            </div>
-            <div className="row">
-              <div className="col-6 offset-6">
-                <div className="offset-2">
-                  <button
-                    onClick={() => this.handelCancelBtn()}
-                    className="btn btn-primary px-5 rounded-pill offset-1"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => this.handleSearchBtn()}
-                    className="btn btn-primary px-5 rounded-pill ml-2"
-                  >
-                    Search
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+				{/* Filter Component which is visible only when filter Component is clicked */}
+				{isFilterClicked && (
+					<div class="container-fluid card shadow-lg p-3">
+						<div className="row">
+							{filterData.map((mainitem, index) => (
+								<div key={mainitem.title} className="col-4 mt-3 text-center">
+									<h4 className="text-center">{mainitem.title}</h4>
+									{mainitem.options.map((item) => (
+										<CheckBox
+											key={item + 1}
+											label={index === 0 ? item + " " + "Star" : item}
+											name={mainitem.type}
+											value={this.state.checkboxBoolean}
+											id={item}
+											onchange={this.handleChange}
+										/>
+									))}
+								</div>
+							))}
+						</div>
+						<div className="row">
+							<div className="col-6 offset-6">
+								<div className="offset-2">
+									<button
+										onClick={() => this.handelCancelBtn()}
+										className="btn btn-primary px-5 rounded-pill offset-1"
+									>
+										Cancel
+									</button>
+									<button
+										onClick={() => this.handleSearchBtn()}
+										className="btn btn-primary px-5 rounded-pill ml-2"
+									>
+										Search
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
 
-        {!isFilterClicked &&
-          dataListingPage &&
-          dataListingPage.map((item) => (
-            <ListingCard
-              key={uuidv4()}
-              title={item.title}
-              category={item.category}
-              bedrooms={item.bedRooms}
-              sleeps={item.sleeps}
-              area={item.area}
-              rating={item.rating}
-              price={item.pricePerNight}
-            />
-          ))}
-      </>
-    );
-  }
+				{!isFilterClicked &&
+					dataListingPage &&
+					dataListingPage.map((item) => (
+						<>
+							<ListingCard
+								key={uuidv4()}
+								title={item.title}
+								category={item.category}
+								bedrooms={item.bedRooms}
+								sleeps={item.sleeps}
+								area={item.area}
+								rating={item.rating}
+								price={item.pricePerNight}
+							/>
+						</>
+					))}
+				{!isFilterClicked && dataListingPage && dataListingPage.length !== 0 && (
+					<div className="m-5 d-flex justify-content-center">
+						<Pagination handlePagination={this.handlePagination} />
+					</div>
+				)}
+			</>
+		);
+	}
 }
 
 const MapStateToProps = (state) => {

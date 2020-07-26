@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function ListingCard(props) {
 	let { title, category, bedrooms, sleeps, area, rating, price } = props;
 	return (
+		<Link to = "/listing/entity" style={{ textDecoration: "none", color: "black" }}>
 		<div class="card mb-3 shadow-lg" style={{ maxWidth: "860px" }}>
 			<div class="row no-gutters">
 				<div class="col-md-3">
@@ -17,7 +18,7 @@ function ListingCard(props) {
 				</div>
 				<div class="col-md-9 pt-3">
 					<div class="card-body">
-						<Link style={{ textDecoration: "none", color: "black" }}>
+						
 							<h5 className="card-text float-left ml-5 mt-1">{title}</h5>
 
 							<br></br>
@@ -31,7 +32,7 @@ function ListingCard(props) {
 								<div className="col-2">{`Sleep${sleeps}`}</div>
 								<div className="col-5">{`${area}Sq-ft`}</div>
 							</div>
-						</Link>
+						
 					</div>
 				</div>
 				<br></br>
@@ -48,6 +49,7 @@ function ListingCard(props) {
 				</div>
 			</div>
 		</div>
+		</Link>
 
 
 
