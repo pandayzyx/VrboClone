@@ -14,13 +14,13 @@ class ListingPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			checkboxBoolean: "",
+			checkboxBoolean: true,
 			filterArray: [
 				{ type: "rating", values: [] },
 				{ type: "category", values: [] },
 				{ type: "locationtype", values: [] },
 				{ type: "neighbourhoods", values: [] },
-				{ type: "bookOption", values: [] }
+				{ type: "bookOption", values: [] },
 			],
 			filterCounter: 0,
 			isFilterClicked: false,
@@ -68,10 +68,11 @@ class ListingPage extends React.Component {
 				filterArray: tempArr,
 			});
 		} else {
-			tempArr.map((item) =>
+			tempArr.forEach((item) =>
+			 item.values =
 				item.type === e.target.name
 					? item.values.filter((item) => item !== e.target.id)
-					: null
+					: item.values.sort()
 			);
 			this.setState({
 				[e.target.name]: e.target.value,
@@ -100,7 +101,6 @@ class ListingPage extends React.Component {
 			isFilterClicked: false,
 			filterCounter: 0,
 		});
-
 	};
 
 	handleSearchBtn = () => {
@@ -115,7 +115,7 @@ class ListingPage extends React.Component {
 				isFilterClicked: false,
 			});
 		}
-		console.log(this.state.filterArray)
+		console.log(this.state.filterArray);
 	};
 
 	hideClearFilterBtn = () => {
@@ -249,10 +249,10 @@ class ListingPage extends React.Component {
 										<CheckBox
 											key={item + 1}
 											label={index === 0 ? item + " " + "Star" : item}
-											name = {mainitem.type}
-											value = {this.state.checkboxBoolean}
-											id = {item}
-											onchange = {this.handleChange}
+											name={mainitem.type}
+											value = "hfuihriuihergherig"
+											id={item}
+											onchange={this.handleChange}
 										/>
 									))}
 								</div>
@@ -296,10 +296,13 @@ class ListingPage extends React.Component {
 							/>
 						</>
 					))} */}
-					{/* For entity page for now keep this demo list card and work */}
 
-					<ListingCard/>
-					
+
+				{/* For entity page for now keep this demo list card and work */}
+
+				<ListingCard />
+				{/*  */}
+
 				{!isFilterClicked && dataListingPage && dataListingPage.length !== 0 && (
 					<div className="m-5 d-flex justify-content-center">
 						<Pagination handlePagination={this.handlePagination} />
