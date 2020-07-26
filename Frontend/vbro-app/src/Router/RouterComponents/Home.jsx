@@ -36,11 +36,11 @@ class Home extends React.Component {
 					</h2>
 					<div
 						style={{ marginLeft: "120px" }}
-						className="col-10 card border shadow-md border-rounded"
+						className="col-10 card border shadow-md  border-rounded"
 					>
 						<div className="row p-3">
-							<div className="col-3 card shadow-lg">Locations</div>
-							<div className="col-4 card shadow-lg ml-3">
+							<div className="col-3 card shadow-md text-center py-2">Locations</div>
+							<div className="col-4 ml-3">
 								{/* Arrival */}
 								<DateRangePicker
 									startDate={this.state.startDate}
@@ -60,12 +60,12 @@ class Home extends React.Component {
 							</div>
 
 							{/* <div className="col-2 card shadow-lg">Departure</div> */}
-							<div className="col-2 card shadow-lg ml-3">Guest</div>
+							<div className="col-2 card shadow-md ml-3 py-2">Guest</div>
 							<div className="col-2">
 								<Link to="/listing">
 									<button
 										style={{ borderRadius: "40px" }}
-										class="btn btn-primary bg bg-primary text-white btn-block ml-4 py-2"
+										class="btn btn-primary bg bg-primary text-white btn-block p-3 ml-4 py-2"
 									>
 										Search
 									</button>
