@@ -37,7 +37,7 @@ export const sendLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://777c7d706151.ngrok.io/login", {
+    .post("http://3a1bc5b4a4ce.ngrok.io/login", {
       ...payload.data,
     })
     .then((res) => {

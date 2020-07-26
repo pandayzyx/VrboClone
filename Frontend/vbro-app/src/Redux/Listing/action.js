@@ -27,15 +27,10 @@ const listingDataSendFailed = (payload) => {
 export const getListData = (payload) => (dispatch) => {
 	dispatch(sendListingData(payload));
 	let url  =  payload
+	console.log(url)
 	return axios
 		.get(
 			  url,
-			{
-				...payload,
-			},
-			{
-				params: {pageNum:2},
-			},
 			{
 				headers: {},
 			}
