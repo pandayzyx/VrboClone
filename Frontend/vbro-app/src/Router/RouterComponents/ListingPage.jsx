@@ -8,16 +8,19 @@ import CheckBox from "../../Components/CommonComponents/CheckBox/CheckBox";
 import { getListData } from "../../Redux/Listing/action";
 import Pagination from "../../Components/CommonComponents/Pagination/Pagination";
 
-const queryString = require('query-string')
+const queryString = require("query-string");
 
 class ListingPage extends React.Component {
-  constructor(props) {
+	constructor(props) {
 		super(props);
 		this.state = {
 			checkboxBoolean: "",
-			urlArray: [
+			filterArray: [
 				{ type: "rating", values: [] },
 				{ type: "category", values: [] },
+				{ type: "locationtype", values: [] },
+				{ type: "neighbourhoods", values: [] },
+				{ type: "bookOption", values: [] }
 			],
 			filterCounter: 0,
 			isFilterClicked: false,
@@ -27,55 +30,58 @@ class ListingPage extends React.Component {
 		};
 	}
 
-  componentDidMount() {
-    console.log("this.state in mount", this.state);
-    console.log(
-      "params in mount",
-      this.props.history
-    );
-    let tempParams = this.props.history.location.search.substring(1).split("&");
-    let params = {};
-    tempParams.forEach((param) => {
-      let temp = param.split("=");
-      params[temp[0]] = temp[1];
-    });
-
-    console.log("params after", params);
-
-    const { getListData } = this.props;
-    const url = "http://localhost:6969/properties";
-    getListData({
-      url: url,
-      params: params,
-    });
-  }
-
+	componentDidMount() {
+		console.log("this.state in mount", this.state);
+		console.log("params in mount", this.props.history);
+		let tempParams = this.props.history.location.search.substring(1).split("&");
+		let params = {};
+		tempParams.forEach((param) => {
+			let temp = param.split("=");
+			params[temp[0]] = temp[1];
+		});
+		console.log("params after", params);
+		const { getListData } = this.props;
+		const url = "http://localhost:6969/properties";
+		getListData({
+			url: url,
+			params: params,
+		});
+	}
 
 	handleChange = (e) => {
-		let url = "?rating=1,2,3&category=House";
-		this.props.history.push(url);
-		const values = queryString.parse(this.props.location.search)
-		console.log(values)
-		this.props.history.push(url);
+		let { filterArray } = this.state;
+		let tempArr = filterArray;
+		// this.props.history.push(url);
+		const values = queryString.parse(this.props.location.search);
+		console.log(values);
+		//this.props.history.push(url);
 		// console.log(this.props.location.search);
 		// console.log(e.target.id, e.target.name);
 		console.log(e.target.checked);
 		if (e.target.checked) {
+			tempArr.forEach((item) =>
+				item.type === e.target.name ? item.values.push(e.target.id) : null
+			);
 			this.setState({
 				[e.target.name]: e.target.value,
 				filterCounter: this.state.filterCounter + 1,
-
+				filterArray: tempArr,
 			});
 		} else {
+			tempArr.map((item) =>
+				item.type === e.target.name
+					? item.values.filter((item) => item !== e.target.id)
+					: null
+			);
 			this.setState({
 				[e.target.name]: e.target.value,
 				filterCounter:
 					this.state.countercounter <= 0 ? 0 : this.state.filterCounter - 1,
+				filterArray: tempArr,
 			});
-    }
-    
-  }
-	
+		}
+	};
+
 	handlePagination = (item) => {
 		console.log(item);
 		this.setState({
@@ -83,152 +89,154 @@ class ListingPage extends React.Component {
 		});
 	};
 
-  handleFilterBtn = () => {
-    this.setState({
-      isFilterClicked: true,
-    });
-  };
+	handleFilterBtn = () => {
+		this.setState({
+			isFilterClicked: true,
+		});
+	};
 
-  handelCancelBtn = () => {
-    this.setState({
-      isFilterClicked: false,
-      filterCounter: 0,
-    });
-  };
+	handelCancelBtn = () => {
+		this.setState({
+			isFilterClicked: false,
+			filterCounter: 0,
+		});
 
-  handleSearchBtn = () => {
-    let { filterCounter } = this.state;
-    if (filterCounter !== 0) {
-      this.setState({
-        isClearFilterBtn: true,
-        isFilterClicked: false,
-      });
-    } else if (filterCounter === 0) {
-      this.setState({
-        isFilterClicked: false,
-      });
-    }
-  };
+	};
 
-  hideClearFilterBtn = () => {
-    this.setState({
-      isClearFilterBtn: false,
-      filterCounter: 0,
-    });
-  };
+	handleSearchBtn = () => {
+		let { filterCounter } = this.state;
+		if (filterCounter !== 0) {
+			this.setState({
+				isClearFilterBtn: true,
+				isFilterClicked: false,
+			});
+		} else if (filterCounter === 0) {
+			this.setState({
+				isFilterClicked: false,
+			});
+		}
+		console.log(this.state.filterArray)
+	};
 
-  render() {
-    let { dataListingPage } = this.props;
-    let { isFilterClicked, isClearFilterBtn } = this.state;
-    let filterData = data.filter;
-    return (
-      <>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary mt-3 ">
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+	hideClearFilterBtn = () => {
+		this.setState({
+			isClearFilterBtn: false,
+			filterCounter: 0,
+		});
+	};
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <Link class="nav-link text-primary" href="#">
-                  Trip Boards<span class="sr-only">(current)</span>
-                </Link>
-              </li>
-              <li class="nav-item dropdown">
-                <Link
-                  class="nav-link dropdown-toggle text-primary ml-4"
-                  to=""
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Sort by Price
-                </Link>
-                <div
-                  class="dropdown-menu mt-2 "
-                  aria-labelledby="navbarDropdownMenuLink"
-                >
-                  {/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
-                  <Link
-                    class="dropdown-item text-primary"
-                    to="/listing?price=asc"
-                  >
-                    INC
-                  </Link>
-                  <div class="dropdown-divider"></div>
-                  <Link
-                    class="dropdown-item text-primary"
-                    to="/listing?price=desc"
-                  >
-                    Desc
-                  </Link>
-                </div>
-              </li>
-              {/* This component is shown when user is loggen in */}
-              <li class="nav-item dropdown">
-                <Link
-                  class="nav-link dropdown-toggle text-primary ml-4"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Sort by Ratings
-                </Link>
-                <div
-                  class="dropdown-menu mt-2 "
-                  aria-labelledby="navbarDropdownMenuLink"
-                >
-                  {/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
+	render() {
+		let { dataListingPage } = this.props;
+		let { isFilterClicked, isClearFilterBtn } = this.state;
+		let filterData = data.filter;
+		return (
+			<>
+				<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary mt-3 ">
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
 
-                  <div class="dropdown-divider"></div>
-                  <Link
-                    class="dropdown-item text-primary"
-                    to="/listing?ratings=asc"
-                  >
-                    INC
-                  </Link>
-                  <div class="dropdown-divider"></div>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item active">
+								<Link class="nav-link text-primary" href="#">
+									Trip Boards<span class="sr-only">(current)</span>
+								</Link>
+							</li>
+							<li class="nav-item dropdown">
+								<Link
+									class="nav-link dropdown-toggle text-primary ml-4"
+									to=""
+									id="navbarDropdown"
+									role="button"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									Sort by Price
+								</Link>
+								<div
+									class="dropdown-menu mt-2 "
+									aria-labelledby="navbarDropdownMenuLink"
+								>
+									{/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
+									<Link
+										class="dropdown-item text-primary"
+										to="/listing?price=asc"
+									>
+										INC
+									</Link>
+									<div class="dropdown-divider"></div>
+									<Link
+										class="dropdown-item text-primary"
+										to="/listing?price=desc"
+									>
+										Desc
+									</Link>
+								</div>
+							</li>
+							{/* This component is shown when user is loggen in */}
+							<li class="nav-item dropdown">
+								<Link
+									class="nav-link dropdown-toggle text-primary ml-4"
+									id="navbarDropdown"
+									role="button"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									Sort by Ratings
+								</Link>
+								<div
+									class="dropdown-menu mt-2 "
+									aria-labelledby="navbarDropdownMenuLink"
+								>
+									{/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
 
-                  <Link
-                    class="dropdown-item text-primary"
-                    to="/listing?ratings=desc"
-                  >
-                    DESC
-                  </Link>
-                </div>
-              </li>
-              {/* This signup button is shown when user is not logged in */}
+									<div class="dropdown-divider"></div>
+									<Link
+										class="dropdown-item text-primary"
+										to="/listing?ratings=asc"
+									>
+										INC
+									</Link>
+									<div class="dropdown-divider"></div>
 
-              <button
-                onClick={() => this.handleFilterBtn()}
-                className="btn border border-primary text-primary rounded-pill ml-3"
-              >
-                More Filter({this.state.filterCounter})
-              </button>
-              {isClearFilterBtn && (
-                <button
-                  onClick={() => this.hideClearFilterBtn()}
-                  className="btn  text-primary rounded-pill ml-3"
-                >
-                  Clear Filter
-                </button>
-              )}
-            </ul>
-          </div>
-        </nav>
+									<Link
+										class="dropdown-item text-primary"
+										to="/listing?ratings=desc"
+									>
+										DESC
+									</Link>
+								</div>
+							</li>
+							{/* This signup button is shown when user is not logged in */}
+
+							<button
+								onClick={() => this.handleFilterBtn()}
+								className="btn border border-primary text-primary rounded-pill ml-3"
+							>
+								More Filter({this.state.filterCounter})
+							</button>
+							{isClearFilterBtn && (
+								<button
+									onClick={() => this.hideClearFilterBtn()}
+									className="btn  text-primary rounded-pill ml-3"
+								>
+									Clear Filter
+								</button>
+							)}
+						</ul>
+					</div>
+				</nav>
 
 				{/* Filter Component which is visible only when filter Component is clicked */}
 				{isFilterClicked && (
@@ -241,10 +249,10 @@ class ListingPage extends React.Component {
 										<CheckBox
 											key={item + 1}
 											label={index === 0 ? item + " " + "Star" : item}
-											name={mainitem.type}
-											value={this.state.checkboxBoolean}
-											id={item}
-											onchange={this.handleChange}
+											name = {mainitem.type}
+											value = {this.state.checkboxBoolean}
+											id = {item}
+											onchange = {this.handleChange}
 										/>
 									))}
 								</div>
@@ -270,8 +278,9 @@ class ListingPage extends React.Component {
 						</div>
 					</div>
 				)}
+				{/* Activate this code whn data is coming from the back end */}
 
-				{!isFilterClicked &&
+				{/* {!isFilterClicked &&
 					dataListingPage &&
 					dataListingPage.map((item) => (
 						<>
@@ -286,7 +295,11 @@ class ListingPage extends React.Component {
 								price={item.pricePerNight}
 							/>
 						</>
-					))}
+					))} */}
+					{/* For entity page for now keep this demo list card and work */}
+
+					<ListingCard/>
+					
 				{!isFilterClicked && dataListingPage && dataListingPage.length !== 0 && (
 					<div className="m-5 d-flex justify-content-center">
 						<Pagination handlePagination={this.handlePagination} />
@@ -295,17 +308,16 @@ class ListingPage extends React.Component {
 			</>
 		);
 	}
-	
 }
 
 const MapStateToProps = (state) => {
-  return {
-    dataListingPage: state.list.dataListingPage,
-  };
+	return {
+		dataListingPage: state.list.dataListingPage,
+	};
 };
 const MapDisaptchToProps = (dispatch) => {
-  return {
-    getListData: (payload) => dispatch(getListData(payload)),
-  };
+	return {
+		getListData: (payload) => dispatch(getListData(payload)),
+	};
 };
 export default connect(MapStateToProps, MapDisaptchToProps)(ListingPage);

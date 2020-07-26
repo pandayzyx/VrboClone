@@ -6,6 +6,7 @@ function ListingCard(props) {
 	return (
 		<Link to = "/listing/entity" style={{ textDecoration: "none", color: "black" }}>
 		<div class="card mb-3 shadow-lg" style={{ maxWidth: "860px" }}>
+			Hellow card
 			<div class="row no-gutters">
 				<div class="col-md-3">
 					<img
