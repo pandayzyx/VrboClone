@@ -28,14 +28,14 @@ export default class ListYourProperty extends Component {
                             <div className={`m-3 ${styles.textalignleft}`}>Tell us about your property and see how much you could earn by renting your home on Vrbo.</div>
                             <div className="input-group p-3">
                                 <input type="text" class="form-control" placeholder="0 Bedroom" aria-label="bedroom" aria-describedby="button-addon2"></input>
-                                <button style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
-                                <button style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                                <button className='rounded-circle' style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
+                                <button className='rounded-circle' style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                             </div>
                         
                             <div className="input-group p-3">
                                 <input type="text" class="form-control" placeholder="0 Bathroom" aria-label="bedroom" aria-describedby="button-addon2"></input>
-                                <button style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
-                                <button style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                                <button className='rounded-circle' style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
+                                <button className='rounded-circle' style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                             </div>
                             <div style={{width: '430px'}}>
                                 <button type="button" className="btn m-3 rounded-pill btn-primary btn-block">Next</button>
