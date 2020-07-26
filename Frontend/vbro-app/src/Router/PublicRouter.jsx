@@ -16,6 +16,7 @@ function PublicRouter(){
         <Route exact path = "/" render = {()=><Home/>} ></Route>
         <Route path = "/travellerhelp" render = {()=><TravellerHelp/>}  ></Route>
         <Route exact path = "/listing" render={(props)=><ListingPage{...props}/>} ></Route>
+        
         <Route  path = "/listing/:id" render={(props)=><EntityPage{...props}/>} ></Route>
         <Route path = "/ownerhelp" render = {()=> <OwnerHelp/>}  ></Route>
         <Route path = "/propertymanager" render = {()=><PropertyManagerHelp/> } ></Route>

@@ -50,22 +50,21 @@ class ListingPage extends React.Component {
     });
   }
 
-  handleChange = (e) => {
-		console.log(e.target.id, e.target.name);
-		let { rating } = this.state;
-		let url = "?rating=1,2,3&category= House";
+
+	handleChange = (e) => {
+		let url = "?rating=1,2,3&category=House";
 		this.props.history.push(url);
 		const values = queryString.parse(this.props.location.search)
 		console.log(values)
 		this.props.history.push(url);
-
-		console.log(this.props.location.search);
-		console.log(e.target.id, e.target.name);
+		// console.log(this.props.location.search);
+		// console.log(e.target.id, e.target.name);
 		console.log(e.target.checked);
 		if (e.target.checked) {
 			this.setState({
 				[e.target.name]: e.target.value,
 				filterCounter: this.state.filterCounter + 1,
+
 			});
 		} else {
 			this.setState({
@@ -296,6 +295,7 @@ class ListingPage extends React.Component {
 			</>
 		);
 	}
+	
 }
 
 const MapStateToProps = (state) => {
