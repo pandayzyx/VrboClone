@@ -9,6 +9,7 @@ const initState = {
   isSent: false,
   isError: false,
   dataListingPage: [],
+  totalResults:0
 };
 
 export const listingreducer = (state = initState, action) => {
@@ -20,11 +21,12 @@ export const listingreducer = (state = initState, action) => {
       };
     }
     case LISTING_DATA_SUCCESS: {
-      console.log("action.payload", action.payload);
+      console.log("action.payload", action.payload.propCount);
       return {
         ...state,
         isSent: true,
-        dataListingPage: [...action.payload],
+        dataListingPage: [...action.payload.properties],
+        totalResults: action.payload.propCount
       };
     }
     case LISTING_DATA_FAILED: {

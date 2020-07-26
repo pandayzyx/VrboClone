@@ -41,7 +41,7 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "http://localhost:6969/properties";
+		const url = "http://9717fef911f6.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
@@ -54,6 +54,7 @@ class ListingPage extends React.Component {
 		// this.props.history.push(url);
 		const values = queryString.parse(this.props.location.search);
 		console.log(values);
+
 		//this.props.history.push(url);
 		// console.log(this.props.location.search);
 		// console.log(e.target.id, e.target.name);
@@ -84,7 +85,7 @@ class ListingPage extends React.Component {
 	};
 
 	handlePagination = (item) => {
-		console.log(item);
+		// console.log(item);
 		this.setState({
 			curr_page: item,
 		});
@@ -115,6 +116,7 @@ class ListingPage extends React.Component {
 				isFilterClicked: false,
 			});
 		}
+		let obj = {}
 		console.log(this.state.filterArray);
 	};
 
@@ -126,7 +128,9 @@ class ListingPage extends React.Component {
 	};
 
 	render() {
+		let search = this.props.location.search
 		let { dataListingPage } = this.props;
+		let {history} = this.props
 		let { isFilterClicked, isClearFilterBtn } = this.state;
 		let filterData = data.filter;
 		return (
@@ -243,11 +247,11 @@ class ListingPage extends React.Component {
 					<div class="container-fluid card shadow-lg p-3">
 						<div className="row">
 							{filterData.map((mainitem, index) => (
-								<div key={mainitem.title} className="col-4 mt-3 text-center">
+								<div ke y= {mainitem.title+index} className="col-4 mt-3 text-center">
 									<h4 className="text-center">{mainitem.title}</h4>
-									{mainitem.options.map((item) => (
+									{mainitem.options.map((item,index) => (
 										<CheckBox
-											key={item + 1}
+											key = {item + index}
 											label={index === 0 ? item + " " + "Star" : item}
 											name={mainitem.type}
 											value = "hfuihriuihergherig"
@@ -280,7 +284,7 @@ class ListingPage extends React.Component {
 				)}
 				{/* Activate this code whn data is coming from the back end */}
 
-				{/* {!isFilterClicked &&
+				{!isFilterClicked &&
 					dataListingPage &&
 					dataListingPage.map((item) => (
 						<>
@@ -295,17 +299,17 @@ class ListingPage extends React.Component {
 								price={item.pricePerNight}
 							/>
 						</>
-					))} */}
+					))}
 
 
 				{/* For entity page for now keep this demo list card and work */}
 
-				<ListingCard />
-				{/*  */}
+				{/* <ListingCard /> */}
+				
 
 				{!isFilterClicked && dataListingPage && dataListingPage.length !== 0 && (
 					<div className="m-5 d-flex justify-content-center">
-						<Pagination handlePagination={this.handlePagination} />
+						<Pagination history = {history} search = {search} handlePagination={this.handlePagination} />
 					</div>
 				)}
 			</>
