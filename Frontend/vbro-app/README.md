@@ -72,3 +72,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 2.react-google-login "https://www.npmjs.com/package/react-google-login"
 3.email-validator   "https://www.npmjs.com/package/email-validator"
 4.password-validator "https://www.npmjs.com/package/password-validator"
+5.query-string "https://www.npmjs.com/package/query-string"

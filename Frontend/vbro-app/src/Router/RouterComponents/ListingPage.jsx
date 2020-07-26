@@ -28,28 +28,43 @@ class ListingPage extends React.Component {
 	}
 
 	componentDidMount() {
-		let { getListData } = this.props;
-		this.props.history.push()
-		let url = "http://e00ccdd9017b.ngrok.io/properties";
-		getListData(url);
+		console.log("this.state in mount", this.state);
+		let url2 = "?rating=1,2,3&category=House";
+		this.props.history.push(url2);
+		console.log(
+		  "params in mount",
+		  this.props.history
+		);
+		let tempParams = this.props.history.location.search.substring(1).split("&");
+		let params = {};
+		tempParams.forEach((param) => {
+		  let temp = param.split("=");
+		  params[temp[0]] = temp[1];
+		});
+		console.log("params after", params);
+		const { getListData } = this.props;
+		const url = "http://localhost:6969/properties";
+		getListData({
+		  url: url,
+		  params: params,
+		});
 	}
 
+
 	handleChange = (e) => {
-		console.log(e.target.id, e.target.name);
-		let { rating } = this.state;
-		let url = "?rating=1,2,3&category= House";
+		let url = "?rating=1,2,3&category=House";
 		this.props.history.push(url);
 		const values = queryString.parse(this.props.location.search)
 		console.log(values)
 		this.props.history.push(url);
-
-		console.log(this.props.location.search);
-		console.log(e.target.id, e.target.name);
+		// console.log(this.props.location.search);
+		// console.log(e.target.id, e.target.name);
 		console.log(e.target.checked);
 		if (e.target.checked) {
 			this.setState({
 				[e.target.name]: e.target.value,
 				filterCounter: this.state.filterCounter + 1,
+
 			});
 		} else {
 			this.setState({
@@ -92,6 +107,7 @@ class ListingPage extends React.Component {
 			filterCounter: 0,
 		});
 	};
+	
 	handlePagination = (item) => {
 		console.log(item);
 		this.setState({
@@ -277,6 +293,7 @@ class ListingPage extends React.Component {
 			</>
 		);
 	}
+	
 }
 
 const MapStateToProps = (state) => {

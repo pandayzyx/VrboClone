@@ -25,20 +25,21 @@ const listingDataSendFailed = (payload) => {
 };
 
 export const getListData = (payload) => (dispatch) => {
-	dispatch(sendListingData(payload));
-	let url  =  payload
-	console.log(url)
-	return axios
-		.get(
-			  url,
-			{
-				headers: {},
-			}
-		)
-		.then((res) => { 
-            return res.data})
-		.then((res) => {
-			dispatch(listingDataSuccess(res));
-		})
-		.catch((err) => dispatch(listingDataSendFailed(err)));
+  dispatch(sendListingData(payload));
+  let {url, params} = payload;
+  return axios
+    .get(
+      url,
+      {
+        params: params
+      },
+    )
+    .then((res) => {
+		console.log(res);
+      return res.data;
+    })
+    .then((res) => {
+      dispatch(listingDataSuccess(res));
+    })
+    .catch((err) => dispatch(listingDataSendFailed(err)))
 };
