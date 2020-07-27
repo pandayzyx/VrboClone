@@ -17,18 +17,32 @@ const breakPoints = [
 ];
 
 class Home extends React.Component {
-	 constructor(props){
-		 super(props)
-		 this.state ={
+	constructor(props) {
+		super(props);
+		this.state = {
+			adultsCount: 0,
+			childrenCount: 0,
+			location: "",
+			isPetIncluded: false,
+			startDate:"",
+			endDate:""
+		};
+	}
+	handleSearchBtn = () => {
+		console.log("handlesearch");
+		this.props.history.push("/listing?date=date&guest=2&location=paris");
+	};
+	handleChange = (e) => {
+		console.log("ur in hande change")
+		console.log(this.state.startDate)
+		this.setState({
+			isPetIncluded:e.target.id
+		})
+	};
 
-		 }
-	 }
-	 handleSearchBtn =()=>{
-		 console.log("handlesearch")
-		 this.props.history.push("/listing?date=date&guest=2&location=paris")
-	 }
 	render() {
-		console.log(data.crousel1);
+		let { adultsCount, childrenCount} = this.state;
+		let guestCount = childrenCount+adultsCount
 		return (
 			<div className="container-fluid border border-primary">
 				<div className={`${styles.img} col-12 border border-primary`}>
@@ -43,8 +57,16 @@ class Home extends React.Component {
 						className="col-10 card border shadow-md  border-rounded"
 					>
 						<div className="row p-3">
-							<div className="col-3 card shadow-md text-center py-2">Locations</div>
-							<div className="col-4 ml-3">
+							<div className="col-3 text-center py-2 mt-3">
+								<input
+									style={{ height: "48px" }}
+									className="form-control py-3"
+									placeholder="Location"
+									value={this.state.location}
+									onChange={(e) => this.setState({ location: e.target.value })}
+								/>
+							</div>
+							<div className="col-4 ml-3 mt-4">
 								{/* Arrival */}
 								<DateRangePicker
 									startDate={this.state.startDate}
@@ -64,18 +86,119 @@ class Home extends React.Component {
 							</div>
 
 							{/* <div className="col-2 card shadow-lg">Departure</div> */}
-							<div className="col-2 card shadow-md ml-3 py-2">Guest</div>
-							<div className="col-2">
-								<Link to="/listing">
-									
-								</Link>
+							<div className="col-2 py-3 ml-3">
 								<button
-									   onClick=  {()=>this.handleSearchBtn()}
-										style={{ borderRadius: "40px" }}
-										class="btn btn-primary bg bg-primary text-white btn-block p-3 ml-4 py-2"
+								   style = {{height:"60px"}}
+									type="button"
+									class="btn btn-primary btn-block"
+									data-toggle="modal"
+									data-target="#exampleModal"
+									className={`form-control`}
+								>
+								<i class="fa fa-user" aria-hidden="true"></i> Guest
+								{
+									guestCount!==0&&	<div>{childrenCount+adultsCount} Guests</div>
+								}
+							
+								</button>
+								<div
+									class="modal fade md-5 mt-5"
+									id="exampleModal"
+									tabindex="-10"
+									role="dialog"
+									aria-labelledby="exampleModalLabel"
+									aria-hidden="true"
+								>
+									<div
+										style={{ marginRight: "100px", marginTop: "80px" }}
+										class="modal-dialog modal-dialog-centered"
+										role="document"
 									>
-										Search
-									</button>
+										<div class="modal-content">
+											<div class="modal-header">
+												<p className="text-muted mt-4">{`${adultsCount} adult`}</p>
+												<div class="modal-footer md-5 mr-5">
+													<button
+														style = {{width:"60px",height:"60px"}}
+														type="button"
+														class="btn border border-primary rounded-circle"
+														onClick={()=>this.setState({adultsCount:this.state.adultsCount>=1?this.state.adultsCount-1:this.state.adultsCount})}
+													>
+														-
+													</button>
+													{this.state.num_adults}
+													<button
+														style = {{width:"60px",height:"60px"}}
+														type="button"
+														class="btn border border-primary rounded-circle"
+														onClick={()=>this.setState({adultsCount:this.state.adultsCount+1})}
+													>
+														+
+													</button>
+												</div>
+											</div>
+											<div class="modal-header">
+												<p className="text-muted mt-4">{`${childrenCount} children`}</p>
+												<div class="modal-footer mr-5">
+													<button
+														type="button"
+														style = {{width:"60px",height:"60px"}}
+														class="btn border border-primary rounded-circle"
+														onClick={()=>this.setState({childrenCount:this.state.childrenCount>=1?this.state.childrenCount-1:this.state.childrenCount})}
+													>
+														-
+													</button>
+													{this.state.num_child}
+													<button
+														style = {{width:"60px",height:"60px"}}
+														type="button"
+														class="btn border border-primary rounded-circle"
+														onClick={()=>this.setState({childrenCount:this.state.childrenCount+1})}
+													>
+														+
+													</button>
+												</div>
+											</div>
+											<div class="modal-header">
+												<p className="text-muted mt-4">Pets</p>
+												<div class="modal-footer mr-5">
+													<div className = "mr-5">
+														<input 	style = {{width:"30px",height:"30px"}}
+															type="radio"
+															id = "false"
+															name = "pets"
+															
+														
+															onChange={(e) => this.handleChange(e)}
+															value={this.state.isPetIncluded}
+														></input>
+														<label className="text-muted ml-1">No</label>
+													</div>
+													<div>
+														<input
+														style = {{width:"30px",height:"30px"}}
+															type="radio"
+															id = "true"
+							                                name = "pets"
+															onChange={(e) => this.handleChange(e)}
+															value={this.state.isPetIncluded}
+														></input>
+														<label className="text-muted ml-1">Yes</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="col-2 mt-3">
+								<button
+									onClick={() => this.handleSearchBtn()}
+									style={{ borderRadius: "40px" }}
+									class="btn btn-primary bg bg-primary text-white btn-block p-3 ml-4 py-2"
+								>
+									Search
+								</button>
 							</div>
 						</div>
 					</div>

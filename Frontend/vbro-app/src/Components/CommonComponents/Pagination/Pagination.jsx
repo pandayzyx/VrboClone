@@ -62,7 +62,7 @@ class Pagination extends Component {
 		});
 		params["pageNum"] = id;
 		const { handlePagination } = this.props;
-		const url = "http://ffee474abac8.ngrok.io/properties";
+		const url = "http://e7004b44a46f.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
@@ -85,9 +85,9 @@ class Pagination extends Component {
 				<nav aria-label="...">
 					<ul className="pagination">
 						<li className="page-item">
-							<Link
+							{/* <Link
 								to={`?${windowurl}pageNum=${curr_page > 1 ? curr_page - 1 : 1}`}
-							>
+							> */}
 								<button
 									className="page-link"
 									onClick={() =>
@@ -96,7 +96,7 @@ class Pagination extends Component {
 								>
 									Prev
 								</button>
-							</Link>
+							{/* </Link> */}
 						</li>
 						{arr &&
 							arr.map((item) => (
@@ -115,11 +115,11 @@ class Pagination extends Component {
 								</li>
 							))}
 						<li className="page-item">
-							<Link
+							{/* <Link
 								to={`?${windowurl}pageNum=${
 									curr_page < total_page ? curr_page + 1 : total_page
 								}`}
-							>
+							> */}
 								<button
 									className="page-link"
 									onClick={() =>
@@ -130,7 +130,7 @@ class Pagination extends Component {
 								>
 									Next
 								</button>
-							</Link>
+							{/* </Link> */}
 						</li>
 					</ul>
 				</nav>

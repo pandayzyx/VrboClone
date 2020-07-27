@@ -41,7 +41,7 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "http://ffee474abac8.ngrok.io/properties";
+		const url = "http://e7004b44a46f.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
@@ -53,11 +53,6 @@ class ListingPage extends React.Component {
 		let tempArr = filterArray;
 		// this.props.history.push(url);
 		const values = queryString.parse(this.props.location.search);
-		console.log(values);
-
-		//this.props.history.push(url);
-		// console.log(this.props.location.search);
-		// console.log(e.target.id, e.target.name);
 		console.log(e.target.checked);
 		if (e.target.checked) {
 			tempArr.forEach((item) =>
@@ -116,7 +111,6 @@ class ListingPage extends React.Component {
 				isFilterClicked: false,
 			});
 		}
-		let obj = {}
 		console.log(this.state.filterArray);
 	};
 
@@ -283,6 +277,8 @@ class ListingPage extends React.Component {
 					</div>
 				)}
 				{/* Activate this code whn data is coming from the back end */}
+
+			    
 
 				{!isFilterClicked &&
 					dataListingPage &&

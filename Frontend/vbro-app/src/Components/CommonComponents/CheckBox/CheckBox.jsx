@@ -6,7 +6,7 @@ function CheckBox(props) {
     <div className="p-1 py-1 offset-3 d-flex flex-row">
       <input
         name = {name}
-        
+      
         id={id}
         value={value}
         onChange={(e) => onchange(e)}
