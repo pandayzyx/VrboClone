@@ -23,6 +23,10 @@ class Home extends React.Component {
 
 		 }
 	 }
+	 handleSearchBtn =()=>{
+		 console.log("handlesearch")
+		 this.props.history.push("/listing?date=date&guest=2&location=paris")
+	 }
 	render() {
 		console.log(data.crousel1);
 		return (
@@ -63,13 +67,15 @@ class Home extends React.Component {
 							<div className="col-2 card shadow-md ml-3 py-2">Guest</div>
 							<div className="col-2">
 								<Link to="/listing">
-									<button
+									
+								</Link>
+								<button
+									   onClick=  {()=>this.handleSearchBtn()}
 										style={{ borderRadius: "40px" }}
 										class="btn btn-primary bg bg-primary text-white btn-block p-3 ml-4 py-2"
 									>
 										Search
 									</button>
-								</Link>
 							</div>
 						</div>
 					</div>

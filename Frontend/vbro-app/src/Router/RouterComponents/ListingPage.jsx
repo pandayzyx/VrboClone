@@ -41,7 +41,7 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "http://9717fef911f6.ngrok.io/properties";
+		const url = "http://ffee474abac8.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,

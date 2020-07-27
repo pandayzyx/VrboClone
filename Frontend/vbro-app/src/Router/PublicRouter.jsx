@@ -13,7 +13,7 @@ import ListYourProperty from "./RouterComponents/NavBarRoutes/ListYourProperty";
 function PublicRouter(){
     return(
         <Switch>
-        <Route exact path = "/" render = {()=><Home/>} ></Route>
+        <Route exact path = "/" render = {(props)=><Home {...props}/>} ></Route>
         <Route path = "/travellerhelp" render = {()=><TravellerHelp/>}  ></Route>
         <Route exact path = "/listing" render={(props)=><ListingPage{...props}/>} ></Route>
         

@@ -62,7 +62,7 @@ class Pagination extends Component {
 		});
 		params["pageNum"] = id;
 		const { handlePagination } = this.props;
-		const url = "http://9717fef911f6.ngrok.io/properties";
+		const url = "http://ffee474abac8.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
