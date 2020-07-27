@@ -1,0 +1,11 @@
+.grid1 {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+/* .grid2 {
+    display: grid;
+    grid-template-columns: 100px 100px;
+    grid-template-rows: 50px 50px;
+} */
+
