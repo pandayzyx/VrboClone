@@ -14,6 +14,18 @@ class ListingPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			"1 Star": {
+				isChecked: false
+			},
+			"2 Star": {
+				isChecked: false
+			},
+			"3 Star": {
+				isChecked: false
+			},
+			"4 Star": {
+				isChecked: false
+			},
 			checkboxBoolean: true,
 			filterArray: [
 				{ type: "rating", values: [] },
@@ -41,7 +53,7 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "http://e7004b44a46f.ngrok.io/properties";
+		const url = "http://66cc5bf20a72.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
@@ -51,6 +63,13 @@ class ListingPage extends React.Component {
 	handleChange = (e) => {
 		let { filterArray } = this.state;
 		let tempArr = filterArray;
+		console.log("target", e.target);
+		this.setState({
+			[e.target.value]: {
+				isChecked: !this.state[e.target.value].isChecked
+			} 
+		})
+		console.log(this.state);
 		// this.props.history.push(url);
 		const values = queryString.parse(this.props.location.search);
 		console.log(e.target.checked);
@@ -241,14 +260,15 @@ class ListingPage extends React.Component {
 					<div class="container-fluid card shadow-lg p-3">
 						<div className="row">
 							{filterData.map((mainitem, index) => (
-								<div ke y= {mainitem.title+index} className="col-4 mt-3 text-center">
+								<div key= {mainitem.title+index} className="col-4 mt-3 text-center">
 									<h4 className="text-center">{mainitem.title}</h4>
 									{mainitem.options.map((item,index) => (
 										<CheckBox
 											key = {item + index}
-											label={index === 0 ? item + " " + "Star" : item}
+											label={mainitem.title === "Propery Reviews" ? item + " " + "Star" : item}
 											name={mainitem.type}
-											value = "hfuihriuihergherig"
+											value = {mainitem.title === "Propery Reviews" ? item + " " + "Star" : item}
+											checked = {this.state.isChecked}
 											id={item}
 											onchange={this.handleChange}
 										/>
