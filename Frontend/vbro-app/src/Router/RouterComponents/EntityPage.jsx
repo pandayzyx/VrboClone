@@ -3,14 +3,81 @@ import styles from './entity.module.css';
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
+import {connect} from  "react-redux"
+import moment from "moment";
+import {getEntityData} from "../../Redux/Entity/action"
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+import date from "date-and-time";
 
 class EntityPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             adult: 0,
-            child: 0
+            child: 0,
+            adultsCount: 0,
+			childrenCount: 0,
+			location: "",
+			pets: "",
+			startDate: "",
+			endDate: "",
         }
+    }
+    componentDidMount(){
+        let {getEntityData} = this.props
+        let tempParams = this.props.history.location.search.substring(1).split("&");
+		let params = {};
+		tempParams.forEach((param) => {
+			let temp = param.split("=");
+			params[temp[0]] = temp[1];
+		});
+		console.log("params after", params);
+
+		// These line of codes are written to reatin the booking details from the home page
+		for (let key in params) {
+			if (key === "adultsCount") {
+				this.setState({
+					adultsCount: Number(params[key]),
+				});
+			} else if (key === "adultsCount") {
+				this.setState({
+					childrenCount: Number(params[key]),
+				});
+			} else if (key === "pets") {
+				this.setState({
+					pets: params[key],
+				});
+			} else if (key === "location") {
+				this.setState({
+					location: params[key],
+				});
+			} 
+			else if (key === "arrivalDate" && params[key] !== "") {
+				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
+				console.log(dating);
+
+				this.setState({
+					startDate: dating,
+				});
+			}
+			else if (key === "destinationDate" && params[key] !== "") {
+				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
+				console.log(dating);
+
+				this.setState({
+					endDate: dating,
+				});
+			}
+		}
+		//
+
+		const url = "http://15f107d36e42.ngrok.io/properties";
+		getEntityData({
+			url: url,
+			params: params,
+		});
+
     }
 
     addAdult = () => {
@@ -33,10 +100,15 @@ class EntityPage extends React.Component{
             child: this.state.child - 1
         })
     }
+    handleBooking=()=>{
+
+       
+    }
     
 
     render(){
-
+        let {getEntityData} = this.props
+        let {location}=  this.state
         var adult = 1
         var child = 1
         var avRating = 4
@@ -63,6 +135,51 @@ class EntityPage extends React.Component{
         var reviews = [{'reviewby': 'Spring break 2020', 'ratings': '5', 'review': 'We loved it!', 'publishedat': 'Published Mar 15, 2020'}, {'reviewby': 'Valet Parking Nightmare', 'ratings': '3', 'review': 'The property is great. The location is close to all that Seaside has to offer. The problem we had was that the valet parking consumed all the traffic flow which backed up in front of this unit. We would have like to of been able to go away from Seaside in the evenings but we literally could not get our car out due to the traffic situation. Also, the cabana man was booked up over a month in advance. I purchased nice chairs and an umbrella to use and it was impossible because there was only 20 ft of area available for public use. I had to go down there at 6 a.m. to put my stuff out to get a place on the front row.', 'publishedat': 'Published Jul 22, 2019'}]
 
         return(
+            <>
+            
+
+            <div className="row navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3">
+					<div className="col-3 text-center py-2 mt-3">
+						<input
+							style={{ height: "48px" }}
+							className="form-control py-2 ml-4 mt-0"
+							placeholder="Location"
+							value={location}
+							onChange={(e) => this.setState({ location: e.target.value })}
+						/>
+					</div>
+					<div className="col-4 ml-3 mt-4">
+						{/* Arrival */}
+						<DateRangePicker
+							startDate={this.state.startDate}
+							startDateId="your_unique_start_date_id"
+							endDate={this.state.endDate}
+							endDateId="your_unique_end_date_id"
+							onDatesChange={({ startDate, endDate }) =>
+								this.setState({ startDate, endDate })
+							}
+							focusedInput={this.state.focusedInput}
+							onFocusChange={(focusedInput) => this.setState({ focusedInput })}
+							startDatePlaceholderText="Check In"
+							endDatePlaceholderText="Check Out"
+							startDateAriaLabel = "Check In"
+						></DateRangePicker>
+					</div>
+                    <div className="col-2 mt-3">
+								<button
+									onClick={() => this.handleSearchBtn()}
+									style={{ borderRadius: "40px" }}
+									class="btn btn-primary bg bg-light border border-primary text-primary btn-block p-3 py-1"
+								>
+									Search
+								</button>
+							</div>
+
+					{/* <div className="col-2 card shadow-lg">Departure</div> */}
+					
+				</div>
+
+                       <br></br>
             <div>
                 <div className={styles.grid1}>
                     <div>
@@ -358,7 +475,19 @@ class EntityPage extends React.Component{
                     </div>                        
                 </div>                
             </div>
+            </>
         )
     }
 }
-export default EntityPage
+
+const MapStateToProps = (state) => {
+	return {
+		dataEntityPage: state.entity.dataEntityPage,
+	};
+};
+const MapDisaptchToProps = (dispatch) => {
+	return {
+		getEntityData: (payload) => dispatch(getEntityData(payload)),
+	};
+};
+export default connect(MapStateToProps, MapDisaptchToProps)(EntityPage);

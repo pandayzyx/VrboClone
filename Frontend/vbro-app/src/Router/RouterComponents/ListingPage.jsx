@@ -3,13 +3,14 @@ import ListingCard from "../../Components/CommonComponents/Cards/ListingCards/Li
 import { Link } from "react-router-dom";
 import data from "../../data.json";
 import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
 import { connect } from "react-redux";
 import CheckBox from "../../Components/CommonComponents/CheckBox/CheckBox";
 import { getListData } from "../../Redux/Listing/action";
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
-import date from 'date-and-time';
+import date from "date-and-time";
 import Pagination from "../../Components/CommonComponents/Pagination/Pagination";
 import SimpleMap from "../../Components/CommonComponents/ReactMap/ReactMap";
 
@@ -35,7 +36,7 @@ class ListingPage extends React.Component {
 			adultsCount: 0,
 			childrenCount: 0,
 			location: "",
-			pets:"",
+			pets: "",
 			startDate: "",
 			endDate: "",
 		};
@@ -53,29 +54,41 @@ class ListingPage extends React.Component {
 		console.log("params after", params);
 		const { getListData } = this.props;
 
-        // These line of codes are written to reatin the booking details from the home page
-		for(let key in params){
-			if(key === "adultsCount"){
+		// These line of codes are written to reatin the booking details from the home page
+		for (let key in params) {
+			if (key === "adultsCount") {
 				this.setState({
-					adultsCount:Number(params[key])
-				})
-			}
-			else if(key === "adultsCount"){
+					adultsCount: Number(params[key]),
+				});
+			} else if (key === "adultsCount") {
 				this.setState({
-					childrenCount:Number(params[key])
-				})
-			}
-			else if(key === "pets"){
+					childrenCount: Number(params[key]),
+				});
+			} else if (key === "pets") {
 				this.setState({
-				    pets:params[key]
-				})
-			}
-			else if(key === "location"){
+					pets: params[key],
+				});
+			} else if (key === "location") {
 				this.setState({
-				    location:params[key]
-				})
+					location: params[key],
+				});
+			} 
+			else if (key === "arrivalDate" && params[key] !== "") {
+				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
+				console.log(dating);
+
+				this.setState({
+					startDate: dating,
+				});
 			}
-			
+			else if (key === "destinationDate" && params[key] !== "") {
+				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
+				console.log(dating);
+
+				this.setState({
+					endDate: dating,
+				});
+			}
 		}
 		//
 
@@ -84,11 +97,10 @@ class ListingPage extends React.Component {
 			url: url,
 			params: params,
 		});
-
 	}
 
 	handleChange = (e) => {
-		let { filterArray} = this.state;
+		let { filterArray } = this.state;
 		let tempArr = filterArray;
 		// this.props.history.push(url);
 		const values = queryString.parse(this.props.location.search);
@@ -160,7 +172,8 @@ class ListingPage extends React.Component {
 			filterCounter: 0,
 		});
 	};
-	// this function is inside guest modal which send query params and makes an apirequest as well
+
+	// This function is for the button  inside guest modal which send query params and makes an apirequest as well
 	handleApplyBtn = () => {
 		var arrivalDate, destinationDate;
 		let {
@@ -172,8 +185,8 @@ class ListingPage extends React.Component {
 			location,
 		} = this.state;
 		if (startDate._d && endDate._d) {
-			arrivalDate = date.format(startDate._d, 'MM/DD/YYYY')
-			destinationDate = date.format(endDate._d, 'MM/DD/YYYY')
+			arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
+			destinationDate = date.format(endDate._d, "MM/DD/YYYY");
 			console.log(arrivalDate, destinationDate);
 		} else {
 			arrivalDate = "";
@@ -189,7 +202,7 @@ class ListingPage extends React.Component {
 		let search = this.props.location.search;
 		let { dataListingPage } = this.props;
 		let { history } = this.props;
-		let { childrenCount, adultsCount,location} = this.state;
+		let { childrenCount, adultsCount, location } = this.state;
 		let guestCount = childrenCount + adultsCount;
 		let { isFilterClicked, isClearFilterBtn } = this.state;
 		let filterData = data.filter;
@@ -202,7 +215,7 @@ class ListingPage extends React.Component {
 							style={{ height: "48px" }}
 							className="form-control py-2 ml-4 mt-0"
 							placeholder="Location"
-							value = {location}
+							value={location}
 							onChange={(e) => this.setState({ location: e.target.value })}
 						/>
 					</div>
@@ -218,8 +231,9 @@ class ListingPage extends React.Component {
 							}
 							focusedInput={this.state.focusedInput}
 							onFocusChange={(focusedInput) => this.setState({ focusedInput })}
-							startDatePlaceholderText="Arrival"
-							endDatePlaceholderText="Departure"
+							startDatePlaceholderText="Check In"
+							endDatePlaceholderText="Check Out"
+							startDateAriaLabel = "Check In"
 						></DateRangePicker>
 					</div>
 
@@ -526,13 +540,12 @@ class ListingPage extends React.Component {
 				{/* Activate this code whn data is coming from the back end */}
 
 				<div className="container-fluid">
-				{dataListingPage.length === 0 && (
-					<div class="spinner-border text-dark" role="status">
-						<span class="sr-only">Loading...</span>
-					</div>
-				)}
+					{dataListingPage.length === 0 && (
+						<div class="spinner-border text-dark" role="status">
+							<span class="sr-only">Loading...</span>
+						</div>
+					)}
 					<div className="row">
-					
 						<div className="col-7">
 							{!isFilterClicked &&
 								dataListingPage &&
@@ -551,7 +564,14 @@ class ListingPage extends React.Component {
 									</>
 								))}
 						</div>
-						<div style = {{position:"-webkit-sticky",position:"sticky",top:"10px"}} className ="col-5 card shadow-md p-2">
+						<div
+							style={{
+								position: "-webkit-sticky",
+								position: "sticky",
+								top: "10px",
+							}}
+							className="col-5 card shadow-md p-2"
+						>
 							<SimpleMap />
 						</div>
 					</div>
@@ -560,7 +580,6 @@ class ListingPage extends React.Component {
 				{/* For entity page for now keep this demo list card and work */}
 
 				{/* <ListingCard /> */}
-				
 
 				{!isFilterClicked && dataListingPage && dataListingPage.length !== 0 && (
 					<div className="m-5 d-flex justify-content-center">
