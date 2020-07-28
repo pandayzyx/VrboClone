@@ -7,9 +7,7 @@ export default class ListYourProperty extends Component {
             <div>
                 <div>
                     <div className={styles.logo}>
-                        <a href="https://www.vrbo.com/">
-                            <img src="https://csvcus.homeaway.com/rsrcs/cdn-logos/4.7.0/sitename/vrbo/web/logo.svg" alt="logo"/>
-                        </a>
+                       
                     </div>
                     <div>
                         <div className={styles.headerright}>

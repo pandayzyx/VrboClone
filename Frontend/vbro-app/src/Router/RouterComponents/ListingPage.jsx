@@ -116,7 +116,7 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "http://66cc5bf20a72.ngrok.io/properties";
+		const url = "http://d8476f5307f3.ngrok.io/properties";
 
 		// These line of codes are written to reatin the booking details from the home page
 		for (let key in params) {
@@ -200,6 +200,11 @@ class ListingPage extends React.Component {
 			});
 		}
 	};
+	handleChangePet=(e)=>{
+		this.setState({
+			pets:e.target.id
+		})
+	}
 
 	handlePagination = (item) => {
 		// console.log(item);
@@ -246,6 +251,7 @@ class ListingPage extends React.Component {
 
 	// This function is for the button  inside guest modal which send query params and makes an apirequest as well
 	handleApplyBtn = () => {
+		let {getListData} =  this.props
 		var arrivalDate, destinationDate;
 		let {
 			childrenCount,
@@ -255,7 +261,7 @@ class ListingPage extends React.Component {
 			pets,
 			location,
 		} = this.state;
-		if (startDate._d && endDate._d) {
+		if (startDate._d &&endDate._d) {
 			arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
 			destinationDate = date.format(endDate._d, "MM/DD/YYYY");
 			console.log(arrivalDate, destinationDate);
@@ -267,6 +273,15 @@ class ListingPage extends React.Component {
 		this.props.history.push(
 			`/listing?location=${location}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}&pets=${pets}&adultsCount=${adultsCount}&childrenCount=${childrenCount}`
 		);
+		const values = queryString.parse(this.props.location.search);
+		let params =  values
+		const url = "http://d8476f5307f3.ngrok.io/properties";
+		getListData({
+			url: url,
+			params: params,
+		});
+
+		
 	};
 	handleLinkClicked =(e)=>{
 		console.log("handle ckillkd")
@@ -439,7 +454,7 @@ class ListingPage extends React.Component {
 													type="radio"
 													id="false"
 													name="pets"
-													onChange={(e) => this.handleChange(e)}
+													onChange={(e) => this.handleChangePet(e)}
 													value={this.state.isPetIncluded}
 												></input>
 												<label className="text-muted ml-1">No</label>
@@ -450,7 +465,7 @@ class ListingPage extends React.Component {
 													type="radio"
 													id="true"
 													name="pets"
-													onChange={(e) => this.handleChange(e)}
+													onChange={(e) => this.handleChangePet(e)}
 													value={this.state.isPetIncluded}
 												></input>
 												<label className="text-muted ml-1">Yes</label>
@@ -655,6 +670,7 @@ class ListingPage extends React.Component {
 										/>
 									</>
 								))}
+							
 						</div>
 						<div
 							style={{
