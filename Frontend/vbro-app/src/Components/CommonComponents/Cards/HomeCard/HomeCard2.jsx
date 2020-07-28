@@ -4,7 +4,6 @@ import {Link} from  "react-router-dom"
 
 
 function HomeCard2(props){
-    console.log(props)
     var {title,address,text} = props
   return(
       <>

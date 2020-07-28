@@ -4,56 +4,51 @@ import { Link } from "react-router-dom";
 function ListingCard(props) {
 	let { title, category, bedrooms, sleeps, area, rating, price } = props;
 	return (
-		<Link to = "/listing/entity" style={{ textDecoration: "none", color: "black" }}>
-		<div class="card mb-3 shadow-lg" style={{ maxWidth: "860px" }}>
-			Hellow card
-			<div class="row no-gutters">
-				<div class="col-md-3">
-					<img
-						style={{ height: "172%" }}
-						className="img-fluid"
-						src="https://odis.homeaway.com/odis/listing/5f87bbed-3c0a-41f9-920e-17c3f4545dbf.f10.jpg"
-						class="card-img"
-						alt="..."
-					/>
-				</div>
-				<div class="col-md-9 pt-3">
-					<div class="card-body">
-						
-							<h5 className="card-text float-left ml-5 mt-1">{title}</h5>
-
-							<br></br>
-
+		<Link
+			to="/listing/entity"
+			style={{ textDecoration: "none", color: "black" }}
+		>
+			<div class="card mb-3 shadow-md border-rounded" style = {{maxHeight:"400px"}}>
+				<div  class="row no-gutters">
+					<div class="col-md-6 overflow-hidden">
+						<img
+							style={{ height: "100%" }}
+							
+							src="https://odis.homeaway.com/odis/listing/e4559c88-6cd7-4306-88dd-29c4f64909ae.f10.jpg"
+							class="card-img"
+							alt="..."
+						/>
+					</div>
+					<div class="col-md-6">
+						<div class="card-body">
+							<h5 className="card-text float-left ml-5 mt-4">{title}</h5>
 							<div
 								style={{ float: "clear-both" }}
-								className="row col-12 float-left ml-3"
+								className="row col-12 float-left ml-3 d-flex"
 							>
-								<div className="col-3 text-left">{category}</div>
-								<div className="col-2">{`${bedrooms}BR`}</div>
-								<div className="col-2">{`Sleep${sleeps}`}</div>
-								<div className="col-5">{`${area}Sq-ft`}</div>
+								<div className="text-left">{category}</div>
+								<div className="ml-3">{`${bedrooms}BR`}</div>
+								<div className="ml-3">{`Sleep${sleeps}`}</div>
+								<div className="ml-3">{`${area}Sq-ft`}</div>
 							</div>
+						</div>
 						
-					</div>
-				</div>
-				<br></br>
-				<div className = "overflow-hidden col-9 offset-3 px-3 card-footer">
-					<div className="float-right">
-						<div>Premium Partner</div>
-						<p>{`Rating ${rating}`}</p>
-					</div>
+						<div style = {{marginTop:"132px"}}className="overflow-hidden card-footer">
+							<div className="float-right mt-1">
+								<div>Premium Partner</div>
+								<div>{`Rating ${rating}`}</div>
+							</div>
 
-					<div className="float-left">
-						<div>Price</div>
-						<p className="mt-0">{`Rs ${price} pernight`}</p>
+							<div className="float-left">
+								<div>Price</div>
+								<div className="mt-0">{`$ ${price} pernight`}</div>
+							</div>
+						</div>
 					</div>
+					<br></br>
 				</div>
 			</div>
-		</div>
 		</Link>
-
-
-
 	);
 }
 
