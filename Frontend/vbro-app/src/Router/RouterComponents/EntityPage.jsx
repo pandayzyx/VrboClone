@@ -72,7 +72,7 @@ class EntityPage extends React.Component{
 		}
 		//
 
-		const url = "http://15f107d36e42.ngrok.io/properties";
+		const url = "";
 		getEntityData({
 			url: url,
 			params: params,
@@ -102,6 +102,9 @@ class EntityPage extends React.Component{
     }
     handleBooking=()=>{
 
+       
+    }
+    handleSearchBtn = ()=>{
        
     }
     

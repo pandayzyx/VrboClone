@@ -13,7 +13,6 @@ import "react-dates/lib/css/_datepicker.css";
 import date from "date-and-time";
 import Pagination from "../../Components/CommonComponents/Pagination/Pagination";
 import SimpleMap from "../../Components/CommonComponents/ReactMap/ReactMap";
-
 const queryString = require("query-string");
 
 class ListingPage extends React.Component {
@@ -102,6 +101,7 @@ class ListingPage extends React.Component {
 			pets: "",
 			startDate: "",
 			endDate: "",
+			
 		};
 	}
 
@@ -124,7 +124,7 @@ class ListingPage extends React.Component {
 				this.setState({
 					adultsCount: Number(params[key]),
 				});
-			} else if (key === "adultsCount") {
+			} else if (key === "childrenCount") {
 				this.setState({
 					childrenCount: Number(params[key]),
 				});
@@ -154,7 +154,7 @@ class ListingPage extends React.Component {
 				});
 			}
 		}
-		//
+		
 
 		getListData({
 			url: url,
@@ -268,6 +268,22 @@ class ListingPage extends React.Component {
 			`/listing?location=${location}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}&pets=${pets}&adultsCount=${adultsCount}&childrenCount=${childrenCount}`
 		);
 	};
+	handleLinkClicked =(e)=>{
+		console.log("handle ckillkd")
+		console.log(e.currentTarget.id)
+		const values = queryString.parse(this.props.location.search);
+		let params = values;
+		var taburl  = ""
+		for(let key in params){
+			if(key!== "pageNum"){
+				taburl  =  taburl + key +  "="+ params[key]+ "&"
+			}
+		}
+		taburl =  taburl.split("")
+		taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
+		this.props.history.push(`/listing/${e.currentTarget.id}?${taburl}`)
+        
+	}
 
 	render() {
 		let search = this.props.location.search;
@@ -281,7 +297,7 @@ class ListingPage extends React.Component {
 			<>
 				{/* This component is same as home component which can make the bookings */}
 				<div className="row navbar navbar-expand-lg navbar-light bg-light shadow-sm p-1">
-					<div className="col-3 text-center py-2 mt-3">
+					<div className="col-3 text-center py-2 mt-2">
 						<input
 							style={{ height: "48px" }}
 							className="form-control py-2 ml-4 mt-0"
@@ -290,7 +306,7 @@ class ListingPage extends React.Component {
 							onChange={(e) => this.setState({ location: e.target.value })}
 						/>
 					</div>
-					<div className="col-4 ml-3 mt-4">
+					<div className="col-4 ml-3 mt-2">
 						{/* Arrival */}
 						<DateRangePicker
 							startDate={this.state.startDate}
@@ -310,19 +326,19 @@ class ListingPage extends React.Component {
 
 					{/* <div className="col-2 card shadow-lg">Departure</div> */}
 					<div className="col-2 py-3 ml-3">
-						<button
-							style={{ height: "60px" }}
-							type="button"
-							class="btn btn-primary btn-block"
-							data-toggle="modal"
-							data-target="#exampleModal"
-							className={`form-control mt-3`}
-						>
-							<i class="fa fa-user" aria-hidden="true"></i> Guest
-							{guestCount !== 0 && (
-								<div>{childrenCount + adultsCount} Guests</div>
-							)}
-						</button>
+					<button
+									style={{ width: '170px', height: "50px", marginTop: '8px', textAlign: 'justify'}}
+									type="button"
+									class="btn btn-primary btn-block"
+									data-toggle="modal"
+									data-target="#exampleModal"
+									className={`form-control`}
+								>
+									<span style={{padding: '5px'}}><i class="fa fa-user" aria-hidden="true"></i></span> Guest
+									{guestCount !== 0 && (
+										<small style={{padding: '5px'}}>{guestCount} Guests</small>
+									)}
+								</button>
 						<div
 							class="modal fade md-5 mt-5"
 							id="exampleModal"
@@ -626,7 +642,9 @@ class ListingPage extends React.Component {
 								dataListingPage.map((item) => (
 									<>
 										<ListingCard
+										     onclick = {this.handleLinkClicked}
 											key={uuidv4()}
+											 id = {item.id}
 											title={item.title}
 											category={item.category}
 											bedrooms={item.bedRooms}
