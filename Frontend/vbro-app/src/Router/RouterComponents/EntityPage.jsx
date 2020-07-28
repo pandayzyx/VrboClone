@@ -66,7 +66,7 @@ class EntityPage extends React.Component{
             <div>
                 <div className={styles.grid1}>
                     <div>
-                        <div id="carouselExampleInterval" class="carousel slide" style={{width: '500px', marginLeft: '200px'}} data-ride="carousel">
+                        <div id="carouselExampleInterval" class="carousel slide" style={{width: '550px', marginLeft: '200px'}} data-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active" data-interval="5000">
                                   <img src="https://via.placeholder.com/50" class="d-block w-100" alt="..."/>
@@ -291,7 +291,6 @@ class EntityPage extends React.Component{
                                                     <div>{this.state.adult} Adult</div>
                                                     {/* <button onClick={()=>this.removeAdult()} className='rounded-circle' style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-minus-circle" aria-hidden="true"></i></button> */}
                                                     <button
-														style = {{width:"60px",height:"60px"}}
 														type="button"
 														class="btn border border-primary rounded-circle"
 														onClick={()=>this.setState({adult:this.state.adult>=1?this.state.adult-1:this.state.adult})}
@@ -299,7 +298,6 @@ class EntityPage extends React.Component{
 														-
 													</button>
                                                     <button
-														style = {{width:"60px",height:"60px"}}
 														type="button"
 														class="btn border border-primary rounded-circle"
 														onClick={()=>this.setState({adult:this.state.adult+1})}
@@ -315,7 +313,6 @@ class EntityPage extends React.Component{
                                                     {/* <button onClick={()=>this.removeChild()} className='rounded-circle' style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-minus-circle" aria-hidden="true"></i></button> */}
                                                     {/* <button onClick={()=>this.addChild()} className='rounded-circle' style={{fontSize: '28px', marginLeft: '10px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i></button> */}
                                                     <button
-														style = {{width:"60px",height:"60px"}}
 														type="button"
 														class="btn border border-primary rounded-circle"
 														onClick={()=>this.setState({child:this.state.child>=1?this.state.child-1:this.state.child})}
@@ -323,7 +320,6 @@ class EntityPage extends React.Component{
 														-
 													</button>
                                                     <button
-														style = {{width:"60px",height:"60px"}}
 														type="button"
 														class="btn border border-primary rounded-circle"
 														onClick={()=>this.setState({child:this.state.child+1})}
