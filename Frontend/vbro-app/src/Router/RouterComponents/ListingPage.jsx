@@ -19,9 +19,6 @@ class ListingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-		// filters: {
-
-		// },
       "Propery Reviews": {
         "1 Star": false,
         "2 Star": false,
@@ -30,7 +27,7 @@ class ListingPage extends React.Component {
       },
       "Property Features": {
         Pool: false,
-        Kitchen: false,
+        Parking: false,
         "Air Conditioning": false,
       },
       Neighbourhoods: {
@@ -61,7 +58,8 @@ class ListingPage extends React.Component {
         { type: "category", values: [] },
         { type: "locationtype", values: [] },
         { type: "neighbourhoods", values: [] },
-        { type: "bookOption", values: [] },
+        { type: "bookOptions", values: [] },
+        { type: "propFeatures", values: [] },
       ],
       filterCounter: 0,
       isFilterClicked: false,
@@ -88,7 +86,7 @@ class ListingPage extends React.Component {
     });
     console.log("params after", params);
     const { getListData } = this.props;
-    const url = "http://66cc5bf20a72.ngrok.io/properties";
+    const url = "http://localhost:7000/properties";
 
     // These line of codes are written to reatin the booking details from the home page
     for (let key in params) {
@@ -123,7 +121,9 @@ class ListingPage extends React.Component {
           endDate: dating,
         });
       }
-    }
+	}
+	
+	let tempParam = window.location.href.split('?')[1];
 
     getListData({
       url: url,
@@ -141,7 +141,7 @@ class ListingPage extends React.Component {
       return {
         [parent]: {
           ...prev[parent],
-          [target]: !prev[target],
+          [target]: !prev[parent][target],
         },
       };
     });
@@ -196,6 +196,7 @@ class ListingPage extends React.Component {
   };
 
   handleSearchBtn = () => {
+	  let {history, getListData} = this.props;
     let { filterCounter } = this.state;
     if (filterCounter !== 0) {
       this.setState({
@@ -208,13 +209,19 @@ class ListingPage extends React.Component {
       });
     }
 	console.log(this.state.filterArray);
-	
-	let paramsUrl = new URL(window.location.href);
+	let prevParams = window.location.href.split('?')[1];
+	let paramsUrl = '?';
+	if (prevParams !== undefined) {
+		paramsUrl = `?${window.location.href.split('?')[1]}`;
+	}
 	this.state.filterArray.forEach(filter => {
-		paramsUrl.searchParams.set(filter.type, );
+		let tempholder = filter.values.join();
+		if (tempholder.length !== 0) {
+			paramsUrl += `&${filter.type}=${tempholder}`;
+		}
 	});
-	console.log(paramsUrl);
-	this.props.history.push(paramsUrl.search);
+	history.push(paramsUrl);
+	getListData({url: `http://localhost:7000/properties${paramsUrl}`});
   };
 
   hideClearFilterBtn = () => {
@@ -591,7 +598,7 @@ class ListingPage extends React.Component {
                         value={checkName}
                         parent={mainitem.title}
                         checked={this.state[mainitem.title][checkName]}
-                        id={item}
+                        id={mainitem.queries[index]}
                         onchange={this.handleChange}
                       />
                     );
