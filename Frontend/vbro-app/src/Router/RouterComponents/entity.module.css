@@ -1,3 +1,7 @@
+.card-body {
+    scroll-behavior: smooth;
+}
+
 .grid1 {
     display: grid;
     grid-template-columns: auto auto;

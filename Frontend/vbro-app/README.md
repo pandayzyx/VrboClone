@@ -70,6 +70,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 //Modules used for the project
 1.react-elastic-carousel "https://www.npmjs.com/package/react-elastic-carousel"
 2.react-google-login "https://www.npmjs.com/package/react-google-login"
-3.email-validator   "https://www.npmjs.com/package/email-validator"
+3.email-validator "https://www.npmjs.com/package/email-validator"
 4.password-validator "https://www.npmjs.com/package/password-validator"
 5.query-string "https://www.npmjs.com/package/query-string"
+6.react-google-map "https://www.npmjs.com/package/google-map-react"
+7.react date-time parser "https://www.npmjs.com/package/date-and-time"
+8.react-airbnb date-picker  "https://github.com/airbnb/react-dates"
+9.Moment js for converting date to desired format

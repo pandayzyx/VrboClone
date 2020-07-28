@@ -26,7 +26,7 @@ class Navbar extends React.Component {
         <SignUPModal />
         <TravellerLoginModal />
         <OwnerLoginModal />
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary ">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light text-primary font-weight-bold ">
           <Link to="/" class="navbar-brand" href="#">
             <img
               className="img-fluid"
@@ -47,12 +47,14 @@ class Navbar extends React.Component {
           </button>
 
           <div
+            style={{fontFamily: 'Sora'}}
             class="collapse navbar-collapse offset-4"
             id="navbarSupportedContent"
           >
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
                 <Link class="nav-link text-primary ml-4 " href="#">
+                  <span style={{padding: '5px'}}><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                   Trip Boards<span class="sr-only">(current)</span>
                 </Link>
               </li>
@@ -67,6 +69,7 @@ class Navbar extends React.Component {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
+                  <span style={{padding: '5px'}}><i class="fa fa-user" aria-hidden="true"></i></span>
                   Login
                 </Link>
                 <div
@@ -162,11 +165,12 @@ class Navbar extends React.Component {
                 <li class="nav-item">
                   <button
                     type="button"
-                    class="btn btn-light text-primary"
+                    class="btn btn-light text-primary font-weight-bold"
                     data-toggle="modal"
                     data-target="#signupModal"
                   >
-                    SignUp
+                    <span style={{padding: '5px'}}><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+                    Sign Up
                   </button>
                 </li>
               )}
@@ -180,6 +184,7 @@ class Navbar extends React.Component {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
+                  <span style={{padding: '5px'}}><i class="fa fa-question-circle" aria-hidden="true"></i></span>
                   Help
                 </Link>
                 <div class="dropdown-menu " aria-labelledby="navbarDropdown">

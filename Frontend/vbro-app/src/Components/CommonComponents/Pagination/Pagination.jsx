@@ -62,7 +62,7 @@ class Pagination extends Component {
 		});
 		params["pageNum"] = id;
 		const { handlePagination } = this.props;
-		const url = "http://e7004b44a46f.ngrok.io/properties";
+		const url = "http://15f107d36e42.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
@@ -74,9 +74,9 @@ class Pagination extends Component {
 		let { curr_page } = this.state;
 		let { totalResults } = this.props;
 		console.log(totalResults);
-		var total_page = Math.ceil(totalResults / 20)
+		var total_page = Math.ceil(totalResults / 20);
 		var arr = [];
-		for (let i = 1; i <=total_page; i++) {
+		for (let i = 1; i <= total_page; i++) {
 			arr.push(i);
 		}
 
@@ -88,14 +88,14 @@ class Pagination extends Component {
 							{/* <Link
 								to={`?${windowurl}pageNum=${curr_page > 1 ? curr_page - 1 : 1}`}
 							> */}
-								<button
-									className="page-link"
-									onClick={() =>
-										this.handleClick(curr_page > 1 ? curr_page - 1 : 1)
-									}
-								>
-									Prev
-								</button>
+							<button
+								className="page-link"
+								onClick={() =>
+									this.handleClick(curr_page > 1 ? curr_page - 1 : 1)
+								}
+							>
+								Prev
+							</button>
 							{/* </Link> */}
 						</li>
 						{arr &&
@@ -120,16 +120,16 @@ class Pagination extends Component {
 									curr_page < total_page ? curr_page + 1 : total_page
 								}`}
 							> */}
-								<button
-									className="page-link"
-									onClick={() =>
-										this.handleClick(
-											curr_page < total_page ? curr_page + 1 : total_page
-										)
-									}
-								>
-									Next
-								</button>
+							<button
+								className="page-link"
+								onClick={() =>
+									this.handleClick(
+										curr_page < total_page ? curr_page + 1 : total_page
+									)
+								}
+							>
+								Next
+							</button>
 							{/* </Link> */}
 						</li>
 					</ul>

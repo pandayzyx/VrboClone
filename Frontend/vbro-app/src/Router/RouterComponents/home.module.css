@@ -7,3 +7,11 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
+
+.hme {
+	background-image: url('https://odis.homeaway.com/odis/homepage/1bb3a26d-9eff-45c8-815e-3890dfdd514d.hp-lyp-large.jpg');
+	height: 500px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}

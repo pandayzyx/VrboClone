@@ -1,35 +1,34 @@
 import {
-	LISTING_DATA_FAILED,
-	LISTING_DATA_SEND,
-	LISTING_DATA_SUCCESS,
+	ENTITY_DATA_FAILED,
+	ENTITY_DATA_SEND,
+	ENTITY_DATA_SUCCESS,
 } from "./actionTypes";
 
 const initState = {
 	isSending: false,
 	isSent: false,
 	isError: false,
-	dataListingPage: [],
-	totalResults: 0,
+	dataEntityPage: [],
 };
 
-export const listingreducer = (state = initState, action) => {
+export const entityreducer = (state = initState, action) => {
 	switch (action.type) {
-		case LISTING_DATA_SEND: {
+		case ENTITY_DATA_SEND: {
 			return {
 				...state,
 				isSending: true,
 			};
 		}
-		case LISTING_DATA_SUCCESS: {
+		case ENTITY_DATA_SUCCESS: {
 			console.log("action.payload", action.payload.propCount);
 			return {
 				...state,
 				isSent: true,
-				dataListingPage: [...action.payload.properties],
-				totalResults: action.payload.propCount,
+				dataEntityPage: [...action.payload],
+				
 			};
 		}
-		case LISTING_DATA_FAILED: {
+		case ENTITY_DATA_FAILED: {
 			return {
 				...state,
 				isError: true,
