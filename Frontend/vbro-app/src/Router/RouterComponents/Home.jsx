@@ -65,13 +65,13 @@ class Home extends React.Component {
 		let { adultsCount, childrenCount } = this.state;
 		let guestCount = childrenCount + adultsCount;
 		return (
-			<div className="container-fluid border border-primary">
-				<div className={`${styles.img} col-12 border border-primary`}>
+			<div className="container-fluid">
+				<div className={`${styles.img} col-12`}>
 					<h2
 						style={{ marginLeft: "120px", marginTop: "100px" }}
 						className="font-weight-bold text-white float-left"
 					>
-						Beach House Condo?Cabin?<br></br>Find the perfect vaccation rental
+						Beach House Condo? Cabin?<br></br>Find the perfect vaccation rental
 					</h2>
 					<div
 						style={{ marginLeft: "120px" }}
@@ -109,16 +109,16 @@ class Home extends React.Component {
 							{/* <div className="col-2 card shadow-lg">Departure</div> */}
 							<div className="col-2 py-3 ml-3">
 								<button
-									style={{ height: "60px" }}
+									style={{ width: '170px', height: "50px", marginTop: '8px', textAlign: 'justify'}}
 									type="button"
 									class="btn btn-primary btn-block"
 									data-toggle="modal"
 									data-target="#exampleModal"
 									className={`form-control`}
 								>
-									<i class="fa fa-user" aria-hidden="true"></i> Guest
+									<span style={{padding: '5px'}}><i class="fa fa-user" aria-hidden="true"></i></span> Guest
 									{guestCount !== 0 && (
-										<div>{childrenCount + adultsCount} Guests</div>
+										<small style={{padding: '5px'}}>{childrenCount + adultsCount} Guests</small>
 									)}
 								</button>
 								<div
@@ -245,6 +245,20 @@ class Home extends React.Component {
 					</div>
 				</div>
 
+				<div className='mt-5'>
+					<h4 style={{ marginLeft: "6%" }} className="my-3 text-justify">
+						Recommended destinations
+					</h4>
+					<p className='text-justify' style={{marginLeft: '77px'}}>Based on your recent searches</p>
+					<Carousel pagination={false} breakPoints={breakPoints}>
+						{data.crousel1.map((item) => (
+							<div key={uuidv4()} className="p-1">
+								<HomeCard address={item.address} title={item.name} />
+							</div>
+						))}
+					</Carousel>
+				</div>		
+
 				<div>
 					<h4
 						style={{ marginLeft: "6%", background: "white-smoke" }}
@@ -268,6 +282,37 @@ class Home extends React.Component {
 						))}
 					</Carousel>
 				</div>
+
+				<div className='d-flex justify-content-around bd-highlight mb-5' style={{width: '1200px', marginLeft: '70px'}}>
+					<div style={{height: '150px', width: '270px'}}>
+						<div style={{fontSize: '50px', textAlign: 'justify', marginLeft: '10px'}}><i class="fa fa-shield" aria-hidden="true"></i></div>
+						<h6 style={{textAlign: 'justify', marginLeft: '10px'}}>Peace of mind</h6>
+						<p className='text-muted text-justify ml-2'>Our Book with Confidence guarantee gives you 24/7 support</p>
+					</div>
+					<div style={{height: '150px', width: '270px'}}>
+						<div style={{fontSize: '50px', textAlign: 'justify', marginLeft: '10px'}}><i class="fa fa-coffee" aria-hidden="true"></i></div>
+						<h6 style={{textAlign: 'justify', marginLeft: '10px'}}>All the privacy of home</h6>
+						<p className='text-muted text-justify ml-2'>Enjoy full kitchens, laundry, pools, yards and more</p>
+					</div>
+					<div style={{height: '150px', width: '270px'}}>
+						<div style={{fontSize: '50px', textAlign: 'justify', marginLeft: '10px'}}><i class="fa fa-arrows" aria-hidden="true"></i></div>
+						<h6 style={{textAlign: 'justify', marginLeft: '10px'}}>More for less</h6>
+						<p className='text-muted text-justify ml-2'>More space, more privacy, more amenities — more value</p>
+					</div>
+					<div style={{height: '150px', width: '270px'}}>
+						<div style={{fontSize: '50px', textAlign: 'justify', marginLeft: '10px'}}><img src="https://img.icons8.com/color/48/000000/heart-rainbow.png"/></div>
+						<h6 style={{textAlign: 'justify', marginLeft: '10px'}}>A place for everyone</h6>
+						<p className='text-muted text-justify ml-2'>We stand for diversity, inclusion and families everywhere</p>
+					</div>
+				</div>
+
+				<div className='d-flex mb-5 justify-content-center'>
+					<div>TrustScore <span style={{fontWeight: 'bolder'}}>4.2 out of 5</span></div>
+					<div className='p-2' style={{marginTop: '-10px'}}><img src="https://images-static.trustpilot.com/api/stars/4/star.svg" height='30px' alt="img"/></div>
+					<div>Based on <span style={{fontWeight: 'bolder'}}>86,225 reviews </span>on</div>
+					<div style={{marginLeft: '5px'}}><i class="fa fa-star" aria-hidden="true"></i>Trustpilot</div>
+				</div>
+
 				<div>
 					<h4 style={{ marginLeft: "6%" }} className="float-left mb-3">
 						Best places in the United States for going to the beach
@@ -293,6 +338,12 @@ class Home extends React.Component {
 						))}
 					</Carousel>
 				</div>
+
+				<div className={styles.hme}>
+					<div style={{color: 'white', fontSize: '32px', width: '550px', marginLeft: '350px'}}>List your property on Vrbo and open your door to rental income</div>
+					<div><button type="button" class="btn rounded-pill mt-5 p-3 btn-dark">List your property</button></div>
+				</div>
+
 			</div>
 		);
 	}
