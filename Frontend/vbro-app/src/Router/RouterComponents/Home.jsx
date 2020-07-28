@@ -39,7 +39,6 @@ class Home extends React.Component {
 			pets,
 			location,
 		} = this.state;
-		console.log(startDate._d);
 		if (startDate._d && endDate._d) {
 			arrivalDate = date.format(startDate._d, 'MM/DD/YYYY')
 			destinationDate = date.format(endDate._d, 'MM/DD/YYYY')

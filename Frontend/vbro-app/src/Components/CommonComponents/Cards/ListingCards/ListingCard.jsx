@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 function ListingCard(props) {
-	let { title, category, bedrooms, sleeps, area, rating, price } = props;
+	let { title, category, bedrooms, sleeps, area, rating, price,id,onclick } = props;
 	return (
-		<Link
-			to="/listing/entity"
-			style={{ textDecoration: "none", color: "black" }}
-		>
-			<div class="card mb-3 shadow-md border-rounded" style = {{maxHeight:"400px"}}>
+		
+		<div onClick = {(e)=>onclick(e)} id = {id} class="card mb-3 shadow-md border-rounded" style = {{maxHeight:"400px"}}>
 				<div  class="row no-gutters">
 					<div class="col-md-6 overflow-hidden">
 						<img
@@ -48,7 +45,7 @@ function ListingCard(props) {
 					<br></br>
 				</div>
 			</div>
-		</Link>
+		
 	);
 }
 
