@@ -69,13 +69,14 @@ class EntityPage extends React.Component{
                         <div id="carouselExampleInterval" class="carousel slide" style={{width: '500px', marginLeft: '200px'}} data-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active" data-interval="5000">
-                                  <img src="https://via.placeholder.com/50" class="d-block w-100" alt="..."/>
+                                
+                                  <img  src="https://odis.homeaway.com/odis/listing/9b6c8562-3a45-411b-9052-c956dfccca3d.f10.jpg" class="d-block w-100" alt="..."/>
                                 </div>
                                 <div class="carousel-item" data-interval="2000">
-                                  <img src="https://via.placeholder.com/50" class="d-block w-100" alt="..."/>
+                                <img src="https://odis.homeaway.com/odis/listing/ef5a6b91-6c7a-4012-a4be-e56390bb59a4.f10.jpg" class="d-block w-100" alt="..."/>
                                 </div>
                                 <div class="carousel-item">
-                                  <img src="https://via.placeholder.com/50" class="d-block w-100" alt="..."/>
+                                  <img src="https://odis.homeaway.com/odis/listing/b7ed0e08-29a2-498c-a700-ec446ad75e27.f10.jpg" class="d-block w-100" alt="..."/>
                                 </div>
                             </div>
                             <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">

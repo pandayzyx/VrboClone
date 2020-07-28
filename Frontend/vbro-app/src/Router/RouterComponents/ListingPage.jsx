@@ -6,7 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
 import CheckBox from "../../Components/CommonComponents/CheckBox/CheckBox";
 import { getListData } from "../../Redux/Listing/action";
+import "react-dates/initialize";
+import { DateRangePicker } from "react-dates";
+import "react-dates/lib/css/_datepicker.css";
+import date from 'date-and-time';
 import Pagination from "../../Components/CommonComponents/Pagination/Pagination";
+import SimpleMap from "../../Components/CommonComponents/ReactMap/ReactMap";
 
 const queryString = require("query-string");
 
@@ -27,6 +32,12 @@ class ListingPage extends React.Component {
 			isClearFilterBtn: false,
 			curr_page: 1,
 			query: [],
+			adultsCount: 0,
+			childrenCount: 0,
+			location: "",
+			pets:"",
+			startDate: "",
+			endDate: "",
 		};
 	}
 
@@ -41,15 +52,43 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "http://e7004b44a46f.ngrok.io/properties";
+
+        // These line of codes are written to reatin the booking details from the home page
+		for(let key in params){
+			if(key === "adultsCount"){
+				this.setState({
+					adultsCount:Number(params[key])
+				})
+			}
+			else if(key === "adultsCount"){
+				this.setState({
+					childrenCount:Number(params[key])
+				})
+			}
+			else if(key === "pets"){
+				this.setState({
+				    pets:params[key]
+				})
+			}
+			else if(key === "location"){
+				this.setState({
+				    location:params[key]
+				})
+			}
+			
+		}
+		//
+
+		const url = "http://15f107d36e42.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
 		});
+
 	}
 
 	handleChange = (e) => {
-		let { filterArray } = this.state;
+		let { filterArray} = this.state;
 		let tempArr = filterArray;
 		// this.props.history.push(url);
 		const values = queryString.parse(this.props.location.search);
@@ -64,11 +103,12 @@ class ListingPage extends React.Component {
 				filterArray: tempArr,
 			});
 		} else {
-			tempArr.forEach((item) =>
-			 item.values =
-				item.type === e.target.name
-					? item.values.filter((item) => item !== e.target.id)
-					: item.values.sort()
+			tempArr.forEach(
+				(item) =>
+					(item.values =
+						item.type === e.target.name
+							? item.values.filter((item) => item !== e.target.id)
+							: item.values.sort())
 			);
 			this.setState({
 				[e.target.name]: e.target.value,
@@ -120,16 +160,219 @@ class ListingPage extends React.Component {
 			filterCounter: 0,
 		});
 	};
+	// this function is inside guest modal which send query params and makes an apirequest as well
+	handleApplyBtn = () => {
+		var arrivalDate, destinationDate;
+		let {
+			childrenCount,
+			adultsCount,
+			startDate,
+			endDate,
+			pets,
+			location,
+		} = this.state;
+		if (startDate._d && endDate._d) {
+			arrivalDate = date.format(startDate._d, 'MM/DD/YYYY')
+			destinationDate = date.format(endDate._d, 'MM/DD/YYYY')
+			console.log(arrivalDate, destinationDate);
+		} else {
+			arrivalDate = "";
+			destinationDate = "";
+		}
+		console.log("handlesearch");
+		this.props.history.push(
+			`/listing?location=${location}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}&pets=${pets}&adultsCount=${adultsCount}&childrenCount=${childrenCount}`
+		);
+	};
 
 	render() {
-		let search = this.props.location.search
+		let search = this.props.location.search;
 		let { dataListingPage } = this.props;
-		let {history} = this.props
+		let { history } = this.props;
+		let { childrenCount, adultsCount,location} = this.state;
+		let guestCount = childrenCount + adultsCount;
 		let { isFilterClicked, isClearFilterBtn } = this.state;
 		let filterData = data.filter;
 		return (
 			<>
-				<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary mt-3 ">
+				{/* This component is same as home component which can make the bookings */}
+				<div className="row navbar navbar-expand-lg navbar-light bg-light shadow-sm p-1">
+					<div className="col-3 text-center py-2 mt-3">
+						<input
+							style={{ height: "48px" }}
+							className="form-control py-2 ml-4 mt-0"
+							placeholder="Location"
+							value = {location}
+							onChange={(e) => this.setState({ location: e.target.value })}
+						/>
+					</div>
+					<div className="col-4 ml-3 mt-4">
+						{/* Arrival */}
+						<DateRangePicker
+							startDate={this.state.startDate}
+							startDateId="your_unique_start_date_id"
+							endDate={this.state.endDate}
+							endDateId="your_unique_end_date_id"
+							onDatesChange={({ startDate, endDate }) =>
+								this.setState({ startDate, endDate })
+							}
+							focusedInput={this.state.focusedInput}
+							onFocusChange={(focusedInput) => this.setState({ focusedInput })}
+							startDatePlaceholderText="Arrival"
+							endDatePlaceholderText="Departure"
+						></DateRangePicker>
+					</div>
+
+					{/* <div className="col-2 card shadow-lg">Departure</div> */}
+					<div className="col-2 py-3 ml-3">
+						<button
+							style={{ height: "60px" }}
+							type="button"
+							class="btn btn-primary btn-block"
+							data-toggle="modal"
+							data-target="#exampleModal"
+							className={`form-control mt-3`}
+						>
+							<i class="fa fa-user" aria-hidden="true"></i> Guest
+							{guestCount !== 0 && (
+								<div>{childrenCount + adultsCount} Guests</div>
+							)}
+						</button>
+						<div
+							class="modal fade md-5 mt-5"
+							id="exampleModal"
+							tabindex="-10"
+							role="dialog"
+							aria-labelledby="exampleModalLabel"
+							aria-hidden="true"
+						>
+							<div
+								style={{ marginRight: "100px", marginTop: "80px" }}
+								class="modal-dialog modal-dialog-centered"
+								role="document"
+							>
+								<div class="modal-content">
+									<div class="modal-header">
+										<p
+											style={{ marginLeft: "20%" }}
+											className="text-muted mt-5 "
+										>{`${adultsCount} adult`}</p>
+										<div class="modal-footer md-5 mr-5">
+											<button
+												style={{ width: "60px", height: "60px" }}
+												type="button"
+												class="btn border border-primary rounded-circle"
+												onClick={() =>
+													this.setState({
+														adultsCount:
+															this.state.adultsCount >= 1
+																? this.state.adultsCount - 1
+																: this.state.adultsCount,
+													})
+												}
+											>
+												-
+											</button>
+											{this.state.num_adults}
+											<button
+												style={{ width: "60px", height: "60px" }}
+												type="button"
+												class="btn border border-primary rounded-circle"
+												onClick={() =>
+													this.setState({
+														adultsCount: this.state.adultsCount + 1,
+													})
+												}
+											>
+												+
+											</button>
+										</div>
+									</div>
+									<div class="modal-header">
+										<p
+											style={{ marginLeft: "20%" }}
+											className="text-muted mt-5"
+										>{`${childrenCount} children`}</p>
+										<div class="modal-footer mr-5">
+											<button
+												type="button"
+												style={{ width: "60px", height: "60px" }}
+												class="btn border border-primary rounded-circle"
+												onClick={() =>
+													this.setState({
+														childrenCount:
+															this.state.childrenCount >= 1
+																? this.state.childrenCount - 1
+																: this.state.childrenCount,
+													})
+												}
+											>
+												-
+											</button>
+											{this.state.num_child}
+											<button
+												style={{ width: "60px", height: "60px" }}
+												type="button"
+												class="btn border border-primary rounded-circle"
+												onClick={() =>
+													this.setState({
+														childrenCount: this.state.childrenCount + 1,
+													})
+												}
+											>
+												+
+											</button>
+										</div>
+									</div>
+									<div class="modal-header">
+										<p
+											style={{ marginLeft: "20%" }}
+											className="text-muted mt-1"
+										>
+											Pets
+										</p>
+										<div class="modal-footer mr-5">
+											<div className="mr-5">
+												<input
+													style={{ width: "30px", height: "30px" }}
+													type="radio"
+													id="false"
+													name="pets"
+													onChange={(e) => this.handleChange(e)}
+													value={this.state.isPetIncluded}
+												></input>
+												<label className="text-muted ml-1">No</label>
+											</div>
+											<div>
+												<input
+													style={{ width: "30px", height: "30px" }}
+													type="radio"
+													id="true"
+													name="pets"
+													onChange={(e) => this.handleChange(e)}
+													value={this.state.isPetIncluded}
+												></input>
+												<label className="text-muted ml-1">Yes</label>
+											</div>
+											<br></br>
+											<div>
+												<button
+													onClick={() => this.handleApplyBtn()}
+													className="btn btn-primary rounded-pill mt-2"
+												>
+													Apply
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{/* The top component that takes booking ends here */}
+
+				<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm text-primary mt-3 ">
 					<button
 						class="navbar-toggler"
 						type="button"
@@ -241,14 +484,18 @@ class ListingPage extends React.Component {
 					<div class="container-fluid card shadow-lg p-3">
 						<div className="row">
 							{filterData.map((mainitem, index) => (
-								<div ke y= {mainitem.title+index} className="col-4 mt-3 text-center">
+								<div
+									ke
+									y={mainitem.title + index}
+									className="col-4 mt-3 text-center"
+								>
 									<h4 className="text-center">{mainitem.title}</h4>
-									{mainitem.options.map((item,index) => (
+									{mainitem.options.map((item, index) => (
 										<CheckBox
-											key = {item + index}
-											label={index === 0 ? item + " " + "Star" : item}
+											key={item + index}
+											label={index <= 3 ? item + " " + "Star" : item}
 											name={mainitem.type}
-											value = "hfuihriuihergherig"
+											value="hfuihriuihergherig"
 											id={item}
 											onchange={this.handleChange}
 										/>
@@ -278,25 +525,37 @@ class ListingPage extends React.Component {
 				)}
 				{/* Activate this code whn data is coming from the back end */}
 
-			    
-
-				{!isFilterClicked &&
-					dataListingPage &&
-					dataListingPage.map((item) => (
-						<>
-							<ListingCard
-								key={uuidv4()}
-								title={item.title}
-								category={item.category}
-								bedrooms={item.bedRooms}
-								sleeps={item.sleeps}
-								area={item.area}
-								rating={item.rating}
-								price={item.pricePerNight}
-							/>
-						</>
-					))}
-
+				<div className="container-fluid">
+				{dataListingPage.length === 0 && (
+					<div class="spinner-border text-dark" role="status">
+						<span class="sr-only">Loading...</span>
+					</div>
+				)}
+					<div className="row">
+					
+						<div className="col-7">
+							{!isFilterClicked &&
+								dataListingPage &&
+								dataListingPage.map((item) => (
+									<>
+										<ListingCard
+											key={uuidv4()}
+											title={item.title}
+											category={item.category}
+											bedrooms={item.bedRooms}
+											sleeps={item.sleeps}
+											area={item.area}
+											rating={item.rating}
+											price={item.pricePerNight}
+										/>
+									</>
+								))}
+						</div>
+						<div style = {{position:"-webkit-sticky",position:"sticky",top:"10px"}} className ="col-5 card shadow-md p-2">
+							<SimpleMap />
+						</div>
+					</div>
+				</div>
 
 				{/* For entity page for now keep this demo list card and work */}
 
@@ -305,7 +564,11 @@ class ListingPage extends React.Component {
 
 				{!isFilterClicked && dataListingPage && dataListingPage.length !== 0 && (
 					<div className="m-5 d-flex justify-content-center">
-						<Pagination history = {history} search = {search} handlePagination={this.handlePagination} />
+						<Pagination
+							history={history}
+							search={search}
+							handlePagination={this.handlePagination}
+						/>
 					</div>
 				)}
 			</>

@@ -26,7 +26,7 @@ class Navbar extends React.Component {
         <SignUPModal />
         <TravellerLoginModal />
         <OwnerLoginModal />
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary ">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg text-primary font-weight-bold ">
           <Link to="/" class="navbar-brand" href="#">
             <img
               className="img-fluid"
@@ -162,7 +162,7 @@ class Navbar extends React.Component {
                 <li class="nav-item">
                   <button
                     type="button"
-                    class="btn btn-light text-primary"
+                    class="btn btn-light text-primary font-weight-bold"
                     data-toggle="modal"
                     data-target="#signupModal"
                   >
