@@ -1,35 +1,34 @@
 import {
-	ENTITY_DATA_FAILED,
-	ENTITY_DATA_SEND,
-	ENTITY_DATA_SUCCESS,
+	BOOKING_DATA_FAILED,
+	BOOKING_DATA_SEND,
+	BOOKING_DATA_SUCCESS,
 } from "./actionTypes";
 
 const initState = {
 	isSending: false,
 	isSent: false,
 	isError: false,
-	dataEntityPage: [],
-	isBookingDateAvailable:false
+	dataBookingPage: [],
 };
 
-export const entityreducer = (state = initState, action) => {
+export const bookingreducer = (state = initState, action) => {
 	switch (action.type) {
-		case ENTITY_DATA_SEND: {
+		case BOOKING_DATA_SEND: {
 			return {
 				...state,
 				isSending: true,
 			};
 		}
-		case ENTITY_DATA_SUCCESS: {
+		case BOOKING_DATA_SUCCESS: {
 			console.log("action.payload", action.payload.propCount);
 			return {
 				...state,
 				isSent: true,
-				dataEntityPage: [...action.payload],
+				dataBOOKINGPage: [...action.payload],
 				
 			};
 		}
-		case ENTITY_DATA_FAILED: {
+		case BOOKING_DATA_FAILED: {
 			return {
 				...state,
 				isError: true,

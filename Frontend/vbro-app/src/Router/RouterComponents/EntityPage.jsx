@@ -9,6 +9,7 @@ import { getEntityData } from "../../Redux/Entity/action";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import date from "date-and-time";
+import axios from  "axios"
 const queryString = require("query-string");
 
 class EntityPage extends React.Component {
@@ -24,7 +25,9 @@ class EntityPage extends React.Component {
 			startDate: "",
             endDate: "",
             bookingStartDate:"",
-            bookingEndDate:""
+			bookingEndDate:"",
+			isGuestCountZero:"",
+			isBookingDateAvailable:""
            
 
             
@@ -32,6 +35,7 @@ class EntityPage extends React.Component {
 	}
 	componentDidMount() {
 		let { getEntityData } = this.props;
+		let id = this.props.match.params.id
 		let tempParams = this.props.history.location.search.substring(1).split("&");
 		let params = {};
 		tempParams.forEach((param) => {
@@ -79,15 +83,13 @@ class EntityPage extends React.Component {
 			}
 		}
 
-		const url = "";
+		const url = `http://aa77f6adcf8b.ngrok.io/properties/${id}`;
 		getEntityData({
 			url: url,
 			params: params,
 		});
 	}
-
-    handleBooking = () => {};
-    
+  
 	handleSearchBtn = ()=>{
 	    var arrivalDate,destinationDate;
 	    let {startDate,endDate} = this.state
@@ -112,9 +114,56 @@ class EntityPage extends React.Component {
 	    taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
 	    taburl  =  taburl + `&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`
 		this.props.history.push(`/listing?${taburl}`)
-
 	   console.log(this.props.location.search)
 	}
+
+	handleBooking = () => {
+		let {adultsCount,childrenCount} = this.state
+		const values = queryString.parse(this.props.location.search);
+		var arrivalDate,destinationDate; 
+			let {bookingStartDate,bookingEndDate} = this.state
+			if (bookingStartDate._d && bookingEndDate._d) {
+				arrivalDate = date.format(bookingStartDate._d, 'MM/DD/YYYY')
+				destinationDate = date.format(bookingEndDate._d, 'MM/DD/YYYY')
+				console.log(arrivalDate, destinationDate);
+			} else {
+				arrivalDate = bookingStartDate;
+				destinationDate = bookingEndDate;
+			}
+
+		let params = values;
+		const url  = ""
+		axios.get(url,
+			{params:params}
+			)
+
+		if(adultsCount+childrenCount > 0 ){
+			
+			
+			var taburl  = ""
+			params["location"] = this.state.location
+			for(let key in params){
+				if(key!== "arrivalDate"&& key!== "destinationDate"){
+					taburl  =  taburl + key +  "="+ params[key]+ "&"
+				}
+			}
+			let id = this.props.match.params.id
+			taburl =  taburl.split("")
+			taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
+			taburl  =  taburl + `&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`
+			this.props.history.push(`/listing/${id}/checkout?${taburl}`)
+		}
+
+		else{
+			this.setState({
+				isGuestCountZero:true
+			})
+		}
+		
+		
+		
+			   
+	   };
 
 	render() {
 		let { getEntityData } = this.props;
@@ -784,6 +833,8 @@ class EntityPage extends React.Component {
 									<div>
 										{this.state.adultsCount + this.state.childrenCount} guests
 									</div>
+									<br></br>
+						{this.state.isGuestCountZero && <p className = "text-danger">Please Add Guest To Continue Booking</p>}
 								</div>
 								<div style={{ width: "285px" }}>
 									{/* <!-- Button trigger modal --> */}
@@ -926,7 +977,7 @@ class EntityPage extends React.Component {
 								</div>
 							</div>
 							<div>
-								<button
+								<button onClick= {()=>this.handleBooking()}
 									type="button"
 									class="btn btn-primary rounded-pill btn-lg mt-4"
 								>

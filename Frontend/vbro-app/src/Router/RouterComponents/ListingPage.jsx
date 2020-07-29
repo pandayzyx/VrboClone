@@ -116,7 +116,7 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "http://d8476f5307f3.ngrok.io/properties";
+		const url = "http://aa77f6adcf8b.ngrok.io/properties";
 
 		// These line of codes are written to reatin the booking details from the home page
 		for (let key in params) {
@@ -275,7 +275,7 @@ class ListingPage extends React.Component {
 		);
 		const values = queryString.parse(this.props.location.search);
 		let params =  values
-		const url = "http://d8476f5307f3.ngrok.io/properties";
+		const url = "http://aa77f6adcf8b.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
