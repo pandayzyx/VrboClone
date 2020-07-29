@@ -86,7 +86,7 @@ class ListingPage extends React.Component {
     });
     console.log("params after", params);
     const { getListData } = this.props;
-    const url = "http://localhost:7000/properties";
+    const url = "http://3.134.153.158:80/properties";
 
     // These line of codes are written to reatin the booking details from the home page
     for (let key in params) {
@@ -221,7 +221,7 @@ class ListingPage extends React.Component {
 		}
 	});
 	history.push(paramsUrl);
-	getListData({url: `http://localhost:7000/properties${paramsUrl}`});
+	getListData({url: `http://3.134.153.158:80/properties${paramsUrl}`});
   };
 
   hideClearFilterBtn = () => {

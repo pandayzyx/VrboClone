@@ -38,7 +38,7 @@ export const sendRegisterData = (payload) => (dispatch) => {
   console.log("u are in Account availabilty checking");
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://localhost:6002/checkStatus", {
+    .post("http://3.134.153.158:81/checkStatus", {
       ...payload.data,
     })
     .then((res) => dispatch(userDataSent(res)))
@@ -53,7 +53,7 @@ export const registerUser = (payload) => (dispatch) => {
   console.log("u are in registration");
   dispatch(sendUserData(payload.data));
   return axios
-    .post("http://3a1bc5b4a4ce.ngrok.io/register", {
+    .post("http://3.134.153.158:81/register", {
       ...payload.data,
     })
     .then((res) => dispatch(receiveRegisteredData(res)))
