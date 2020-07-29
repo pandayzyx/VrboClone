@@ -46,7 +46,7 @@ class EntityPage extends React.Component {
 				this.setState({
 					adultsCount: Number(params[key]),
 				});
-			} else if (key === "adultsCount") {
+			} else if (key === "childrenCount") {
 				this.setState({
 					childrenCount: Number(params[key]),
 				});
@@ -101,7 +101,8 @@ class EntityPage extends React.Component {
 	    }
 	    const values = queryString.parse(this.props.location.search);
 		let params = values;
-		var taburl  = ""
+        var taburl  = ""
+        params["location"] = this.state.location
 		for(let key in params){
 			if(key!== "arrivalDate"&& key!== "destinationDate"){
 				taburl  =  taburl + key +  "="+ params[key]+ "&"
