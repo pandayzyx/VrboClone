@@ -113,6 +113,7 @@ class BookingPage extends React.Component {
 			<div>
 				<div className="container">
 					<div className="row">
+                        {!isBookingStepOneDone &&
 						<div className ="col-6">
 							<div
 								style={{
@@ -239,7 +240,95 @@ class BookingPage extends React.Component {
 								</button>
 							</div>
 						</div>
-						<div className="col-6 border">
+                         }
+					
+                       {isBookingStepOneDone &&
+                        <div className="col-6">
+							<div
+								style={{
+									fontWeight: "bolder",
+									fontSize: "32px",
+									textAlign: "justify",
+									height: "70px",
+									borderBottom: "1px dashed grey",
+									marginTop: "25px",
+								}}
+							>
+								Review rules & policies
+							</div>
+							<div
+								style={{
+									fontWeight: "bolder",
+									textAlign: "justify",
+									marginTop: "15px",
+								}}
+							>
+								House Rules
+							</div>
+							<div style={{ textAlign: "justify", marginTop: "15px" }}>
+								Check in after: 16:00
+							</div>
+							<div style={{ textAlign: "justify" }}>
+								Check out before: 10:00
+							</div>
+							<ul style={{ textAlign: "justify", marginTop: "20px" }}>
+								{HouseRules.map((item) => (
+									<li style={{ padding: "7px" }}>{item}</li>
+								))}
+							</ul>
+							<hr
+								style={{ borderBottom: "1px dashed grey", marginTop: "30px" }}
+							/>
+							<div
+								style={{
+									fontWeight: "bolder",
+									textAlign: "justify",
+									marginTop: "15px",
+								}}
+							>
+								Policies
+							</div>
+							<div
+								style={{
+									fontWeight: "bolder",
+									textAlign: "justify",
+									marginTop: "20px",
+								}}
+							>
+								<i class="fa fa-file-text mr-3" aria-hidden="true"></i>Manager's
+								Cancellation Policy:
+							</div>
+							<div style={{ textAlign: "justify", marginTop: "20px" }}>
+								<i class="fa fa-home mr-3" aria-hidden="true"></i>
+								<span style={{ fontWeight: "bolder" }}>Damage Policy: </span>You
+								will be responsible for any damage to the rental property caused
+								by you or your party during your stay.
+							</div>
+							<div className="card my-4">
+								<div class="p-3 custom-control custom-checkbox">
+									<input
+										type="checkbox"
+										class="custom-control-input"
+										id="customCheck1"
+									/>
+									<label class="custom-control-label" for="customCheck1">
+										I have read and agree to comply with all rental policies and
+										terms.
+									</label>
+								</div>
+							</div>
+							<div class="d-flex justify-content-end">
+								<button
+									type="button"
+									class="btn btn-lg btn-primary rounded-pill my-3"
+								>
+									Book Now
+								</button>
+							</div>
+						</div>
+    }
+
+                        <div className="col-6 border">
 							<div className="card mt-4 p-2">
 								<div className="d-flex">
 									<div
@@ -373,104 +462,14 @@ class BookingPage extends React.Component {
 							</div>
 							<hr />
 						</div>
-
-                        <div className="col-6">
-							<div
-								style={{
-									fontWeight: "bolder",
-									fontSize: "32px",
-									textAlign: "justify",
-									height: "70px",
-									borderBottom: "1px dashed grey",
-									marginTop: "25px",
-								}}
-							>
-								Review rules & policies
-							</div>
-							<div
-								style={{
-									fontWeight: "bolder",
-									textAlign: "justify",
-									marginTop: "15px",
-								}}
-							>
-								House Rules
-							</div>
-							<div style={{ textAlign: "justify", marginTop: "15px" }}>
-								Check in after: 16:00
-							</div>
-							<div style={{ textAlign: "justify" }}>
-								Check out before: 10:00
-							</div>
-							<ul style={{ textAlign: "justify", marginTop: "20px" }}>
-								{HouseRules.map((item) => (
-									<li style={{ padding: "7px" }}>{item}</li>
-								))}
-							</ul>
-							<hr
-								style={{ borderBottom: "1px dashed grey", marginTop: "30px" }}
-							/>
-							<div
-								style={{
-									fontWeight: "bolder",
-									textAlign: "justify",
-									marginTop: "15px",
-								}}
-							>
-								Policies
-							</div>
-							<div
-								style={{
-									fontWeight: "bolder",
-									textAlign: "justify",
-									marginTop: "20px",
-								}}
-							>
-								<i class="fa fa-file-text mr-3" aria-hidden="true"></i>Manager's
-								Cancellation Policy:
-							</div>
-							<div style={{ textAlign: "justify", marginTop: "20px" }}>
-								<i class="fa fa-home mr-3" aria-hidden="true"></i>
-								<span style={{ fontWeight: "bolder" }}>Damage Policy: </span>You
-								will be responsible for any damage to the rental property caused
-								by you or your party during your stay.
-							</div>
-							<div className="card my-4">
-								<div class="p-3 custom-control custom-checkbox">
-									<input
-										type="checkbox"
-										class="custom-control-input"
-										id="customCheck1"
-									/>
-									<label class="custom-control-label" for="customCheck1">
-										I have read and agree to comply with all rental policies and
-										terms.
-									</label>
-								</div>
-							</div>
-							<div class="d-flex justify-content-end">
-								<button
-									type="button"
-									class="btn btn-lg btn-primary rounded-pill my-3"
-								>
-									Book Now
-								</button>
-							</div>
-						</div>
 					</div>
 				</div>
 
-                {
-                   !isBookingStepOneDone &&
+            
                 
 
-				<div className="container">
-					<div className="row">
-						
-						<div className="col-6"></div>
-					</div>
-				</div>
-    }
+				
+    
 			</div>
 		);
 	}
