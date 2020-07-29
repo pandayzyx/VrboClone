@@ -83,7 +83,7 @@ class EntityPage extends React.Component {
 			}
 		}
 
-		const url = `http://aa77f6adcf8b.ngrok.io/properties/${id}`;
+		const url = `http://3.134.153.158/properties/${id}`;
 		getEntityData({
 			url: url,
 			params: params,

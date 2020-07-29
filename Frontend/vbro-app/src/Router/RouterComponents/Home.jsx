@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import data from "../../data.json";
 import { Link } from "react-router-dom";
 import date from "date-and-time";
+import moment from "moment";
 import styles from "./home.module.css";
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";
@@ -29,6 +30,15 @@ class Home extends React.Component {
 			endDate: "",
 		};
 	}
+	componentDidMount = () => {
+		var darte = new Date().toLocaleDateString();
+		let dating = moment(date.parse(darte, "DD/MM/YYYY"));
+		console.log(dating);
+		this.setState({
+			startDate: dating,
+			endDate: dating,
+		});
+	};
 	handleSearchBtn = () => {
 		var arrivalDate, destinationDate;
 		let {
@@ -93,6 +103,7 @@ class Home extends React.Component {
 									startDateId="your_unique_start_date_id"
 									endDate={this.state.endDate}
 									endDateId="your_unique_end_date_id"
+									customArrowIcon={true}
 									onDatesChange={({ startDate, endDate }) =>
 										this.setState({ startDate, endDate })
 									}
@@ -100,9 +111,10 @@ class Home extends React.Component {
 									onFocusChange={(focusedInput) =>
 										this.setState({ focusedInput })
 									}
+									isDayBlocked = {()=>[this.state.startDate]}
 									startDatePlaceholderText="Arrival"
 									endDatePlaceholderText="Departure"
-								></DateRangePicker>
+								/>
 							</div>
 
 							{/* <div className="col-2 card shadow-lg">Departure</div> */}

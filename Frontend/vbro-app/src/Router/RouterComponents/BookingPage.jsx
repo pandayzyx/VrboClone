@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { getBookingData } from "../../Redux/Booking/action";
 import { postBookingData } from "../../Redux/Booking/action";
 const queryString = require("query-string");
-
+var boolean  = true
 class BookingPage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -80,10 +80,12 @@ class BookingPage extends React.Component {
     };
 
     handleAgreeAndContinueBtn  =()=>{
-
       this.setState({
           isBookingStepOneDone:true
       })
+    }
+    handleBackBtn = ()=>{
+
     }
 
 	render() {
@@ -113,6 +115,8 @@ class BookingPage extends React.Component {
 			<div>
 				<div className="container">
 					<div className="row">
+
+                        {/* Component that contains input form which need to be send for booking */}
                         {!isBookingStepOneDone &&
 						<div className ="col-6">
 							<div
@@ -242,6 +246,7 @@ class BookingPage extends React.Component {
 						</div>
                          }
 					
+                    {/* Component that will contain book now button for final Booking */}
                        {isBookingStepOneDone &&
                         <div className="col-6">
 							<div
@@ -327,7 +332,8 @@ class BookingPage extends React.Component {
 							</div>
 						</div>
     }
-
+                        
+                        {/* Right Side component containing information about Pricing */}
                         <div className="col-6 border">
 							<div className="card mt-4 p-2">
 								<div className="d-flex">
@@ -410,17 +416,20 @@ class BookingPage extends React.Component {
 									{/* Arrival */}
 									<DateRangePicker
 										startDate={this.state.startDate}
-										startDateId="your_unique_start_date_id"
+                                        startDateId="your_unique_start_date_id"
+                                       
 										endDate={this.state.endDate}
 										endDateId="your_unique_end_date_id"
 										onDatesChange={({ startDate, endDate }) =>
 											this.setState({ startDate, endDate })
 										}
 										focusedInput={this.state.focusedInput}
-										onFocusChange={(focusedInput) =>
-											this.setState({ focusedInput })
+										onFocusChange={(focusedInput2) =>
+											this.setState({ focusedInput2 })
 										}
-										startDatePlaceholderText="Arrival"
+                                        startDatePlaceholderText="Arrival"
+                                        readOnly =  {true}
+                                        
 										endDatePlaceholderText="Departure"
 									></DateRangePicker>
 								</div>
