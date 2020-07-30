@@ -311,11 +311,11 @@ class ListingPage extends React.Component {
 		return (
 			<>
 				{/* This component is same as home component which can make the bookings */}
-				<div className="row navbar navbar-expand-lg navbar-light bg-light shadow-sm p-1">
-					<div className="col-3 text-center py-2 mt-2">
+				<div className="row navbar navbar-expand-lg navbar-light p-1" style={{marginTop: '-30px'}}>
+					<div className="col-3 text-center py-2 mt-3">
 						<input
 							style={{ height: "48px" }}
-							className="form-control py-2 ml-4 mt-0"
+							className="form-control shadow-lg py-2 ml-4 mt-0"
 							placeholder="Location"
 							value={location}
 							onChange={(e) => this.setState({ location: e.target.value })}
@@ -340,20 +340,20 @@ class ListingPage extends React.Component {
 					</div>
 
 					{/* <div className="col-2 card shadow-lg">Departure</div> */}
-					<div className="col-2 py-3 ml-3">
-					<button
-									style={{ width: '170px', height: "50px", marginTop: '8px', textAlign: 'justify'}}
-									type="button"
-									class="btn btn-primary btn-block"
-									data-toggle="modal"
-									data-target="#exampleModal"
-									className={`form-control`}
-								>
-									<span style={{padding: '5px'}}><i class="fa fa-user" aria-hidden="true"></i></span> Guest
-									{guestCount !== 0 && (
-										<small style={{padding: '5px'}}>{guestCount} Guests</small>
-									)}
-								</button>
+					<div className="col-2 ml-3">
+						<button
+							style={{ height: "45px" }}
+							type="button"
+							class="btn btn-primary btn-block"
+							data-toggle="modal"
+							data-target="#exampleModal"
+							className={`d-flex justify-content-center shadow-lg form-control mt-4`}
+						>
+							<i class="fa fa-users p-2" aria-hidden="true"></i><span style={{padding: '5px'}}>Guest</span>
+							{guestCount !== 0 && (
+								<div style={{marginLeft: '5px', padding: '5px'}}>{childrenCount + adultsCount} Guests</div>
+							)}
+						</button>
 						<div
 							class="modal fade md-5 mt-5"
 							id="exampleModal"
@@ -488,7 +488,7 @@ class ListingPage extends React.Component {
 				</div>
 				{/* The top component that takes booking ends here */}
 
-				<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm text-primary mt-3 ">
+				<nav class="navbar navbar-expand-lg navbar-light shadow-sm text-primary">
 					<button
 						class="navbar-toggler"
 						type="button"

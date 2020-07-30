@@ -960,23 +960,27 @@ class EntityPage extends React.Component {
 													>
 														Save Changes
 													</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className={styles.grid1} style={{ marginTop: "20px" }}>
-								<div style={{ textAlign: "justify", marginLeft: "20px" }}>
-									<div style={{ fontWeight: "bolder" }}>Total</div>
-									<div className="text-muted">Includes taxes and fees</div>
-								</div>
-								<div style={{ textAlign: "right", marginRight: "20px" }}>
-									<div style={{ fontWeight: "bolder" }}>$ {total}</div>
-									<div style={{ color: "blue" }}>View Details</div>
-								</div>
-							</div>
-							<div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                        <div className={styles.grid1} style={{marginTop: '20px'}}>
+                            <div style={{textAlign: 'justify', marginLeft: '20px'}}>
+                                <div style={{fontWeight: 'bolder'}}>Total</div>
+                                <div className='text-muted'>Includes taxes and fees</div>
+                            </div>
+                            <div style={{textAlign: 'right', marginRight: '20px'}}>
+                                <div style={{fontWeight: 'bolder'}}>$ {total}</div>
+                                <div style={{color: 'blue'}}>View Details</div>
+                            </div>
+                        </div>
+						<div>
 								<button onClick= {()=>this.handleBooking()}
 									type="button"
 									class="btn btn-primary rounded-pill btn-lg mt-4"
@@ -984,23 +988,19 @@ class EntityPage extends React.Component {
 									Book Now
 								</button>
 							</div>
-							<div style={{ marginTop: "20px" }}>
-								<span>
-									<i class="fa fa-repeat" aria-hidden="true"></i>
-								</span>
-								<span style={{ fontWeight: "bolder", marginLeft: "5px" }}>
-									Free Cancellation
-								</span>
-								<span style={{ fontSize: "10px", marginLeft: "5px" }}>
-									until {cancellationUntil}
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
+                        <div>
+                            <button type="button" class="btn btn-primary rounded-pill btn-lg mt-4">Book Now</button>
+                        </div>
+                        <div style={{marginTop: '20px'}}><span><i class="fa fa-repeat" aria-hidden="true"></i></span><span style={{fontWeight: 'bolder', marginLeft: '5px'}}>Free Cancellation</span><span style={{fontSize: '10px', marginLeft: '5px'}}>until {cancellationUntil}</span></div>
+                        
+                    </div>                        
+                </div>                
+            </div>
 			</>
-		);
-	}
+        )
+    }
+
+
 }
 
 const MapStateToProps = (state) => {
