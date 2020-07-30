@@ -91,11 +91,11 @@
 	],
 	"filter":[
 		
-		{"type":"rating","title":"Propery Reviews","options":[1,2,3,4]},
-		{"title":"Property Features","options":["Pool","Kitchen","Air Conditioning"]},
-		{"title":"Neighbourhoods","options":["OceanLakes","Myrtle Beach Resort","Kingston Plantation","Ocean Creek Resort"]},
-		{"type":"category","title":"Property Type","options":["House","Apartment","Villa","Cottage"]},
-		{"title":"Property Location","options":["Oceanfront","Beachfront","Beach","Beach view"]},
-		{"title":"Booking Options","options":["Free Cancellation","Instant Confirmation"]}
+		{"type":"rating","title":"Propery Reviews","options":[1,2,3,4], "queries": [1,2,3,4]},
+		{"type":"propFeatures","title":"Property Features","options":["Pool","Parking","Air Conditioning"], "queries": ["pool","parking", "air_con"]},
+		{"type":"neighbourhoods","title":"Neighbourhoods","options":["OceanLakes","Myrtle Beach Resort","Kingston Plantation","Ocean Creek Resort"], "queries": ["OceanLakes","MyrtleBeachResort", "KingstonPlantation", "OceanCreekResort"]},
+		{"type":"category","title":"Property Type","options":["House","Apartment","Villa","Cottage"], "queries": ["House","Apartment","Villa","Cottage"]},
+		{"type":"locationtype","title":"Property Location","options":["Oceanfront","Beachfront","Beach","Beach view"], "queries": ["Oceanfront","Beachfront","Beach","BeachView"]},
+		{"type":"bookOptions","title":"Booking Options","options":["Free Cancellation","Instant Confirmation"], "queries": ["freeCancellation","instantConfirmation"]}
 	]
 }

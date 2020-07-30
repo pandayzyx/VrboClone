@@ -16,94 +16,64 @@ import SimpleMap from "../../Components/CommonComponents/ReactMap/ReactMap";
 const queryString = require("query-string");
 
 class ListingPage extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			"1 Star": {
-				isChecked: false
-			},
-			"2 Star": {
-				isChecked: false
-			},
-			"3 Star": {
-				isChecked: false
-			},
-			"4 Star": {
-				isChecked: false
-			},
-			Pool: {
-				isChecked: false
-			},
-			Kitchen: {
-				isChecked:false
-			},
-			"Air Conditioning": {
-				isChecked:false
-			},
-			"House": {
-				isChecked:false
-			},
-			"Apartment": {
-				isChecked:false
-			},
-			"Villa": {
-				isChecked:false
-			},
-			"Cottage": {
-				isChecked:false
-			},
-			"Oceanfront": {
-				isChecked:false
-			},
-			"Beachfront": {
-				isChecked:false
-			},
-			"Beach": {
-				isChecked:false
-			},
-			"Beach view": {
-				isChecked:false
-			},
-			"OceanLakes": {
-				isChecked:false
-			},
-			"Myrtle Beach Resort": {
-				isChecked:false
-			},
-			"Kingston Plantation": {
-				isChecked:false
-			},
-			"Ocean Creek Resort": {
-				isChecked:false
-			},
-			"Free Cancellation": {
-				isChecked:false
-			},
-			"Instant Confirmation": {
-				isChecked:false
-			},
-			checkboxBoolean: true,
-			filterArray: [
-				{ type: "rating", values: [] },
-				{ type: "category", values: [] },
-				{ type: "locationtype", values: [] },
-				{ type: "neighbourhoods", values: [] },
-				{ type: "bookOption", values: [] },
-			],
-			filterCounter: 0,
-			isFilterClicked: false,
-			isClearFilterBtn: false,
-			curr_page: 1,
-			query: [],
-			adultsCount: 0,
-			childrenCount: 0,
-			location: "",
-			pets: "",
-			startDate: "",
-			endDate: "",
-			
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      "Propery Reviews": {
+        "1 Star": false,
+        "2 Star": false,
+        "3 Star": false,
+        "4 Star": false,
+      },
+      "Property Features": {
+        Pool: false,
+        Parking: false,
+        "Air Conditioning": false,
+      },
+      Neighbourhoods: {
+        OceanLakes: false,
+        "Myrtle Beach Resort": false,
+        "Kingston Plantation": false,
+        "Ocean Creek Resort": false,
+      },
+      "Property Type": {
+        House: false,
+        Apartment: false,
+        Villa: false,
+        Cottage: false,
+      },
+      "Property Location": {
+        Oceanfront: false,
+        Beachfront: false,
+        Beach: false,
+        "Beach view": false,
+      },
+      "Booking Options": {
+        "Free Cancellation": false,
+        "Instant Confirmation": false,
+      },
+      checkboxBoolean: true,
+      filterArray: [
+        { type: "rating", values: [] },
+        { type: "category", values: [] },
+        { type: "locationtype", values: [] },
+        { type: "neighbourhoods", values: [] },
+        { type: "bookOptions", values: [] },
+        { type: "propFeatures", values: [] },
+      ],
+      filterCounter: 0,
+      isFilterClicked: false,
+      isClearFilterBtn: false,
+      curr_page: 1,
+      query: [],
+      adultsCount: 0,
+      childrenCount: 0,
+      location: "",
+      pets: "",
+      startDate: "",
+      endDate: "",
+    };
+  }
 
 	componentDidMount() {
 		console.log("this.state in mount", this.state);
@@ -118,136 +88,154 @@ class ListingPage extends React.Component {
 		const { getListData } = this.props;
 		const url = "http://3.134.153.158/properties";
 
-		// These line of codes are written to reatin the booking details from the home page
-		for (let key in params) {
-			if (key === "adultsCount") {
-				this.setState({
-					adultsCount: Number(params[key]),
-				});
-			} else if (key === "childrenCount") {
-				this.setState({
-					childrenCount: Number(params[key]),
-				});
-			} else if (key === "pets") {
-				this.setState({
-					pets: params[key],
-				});
-			} else if (key === "location") {
-				this.setState({
-					location: params[key],
-				});
-			} 
-			else if (key === "arrivalDate" && params[key] !== "") {
-				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
-				console.log(dating);
+    // These line of codes are written to reatin the booking details from the home page
+    for (let key in params) {
+      if (key === "adultsCount") {
+        this.setState({
+          adultsCount: Number(params[key]),
+        });
+      } else if (key === "childrenCount") {
+        this.setState({
+          childrenCount: Number(params[key]),
+        });
+      } else if (key === "pets") {
+        this.setState({
+          pets: params[key],
+        });
+      } else if (key === "location") {
+        this.setState({
+          location: params[key],
+        });
+      } else if (key === "arrivalDate" && params[key] !== "") {
+        let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
+        console.log(dating);
 
-				this.setState({
-					startDate: dating,
-				});
-			}
-			else if (key === "destinationDate" && params[key] !== "") {
-				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
-				console.log(dating);
+        this.setState({
+          startDate: dating,
+        });
+      } else if (key === "destinationDate" && params[key] !== "") {
+        let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
+        console.log(dating);
 
-				this.setState({
-					endDate: dating,
-				});
-			}
-		}
-		
-
-		getListData({
-			url: url,
-			params: params,
-		});
+        this.setState({
+          endDate: dating,
+        });
+      }
 	}
+	
+	let tempParam = window.location.href.split('?')[1];
 
-	handleChange = (e) => {
-		let { filterArray } = this.state;
-		let tempArr = filterArray;
-		console.log("target", e.target);
-		this.setState({
-			[e.target.value]: {
-				isChecked: !this.state[e.target.value].isChecked
-			} 
-		})
-		console.log(this.state);
-		// this.props.history.push(url);
-		const values = queryString.parse(this.props.location.search);
-		console.log(e.target.checked);
-		if (e.target.checked) {
-			tempArr.forEach((item) =>
-				item.type === e.target.name ? item.values.push(e.target.id) : null
-			);
-			this.setState({
-				[e.target.name]: e.target.value,
-				filterCounter: this.state.filterCounter + 1,
-				filterArray: tempArr,
-			});
-		} else {
-			tempArr.forEach(
-				(item) =>
-					(item.values =
-						item.type === e.target.name
-							? item.values.filter((item) => item !== e.target.id)
-							: item.values.sort())
-			);
-			this.setState({
-				[e.target.name]: e.target.value,
-				filterCounter:
-					this.state.countercounter <= 0 ? 0 : this.state.filterCounter - 1,
-				filterArray: tempArr,
-			});
-		}
-	};
+    getListData({
+      url: url,
+      params: params,
+    });
+  }
+
+  handleChange = (e) => {
+    let { filterArray } = this.state;
+    let tempArr = filterArray;
+	const parent = e.target.dataset.parent;
+	const target = e.target.value;
+    this.setState((prev) => {
+		console.log(prev);
+      return {
+        [parent]: {
+          ...prev[parent],
+          [target]: !prev[parent][target],
+        },
+      };
+    });
+    console.log(this.state);
+    // this.props.history.push(url);
+    const values = queryString.parse(this.props.location.search);
+    console.log(e.target.checked);
+    if (e.target.checked) {
+      tempArr.forEach((item) =>
+        item.type === e.target.name ? item.values.push(e.target.id) : null
+      );
+      this.setState({
+        [e.target.name]: e.target.value,
+        filterCounter: this.state.filterCounter + 1,
+        filterArray: tempArr,
+      });
+    } else {
+      tempArr.forEach(
+        (item) =>
+          (item.values =
+            item.type === e.target.name
+              ? item.values.filter((item) => item !== e.target.id)
+              : item.values.sort())
+      );
+      this.setState({
+        [e.target.name]: e.target.value,
+        filterCounter:
+          this.state.countercounter <= 0 ? 0 : this.state.filterCounter - 1,
+        filterArray: tempArr,
+      });
+    }
+  };
+  
 	handleChangePet=(e)=>{
 		this.setState({
 			pets:e.target.id
 		})
 	}
 
-	handlePagination = (item) => {
-		// console.log(item);
-		this.setState({
-			curr_page: item,
-		});
-	};
+  handlePagination = (item) => {
+    // console.log(item);
+    this.setState({
+      curr_page: item,
+    });
+  };
 
-	handleFilterBtn = () => {
-		this.setState({
-			isFilterClicked: true,
-		});
-	};
+  handleFilterBtn = () => {
+    this.setState({
+      isFilterClicked: true,
+    });
+  };
 
-	handelCancelBtn = () => {
-		this.setState({
-			isFilterClicked: false,
-			filterCounter: 0,
-		});
-	};
+  handelCancelBtn = () => {
+    this.setState({
+      isFilterClicked: false,
+      filterCounter: 0,
+    });
+  };
 
-	handleSearchBtn = () => {
-		let { filterCounter } = this.state;
-		if (filterCounter !== 0) {
-			this.setState({
-				isClearFilterBtn: true,
-				isFilterClicked: false,
-			});
-		} else if (filterCounter === 0) {
-			this.setState({
-				isFilterClicked: false,
-			});
+  handleSearchBtn = () => {
+	  let {history, getListData} = this.props;
+    let { filterCounter } = this.state;
+    if (filterCounter !== 0) {
+      this.setState({
+        isClearFilterBtn: true,
+        isFilterClicked: false,
+      });
+    } else if (filterCounter === 0) {
+      this.setState({
+        isFilterClicked: false,
+      });
+    }
+	console.log(this.state.filterArray);
+	let prevParams = window.location.href.split('?')[1];
+	let paramsUrl = '?';
+	if (prevParams !== undefined) {
+		paramsUrl = `?${window.location.href.split('?')[1]}`;
+	}
+	this.state.filterArray.forEach(filter => {
+		let tempholder = filter.values.join();
+		if (tempholder.length !== 0) {
+			paramsUrl += `&${filter.type}=${tempholder}`;
 		}
-		console.log(this.state.filterArray);
-		
-	};
+	});
+	history.push(paramsUrl);
+	getListData({url: `http://3.134.153.158:80/properties${paramsUrl}`});
+  };
 
-	hideClearFilterBtn = () => {
-		this.setState({
-			isClearFilterBtn: false,
-			filterCounter: 0,
-		});
-	};
+  hideClearFilterBtn = () => {
+    this.setState({
+      isClearFilterBtn: false,
+      filterCounter: 0,
+    });
+  };
 
 	// This function is for the button  inside guest modal which send query params and makes an apirequest as well
 	handleApplyBtn = () => {
@@ -275,7 +263,7 @@ class ListingPage extends React.Component {
 		);
 		const values = queryString.parse(this.props.location.search);
 		let params =  values
-		const url = "http://aa77f6adcf8b.ngrok.io/properties";
+		const url = "http://3.134.153.158:80/properties";
 		getListData({
 			url: url,
 			params: params,
@@ -501,148 +489,153 @@ class ListingPage extends React.Component {
 						<span class="navbar-toggler-icon"></span>
 					</button>
 
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item active">
-								<Link class="nav-link text-primary" href="#">
-									Trip Boards<span class="sr-only">(current)</span>
-								</Link>
-							</li>
-							<li class="nav-item dropdown">
-								<Link
-									class="nav-link dropdown-toggle text-primary ml-4"
-									to=""
-									id="navbarDropdown"
-									role="button"
-									data-toggle="dropdown"
-									aria-haspopup="true"
-									aria-expanded="false"
-								>
-									Sort by Price
-								</Link>
-								<div
-									class="dropdown-menu mt-2 "
-									aria-labelledby="navbarDropdownMenuLink"
-								>
-									{/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
-									<Link
-										class="dropdown-item text-primary"
-										to="/listing?price=asc"
-									>
-										INC
-									</Link>
-									<div class="dropdown-divider"></div>
-									<Link
-										class="dropdown-item text-primary"
-										to="/listing?price=desc"
-									>
-										Desc
-									</Link>
-								</div>
-							</li>
-							{/* This component is shown when user is loggen in */}
-							<li class="nav-item dropdown">
-								<Link
-									class="nav-link dropdown-toggle text-primary ml-4"
-									id="navbarDropdown"
-									role="button"
-									data-toggle="dropdown"
-									aria-haspopup="true"
-									aria-expanded="false"
-								>
-									Sort by Ratings
-								</Link>
-								<div
-									class="dropdown-menu mt-2 "
-									aria-labelledby="navbarDropdownMenuLink"
-								>
-									{/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <Link class="nav-link text-primary" href="#">
+                  Trip Boards<span class="sr-only">(current)</span>
+                </Link>
+              </li>
+              <li class="nav-item dropdown">
+                <Link
+                  class="nav-link dropdown-toggle text-primary ml-4"
+                  to=""
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Sort by Price
+                </Link>
+                <div
+                  class="dropdown-menu mt-2 "
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
+                  {/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
+                  <Link
+                    class="dropdown-item text-primary"
+                    to="/listing?price=asc"
+                  >
+                    INC
+                  </Link>
+                  <div class="dropdown-divider"></div>
+                  <Link
+                    class="dropdown-item text-primary"
+                    to="/listing?price=desc"
+                  >
+                    Desc
+                  </Link>
+                </div>
+              </li>
+              {/* This component is shown when user is loggen in */}
+              <li class="nav-item dropdown">
+                <Link
+                  class="nav-link dropdown-toggle text-primary ml-4"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Sort by Ratings
+                </Link>
+                <div
+                  class="dropdown-menu mt-2 "
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
+                  {/* <Link class="dropdown-item" text-primary href="#">Traveller Login</Link> */}
 
-									<div class="dropdown-divider"></div>
-									<Link
-										class="dropdown-item text-primary"
-										to="/listing?ratings=asc"
-									>
-										INC
-									</Link>
-									<div class="dropdown-divider"></div>
+                  <div class="dropdown-divider"></div>
+                  <Link
+                    class="dropdown-item text-primary"
+                    to="/listing?ratings=asc"
+                  >
+                    INC
+                  </Link>
+                  <div class="dropdown-divider"></div>
 
-									<Link
-										class="dropdown-item text-primary"
-										to="/listing?ratings=desc"
-									>
-										DESC
-									</Link>
-								</div>
-							</li>
-							{/* This signup button is shown when user is not logged in */}
+                  <Link
+                    class="dropdown-item text-primary"
+                    to="/listing?ratings=desc"
+                  >
+                    DESC
+                  </Link>
+                </div>
+              </li>
+              {/* This signup button is shown when user is not logged in */}
 
-							<button
-								onClick={() => this.handleFilterBtn()}
-								className="btn border border-primary text-primary rounded-pill ml-3"
-							>
-								More Filter({this.state.filterCounter})
-							</button>
-							{isClearFilterBtn && (
-								<button
-									onClick={() => this.hideClearFilterBtn()}
-									className="btn  text-primary rounded-pill ml-3"
-								>
-									Clear Filter
-								</button>
-							)}
-						</ul>
-					</div>
-				</nav>
+              <button
+                onClick={() => this.handleFilterBtn()}
+                className="btn border border-primary text-primary rounded-pill ml-3"
+              >
+                More Filter({this.state.filterCounter})
+              </button>
+              {isClearFilterBtn && (
+                <button
+                  onClick={() => this.hideClearFilterBtn()}
+                  className="btn  text-primary rounded-pill ml-3"
+                >
+                  Clear Filter
+                </button>
+              )}
+            </ul>
+          </div>
+        </nav>
 
-				{/* Filter Component which is visible only when filter Component is clicked */}
-				{isFilterClicked && (
-					<div class="container-fluid card shadow-lg p-3">
-						<div className="row">
-							{filterData.map((mainitem, index) => (
-								<div
-									ke
-									y={mainitem.title + index}
-									className="col-4 mt-3 text-center"
-								>
-									<h4 className="text-center">{mainitem.title}</h4>
-									{mainitem.options.map((item, index) => {
-										let checkName = mainitem.title === "Propery Reviews" ? item + " " + "Star" : item;
-										return <CheckBox
-											key = {item + index}
-											label={checkName}
-											name={mainitem.type}
-											value = {checkName}
-											checked = {this.state[checkName].isChecked}
-											id={item}
-											onchange={this.handleChange}
-										/>
-									}
-									)}
-								</div>
-							))}
-						</div>
-						<div className="row">
-							<div className="col-6 offset-6">
-								<div className="offset-2">
-									<button
-										onClick={() => this.handelCancelBtn()}
-										className="btn btn-primary px-5 rounded-pill offset-1"
-									>
-										Cancel
-									</button>
-									<button
-										onClick={() => this.handleSearchBtn()}
-										className="btn btn-primary px-5 rounded-pill ml-2"
-									>
-										Search
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				)}
-				{/* Activate this code whn data is coming from the back end */}
+        {/* Filter Component which is visible only when filter Component is clicked */}
+        {isFilterClicked && (
+          <div class="container-fluid card shadow-lg p-3">
+            <div className="row">
+              {filterData.map((mainitem, index) => (
+                <div
+                  ke
+                  y={mainitem.title + index}
+                  className="col-4 mt-3 text-center"
+                >
+                  <h4 className="text-center">{mainitem.title}</h4>
+                  {mainitem.options.map((item, index) => {
+                    let checkName =
+                      mainitem.title === "Propery Reviews"
+                        ? item + " " + "Star"
+                        : item;
+                    return (
+                      <CheckBox
+                        key={item + index}
+                        label={checkName}
+                        name={mainitem.type}
+                        value={checkName}
+                        parent={mainitem.title}
+                        checked={this.state[mainitem.title][checkName]}
+                        id={mainitem.queries[index]}
+                        onchange={this.handleChange}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+            <div className="row">
+              <div className="col-6 offset-6">
+                <div className="offset-2">
+                  <button
+                    onClick={() => this.handelCancelBtn()}
+                    className="btn btn-primary px-5 rounded-pill offset-1"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => this.handleSearchBtn()}
+                    className="btn btn-primary px-5 rounded-pill ml-2"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Activate this code whn data is coming from the back end */}
 
 				<div className="container-fluid">
 					{dataListingPage.length === 0 && (
@@ -685,32 +678,32 @@ class ListingPage extends React.Component {
 					</div>
 				</div>
 
-				{/* For entity page for now keep this demo list card and work */}
+        {/* For entity page for now keep this demo list card and work */}
 
-				{/* <ListingCard /> */}
+        {/* <ListingCard /> */}
 
-				{!isFilterClicked && dataListingPage && dataListingPage.length !== 0 && (
-					<div className="m-5 d-flex justify-content-center">
-						<Pagination
-							history={history}
-							search={search}
-							handlePagination={this.handlePagination}
-						/>
-					</div>
-				)}
-			</>
-		);
-	}
+        {!isFilterClicked && dataListingPage && dataListingPage.length !== 0 && (
+          <div className="m-5 d-flex justify-content-center">
+            <Pagination
+              history={history}
+              search={search}
+              handlePagination={this.handlePagination}
+            />
+          </div>
+        )}
+      </>
+    );
+  }
 }
 
 const MapStateToProps = (state) => {
-	return {
-		dataListingPage: state.list.dataListingPage,
-	};
+  return {
+    dataListingPage: state.list.dataListingPage,
+  };
 };
 const MapDisaptchToProps = (dispatch) => {
-	return {
-		getListData: (payload) => dispatch(getListData(payload)),
-	};
+  return {
+    getListData: (payload) => dispatch(getListData(payload)),
+  };
 };
 export default connect(MapStateToProps, MapDisaptchToProps)(ListingPage);
