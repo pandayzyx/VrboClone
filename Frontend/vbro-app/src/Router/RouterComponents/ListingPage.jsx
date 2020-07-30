@@ -105,7 +105,7 @@ class ListingPage extends React.Component {
         });
       } else if (key === "location") {
         this.setState({
-          location: params[key],
+          location: params[key].split("%20").join(""),
         });
       } else if (key === "arrivalDate" && params[key] !== "") {
         let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
@@ -303,7 +303,7 @@ class ListingPage extends React.Component {
 				<div className="row navbar navbar-expand-lg navbar-light p-1" style={{marginTop: '-30px'}}>
 					<div className="col-3 text-center py-2 mt-3">
           <Autocomplete
-								  className = "form-control"
+								  className = "form-control ml-5 py-2"
 								  value = {this.state.location}
 								  onChange = {(e)=>this.setState({location:e.target.value})}
 									style={{ width: "100%%",height:"47px"}}
@@ -315,7 +315,7 @@ class ListingPage extends React.Component {
 									componentRestrictions={{ country: "in" }}
 								/>
 					</div>
-					<div className="col-4 ml-3 mt-2">
+					<div className="col-4 ml-3 mt-3">
 						{/* Arrival */}
 						<DateRangePicker
 							startDate={this.state.startDate}
@@ -334,20 +334,31 @@ class ListingPage extends React.Component {
 					</div>
 
 					{/* <div className="col-2 card shadow-lg">Departure</div> */}
-					<div className="col-2 ml-3">
-						<button
-							style={{ height: "45px" }}
-							type="button"
-							class="btn btn-primary btn-block"
-							data-toggle="modal"
-							data-target="#exampleModal"
-							className={`d-flex justify-content-center shadow-lg form-control mt-4`}
-						>
-							<i class="fa fa-users p-2" aria-hidden="true"></i><span style={{padding: '5px'}}>Guest</span>
-							{guestCount !== 0 && (
-								<div style={{marginLeft: '5px', padding: '5px'}}>{childrenCount + adultsCount} Guests</div>
-							)}
-						</button>
+					<div className="col-2 ml-3 mt-2">
+					<button
+									style={{
+										width: "170px",
+										height: "50px",
+										marginTop: "8px",
+										textAlign: "justify",
+										borderRadius: "20px",
+									}}
+									type="button"
+									class="btn btn-primary btn-block"
+									data-toggle="modal"
+									data-target="#exampleModal"
+									className={`form-control`}
+								>
+									<span style={{ padding: "5px" }}>
+										<i class="fa fa-users" aria-hidden="true"></i>
+									</span>{" "}
+									Guest
+									{guestCount !== 0 && (
+										<small style={{ padding: "5px" }}>
+											{childrenCount + adultsCount} Guests
+										</small>
+									)}
+								</button>
 						<div
 							class="modal fade md-5 mt-5"
 							id="exampleModal"

@@ -9,8 +9,9 @@ import { getEntityData } from "../../Redux/Entity/action";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import date from "date-and-time";
-import axios from  "axios"
+import axios from "axios";
 import Autocomplete from "react-google-autocomplete";
+import SimpleMap from "../../Components/CommonComponents/ReactMap/EntityMap";
 const queryString = require("query-string");
 
 class EntityPage extends React.Component {
@@ -24,19 +25,16 @@ class EntityPage extends React.Component {
 			location: "",
 			pets: "",
 			startDate: "",
-            endDate: "",
-            bookingStartDate:"",
-			bookingEndDate:"",
-			isGuestCountZero:"",
-			isBookingDateAvailable:""
-           
-
-            
+			endDate: "",
+			bookingStartDate: "",
+			bookingEndDate: "",
+			isGuestCountZero: "",
+			isBookingDateAvailable: "",
 		};
 	}
 	componentDidMount() {
 		let { getEntityData } = this.props;
-		let id = this.props.match.params.id
+		let id = this.props.match.params.id;
 		let tempParams = this.props.history.location.search.substring(1).split("&");
 		let params = {};
 		tempParams.forEach((param) => {
@@ -61,25 +59,23 @@ class EntityPage extends React.Component {
 				});
 			} else if (key === "location") {
 				this.setState({
-					location: params[key],
+					location: params[key].split("%20").join(""),
 				});
 			} else if (key === "arrivalDate" && params[key] !== "") {
 				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
 				console.log(dating);
 
 				this.setState({
-                    startDate: dating,
-                    bookingStartDate:dating
-                   
+					startDate: dating,
+					bookingStartDate: dating,
 				});
 			} else if (key === "destinationDate" && params[key] !== "") {
 				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
 				console.log(dating);
 
 				this.setState({
-                    endDate: dating,
-                    bookingEndDate:dating
-                   
+					endDate: dating,
+					bookingEndDate: dating,
 				});
 			}
 		}
@@ -90,81 +86,82 @@ class EntityPage extends React.Component {
 			params: params,
 		});
 	}
-  
-	handleSearchBtn = ()=>{
-	    var arrivalDate,destinationDate;
-	    let {startDate,endDate} = this.state
-	    if (startDate._d && endDate._d) {
-			arrivalDate = date.format(startDate._d, 'MM/DD/YYYY')
-			destinationDate = date.format(endDate._d, 'MM/DD/YYYY')
+
+	handleSearchBtn = () => {
+		var arrivalDate, destinationDate;
+		let { startDate, endDate } = this.state;
+		if (startDate._d && endDate._d) {
+			arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
+			destinationDate = date.format(endDate._d, "MM/DD/YYYY");
 			console.log(arrivalDate, destinationDate);
 		} else {
 			arrivalDate = startDate;
 			destinationDate = endDate;
-	    }
-	    const values = queryString.parse(this.props.location.search);
+		}
+		const values = queryString.parse(this.props.location.search);
 		let params = values;
-        var taburl  = ""
-        params["location"] = this.state.location
-		for(let key in params){
-			if(key!== "arrivalDate"&& key!== "destinationDate"){
-				taburl  =  taburl + key +  "="+ params[key]+ "&"
+		var taburl = "";
+		params["location"] = this.state.location;
+		for (let key in params) {
+			if (key !== "arrivalDate" && key !== "destinationDate") {
+				taburl = taburl + key + "=" + params[key] + "&";
 			}
 		}
-		taburl =  taburl.split("")
-	    taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
-	    taburl  =  taburl + `&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`
-		this.props.history.push(`/listing?${taburl}`)
-	   console.log(this.props.location.search)
-	}
+		taburl = taburl.split("");
+		taburl = taburl.filter((item, index) => index < taburl.length - 1).join("");
+		taburl =
+			taburl + `&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`;
+		this.props.history.push(`/listing?${taburl}`);
+		console.log(this.props.location.search);
+	};
 
 	handleBooking = () => {
-		let {adultsCount,childrenCount} = this.state
+		let { adultsCount, childrenCount } = this.state;
 		const values = queryString.parse(this.props.location.search);
-		var arrivalDate,destinationDate; 
-			let {bookingStartDate,bookingEndDate} = this.state
-			if (bookingStartDate._d && bookingEndDate._d) {
-				arrivalDate = date.format(bookingStartDate._d, 'MM/DD/YYYY')
-				destinationDate = date.format(bookingEndDate._d, 'MM/DD/YYYY')
-				console.log(arrivalDate, destinationDate);
-			} else {
-				arrivalDate = bookingStartDate;
-				destinationDate = bookingEndDate;
-			}
+		var arrivalDate, destinationDate;
+		let { bookingStartDate, bookingEndDate } = this.state;
+		if (bookingStartDate._d && bookingEndDate._d) {
+			arrivalDate = date.format(bookingStartDate._d, "MM/DD/YYYY");
+			destinationDate = date.format(bookingEndDate._d, "MM/DD/YYYY");
+			console.log(arrivalDate, destinationDate);
+		} else {
+			arrivalDate = bookingStartDate;
+			destinationDate = bookingEndDate;
+		}
 
 		let params = values;
-		const url  = ""
-		axios.get(url,
-			{params:params}
-			)
+		const url = "";
+		axios.get(url, { params: params });
 
-		if(adultsCount+childrenCount > 0 ){
-			
-			
-			var taburl  = ""
-			params["location"] = this.state.location
-			for(let key in params){
-				if(key!== "arrivalDate"&& key!== "destinationDate"){
-					taburl  =  taburl + key +  "="+ params[key]+ "&"
+		if (adultsCount + childrenCount > 0) {
+			var taburl = "";
+			params["location"] = this.state.location;
+			for (let key in params) {
+				if (
+					key !== "arrivalDate" &&
+					key !== "destinationDate" &&
+					key !== "childrenCount" &&
+					key !== "adultsCount"
+				) {
+					taburl = taburl + key + "=" + params[key] + "&";
 				}
 			}
-			let id = this.props.match.params.id
-			taburl =  taburl.split("")
-			taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
-			taburl  =  taburl + `&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`
-			this.props.history.push(`/listing/${id}/checkout?${taburl}`)
-		}
+			let id = this.props.match.params.id;
+			taburl = taburl.split("");
+			taburl = taburl
+				.filter((item, index) => index < taburl.length - 1)
+				.join("");
 
-		else{
+			taburl =
+				taburl +
+				`&adultsCount=${adultsCount}&childrenCount=${childrenCount}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`;
+			this.props.history.push(`/listing/${id}/checkout?${taburl}`);
+		} else {
 			this.setState({
-				isGuestCountZero:true
-			})
+				isGuestCountZero: true,
+			});
 		}
-		
-		
-		
-			   
-	   };
+	};
 
 	render() {
 		let { getEntityData } = this.props;
@@ -321,20 +318,24 @@ class EntityPage extends React.Component {
 
 		return (
 			<>
-				<div className="row navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3">
-					<div className="col-3 text-center py-2 mt-3">
-					<Autocomplete
-								  className = "form-control"
-								  value = {this.state.location}
-								  onChange = {(e)=>this.setState({location:e.target.value})}
-									style={{ width: "100%%",height:"47px"}}
-									onPlaceSelected={(place) => {
-										console.log(place);
-										this.setState({location:place.formatted_address})
-									}}
-									types={["(regions)"]}
-									componentRestrictions={{ country: "in" }}
-								/>
+				<div
+					className="row navbar navbar-expand-lg navbar-light p-1"
+					style={{ marginTop: "-30px" }}
+				>
+					<div className="col-3 text-center py-2 mt-4">
+						<Autocomplete
+							className="form-control ml-5 py-2"
+							value={this.state.location}
+							onChange={(e) => this.setState({ location: e.target.value })}
+							style={{ width: "100%%", height: "47px" }}
+							onPlaceSelected={(place) => {
+								console.log(place);
+								this.setState({ location: place.formatted_address });
+							}}
+							types={["(regions)"]}
+							placeholder="Search"
+							componentRestrictions={{ country: "in" }}
+						/>
 					</div>
 					<div className="col-4 ml-3 mt-4">
 						{/* Arrival */}
@@ -350,11 +351,12 @@ class EntityPage extends React.Component {
 							onFocusChange={(focusedInput) => this.setState({ focusedInput })}
 							startDatePlaceholderText="Check In"
 							endDatePlaceholderText="Check Out"
-							startDateAriaLabel = "Check In"
+							startDateAriaLabel="Check In"
 						></DateRangePicker>
-							
 					</div>
-					<div className="col-2 mt-3">
+
+					{/* <div className="col-2 card shadow-lg">Departure</div> */}
+					<div className="col-2 mt-4">
 						<button
 							onClick={() => this.handleSearchBtn()}
 							style={{ borderRadius: "40px" }}
@@ -363,8 +365,6 @@ class EntityPage extends React.Component {
 							Search
 						</button>
 					</div>
-
-					{/* <div className="col-2 card shadow-lg">Departure</div> */}
 				</div>
 
 				<br></br>
@@ -373,13 +373,14 @@ class EntityPage extends React.Component {
 						<div>
 							<div
 								id="carouselExampleInterval"
-								class="carousel slide"
-								style={{ width: "550px", marginLeft: "200px" }}
+								class="carousel slide container"
+								style={{ width: "100%" }}
 								data-ride="carousel"
 							>
 								<div class="carousel-inner">
 									<div class="carousel-item active" data-interval="5000">
 										<img
+											style={{ width: "100%" }}
 											src="https://odis.homeaway.com/odis/listing/9b6c8562-3a45-411b-9052-c956dfccca3d.f10.jpg"
 											class="d-block w-100"
 											alt="..."
@@ -466,41 +467,49 @@ class EntityPage extends React.Component {
 											</li>
 										</ul>
 									</div>
-									<div class="card-body">
-										<h5 id="overview" class="card-title text-justify">
-											{PropertyTitle}
-										</h5>
-										{/* <p class="card-text"></p> */}
-										<div style={{ textAlign: "justify" }}>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-home" aria-hidden="true"></i>
-												</span>
-												{PropertyType[2]}
-											</div>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-users" aria-hidden="true"></i>
-												</span>
-												sleeps: {this.state.adult + this.state.child}
-											</div>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-bed" aria-hidden="true"></i>
-												</span>
-												Bedrooms: {bedroom}
-											</div>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-bath" aria-hidden="true"></i>
-												</span>
-												Bathrooms: {bathroom}
-											</div>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-moon" aria-hidden="true"></i>
-												</span>
-												Min Stay: {nights} night
+									<div class="card-body mt-0">
+										<div
+											style={{ height: "180px", width: "500px" }}
+											className="float-right overflow-hidden mt-0"
+										>
+											<SimpleMap /> here is the map
+										</div>
+										<div>
+											<h5 id="overview" class="card-title text-justify">
+												{PropertyTitle}
+											</h5>
+											{/* <p class="card-text"></p> */}
+											<div style={{ textAlign: "justify" }}>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-home" aria-hidden="true"></i>
+													</span>
+													{PropertyType[2]}
+												</div>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-users" aria-hidden="true"></i>
+													</span>
+													sleeps: {this.state.adult + this.state.child}
+												</div>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-bed" aria-hidden="true"></i>
+													</span>
+													Bedrooms: {bedroom}
+												</div>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-bath" aria-hidden="true"></i>
+													</span>
+													Bathrooms: {bathroom}
+												</div>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-moon" aria-hidden="true"></i>
+													</span>
+													Min Stay: {nights} night
+												</div>
 											</div>
 										</div>
 										<hr />
@@ -817,21 +826,25 @@ class EntityPage extends React.Component {
 							>
 								<div>
 									{/* Arrival */}
-                                    <DateRangePicker
-							startDate ={this.state.bookingStartDate}
-							startDateId="your_unique_start_date_id"
-							endDate = {this.state.bookingEndDate}
-							endDateId="your_unique_end_date_id"
-							onDatesChange={({ startDate,endDate }) =>
-								this.setState({ bookingStartDate:startDate, bookingEndDate:endDate})
-							}
-							focusedInput={this.state.focusedInput2}
-							onFocusChange={(focusedInput2) => this.setState({ focusedInput2})}
-							startDatePlaceholderText="Check In"
-							endDatePlaceholderText="Check Out"
-							startDateAriaLabel = "Check In"
-						></DateRangePicker>
-									
+									<DateRangePicker
+										startDate={this.state.bookingStartDate}
+										startDateId="your_unique_start_date_id"
+										endDate={this.state.bookingEndDate}
+										endDateId="your_unique_end_date_id"
+										onDatesChange={({ startDate, endDate }) =>
+											this.setState({
+												bookingStartDate: startDate,
+												bookingEndDate: endDate,
+											})
+										}
+										focusedInput={this.state.focusedInput2}
+										onFocusChange={(focusedInput2) =>
+											this.setState({ focusedInput2 })
+										}
+										startDatePlaceholderText="Check In"
+										endDatePlaceholderText="Check Out"
+										startDateAriaLabel="Check In"
+									></DateRangePicker>
 								</div>
 
 								<div className="border" style={{ width: "285px" }}>
@@ -840,7 +853,11 @@ class EntityPage extends React.Component {
 										{this.state.adultsCount + this.state.childrenCount} guests
 									</div>
 									<br></br>
-						{this.state.isGuestCountZero && <p className = "text-danger">Please Add Guest To Continue Booking</p>}
+									{this.state.isGuestCountZero && (
+										<p className="text-danger">
+											Please Add Guest To Continue Booking
+										</p>
+									)}
 								</div>
 								<div style={{ width: "285px" }}>
 									{/* <!-- Button trigger modal --> */}
@@ -966,43 +983,49 @@ class EntityPage extends React.Component {
 													>
 														Save Changes
 													</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                     
-                                    </div>
-                                  </div>
-                        <div className={styles.grid1} style={{marginTop: '20px'}}>
-                            <div style={{textAlign: 'justify', marginLeft: '20px'}}>
-                                <div style={{fontWeight: 'bolder'}}>Total</div>
-                                <div className='text-muted'>Includes taxes and fees</div>
-                            </div>
-                            <div style={{textAlign: 'right', marginRight: '20px'}}>
-                                <div style={{fontWeight: 'bolder'}}>$ {total}</div>
-                                <div style={{color: 'blue'}}>View Details</div>
-                            </div>
-                        </div>
-						<div>
-								<button onClick= {()=>this.handleBooking()}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className={styles.grid1} style={{ marginTop: "20px" }}>
+								<div style={{ textAlign: "justify", marginLeft: "20px" }}>
+									<div style={{ fontWeight: "bolder" }}>Total</div>
+									<div className="text-muted">Includes taxes and fees</div>
+								</div>
+								<div style={{ textAlign: "right", marginRight: "20px" }}>
+									<div style={{ fontWeight: "bolder" }}>$ {total}</div>
+									<div style={{ color: "blue" }}>View Details</div>
+								</div>
+							</div>
+							<div>
+								<button
+									onClick={() => this.handleBooking()}
 									type="button"
 									class="btn btn-primary rounded-pill btn-lg mt-4"
 								>
 									Book Now
 								</button>
 							</div>
-                        <div>
-                        </div>
-                        <div style={{marginTop: '20px'}}><span><i class="fa fa-repeat" aria-hidden="true"></i></span><span style={{fontWeight: 'bolder', marginLeft: '5px'}}>Free Cancellation</span><span style={{fontSize: '10px', marginLeft: '5px'}}>until {cancellationUntil}</span></div>
-                        
-                    </div>                        
-                </div>                
-            </div>
+							<div></div>
+							<div style={{ marginTop: "20px" }}>
+								<span>
+									<i class="fa fa-repeat" aria-hidden="true"></i>
+								</span>
+								<span style={{ fontWeight: "bolder", marginLeft: "5px" }}>
+									Free Cancellation
+								</span>
+								<span style={{ fontSize: "10px", marginLeft: "5px" }}>
+									until {cancellationUntil}
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
 			</>
-        )
-    }
-
-
+		);
+	}
 }
 
 const MapStateToProps = (state) => {

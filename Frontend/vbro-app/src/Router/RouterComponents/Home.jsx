@@ -104,7 +104,7 @@ class Home extends React.Component {
 						style={{ marginLeft: "120px", borderRadius: "20px" }}
 						className="col-10 card border shadow-md  border-rounded"
 					>
-						<div className="row p-3">
+						<div className="row p-2">
 							<div className="col-3 text-center py-2 mt-3">
 								<Autocomplete
 								  className = "form-control"
@@ -116,15 +116,10 @@ class Home extends React.Component {
 										this.setState({location:place.formatted_address})
 									}}
 									types={["(regions)"]}
+									placeholder  = "Search "
 									componentRestrictions={{ country: "in" }}
 								/>
-								{/* <input
-									style={{ height: "48px", borderRadius: '20px'}}
-									className="form-control py-3"
-									placeholder="Location"
-									value={this.state.location}
-									onChange={(e) => this.setState({ location: e.target.value })}
-								/> */}
+								
 							</div>
 							<div className="col-4 ml-3 mt-4">
 								{/* Arrival */}
@@ -158,7 +153,7 @@ class Home extends React.Component {
 										borderRadius: "20px",
 									}}
 									type="button"
-									class="btn btn-primary btn-block"
+									class="btn btn-primary btn-block mr-3"
 									data-toggle="modal"
 									data-target="#exampleModal"
 									className={`form-control`}
@@ -298,9 +293,10 @@ class Home extends React.Component {
 							<div className="col-2 mt-3">
 								<button
 									onClick={() => this.handleSearchBtn()}
-									style={{ borderRadius: "20px", padding: "12px" }}
-									class="btn btn-primary bg bg-primary text-white btn-block ml-4 mt-2"
+									style={{ borderRadius: "80px", padding: "18px" }}
+									class="btn btn-primary bg bg-primary text-white btn-block px-4 ml-4 mt-1"
 								>
+									<i class="fa fa-search" aria-hidden="true"></i>
 									Search
 								</button>
 							</div>
