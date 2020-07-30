@@ -360,5 +360,7 @@ class EntityPage extends React.Component{
             </div>
         )
     }
+
+
 }
 export default EntityPage

@@ -173,10 +173,9 @@ class Footer extends React.Component {
 									>
 										{/* <option selected>Open this select menu</option> */}
 										<option value="1" selected>
-											One
+											+1
 										</option>
-										<option value="2">Two</option>
-										<option value="3">Three</option>
+										<option value="2">+91</option>
 									</select>
 									<input
 										style={{ height: "50px" }}

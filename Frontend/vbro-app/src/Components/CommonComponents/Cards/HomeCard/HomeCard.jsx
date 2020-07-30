@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styles from './HomeCard2.module.css'
 
 function HomeCard(props) {
 	var { title, address } = props;
 	return (
 		<>
-			<div class="card" style={{ width: "18rem;" }}>
+			<div class={styles.zoom} style={{ width: "18rem;" }}>
 				<Link>
 					<img
 						style={{ height: "200px" }}

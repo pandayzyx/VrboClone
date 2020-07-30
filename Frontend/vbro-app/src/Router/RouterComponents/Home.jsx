@@ -69,18 +69,18 @@ class Home extends React.Component {
 				<div className={`${styles.img} col-12`}>
 					<h2
 						style={{ marginLeft: "120px", marginTop: "100px" }}
-						className="font-weight-bold text-white float-left"
+						className="font-weight-bold text-white float-left text-justify"
 					>
-						Beach House Condo? Cabin?<br></br>Find the perfect vaccation rental
+						Beach House Condo? Cabin?<br></br>Find the perfect vacation rental
 					</h2>
 					<div
-						style={{ marginLeft: "120px" }}
+						style={{ marginLeft: "120px", borderRadius: '20px'}}
 						className="col-10 card border shadow-md  border-rounded"
 					>
 						<div className="row p-3">
 							<div className="col-3 text-center py-2 mt-3">
 								<input
-									style={{ height: "48px" }}
+									style={{ height: "48px", borderRadius: '20px'}}
 									className="form-control py-3"
 									placeholder="Location"
 									value={this.state.location}
@@ -109,14 +109,14 @@ class Home extends React.Component {
 							{/* <div className="col-2 card shadow-lg">Departure</div> */}
 							<div className="col-2 py-3 ml-3">
 								<button
-									style={{ width: '170px', height: "50px", marginTop: '8px', textAlign: 'justify'}}
+									style={{ width: '170px', height: "50px", marginTop: '8px', textAlign: 'justify', borderRadius: '20px'}}
 									type="button"
 									class="btn btn-primary btn-block"
 									data-toggle="modal"
 									data-target="#exampleModal"
 									className={`form-control`}
 								>
-									<span style={{padding: '5px'}}><i class="fa fa-user" aria-hidden="true"></i></span> Guest
+									<span style={{padding: '5px'}}><i class="fa fa-users" aria-hidden="true"></i></span> Guest
 									{guestCount !== 0 && (
 										<small style={{padding: '5px'}}>{childrenCount + adultsCount} Guests</small>
 									)}
@@ -235,8 +235,8 @@ class Home extends React.Component {
 							<div className="col-2 mt-3">
 								<button
 									onClick={() => this.handleSearchBtn()}
-									style={{ borderRadius: "40px" }}
-									class="btn btn-primary bg bg-primary text-white btn-block p-3 ml-4 py-2"
+									style={{ borderRadius: "20px", padding: '12px'}}
+									class="btn btn-primary bg bg-primary text-white btn-block ml-4 mt-2"
 								>
 									Search
 								</button>
@@ -272,7 +272,7 @@ class Home extends React.Component {
 						breakPoints={breakPoints}
 					>
 						{data.crousel2.map((item) => (
-							<div key={uuidv4()} className="p-1">
+							<div key={uuidv4()} className="p-1 text-justify">
 								<HomeCard2
 									text={item.text}
 									address={item.address}
