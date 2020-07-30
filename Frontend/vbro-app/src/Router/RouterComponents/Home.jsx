@@ -99,6 +99,7 @@ class Home extends React.Component {
 							<div className="col-4 ml-3 mt-4">
 								{/* Arrival */}
 								<DateRangePicker
+								   	isDayBlocked = {this.isDayBlocked}
 									startDate={this.state.startDate}
 									startDateId="your_unique_start_date_id"
 									endDate={this.state.endDate}
@@ -111,7 +112,7 @@ class Home extends React.Component {
 									onFocusChange={(focusedInput) =>
 										this.setState({ focusedInput })
 									}
-									isDayBlocked = {()=>[this.state.startDate]}
+
 									startDatePlaceholderText="Arrival"
 									endDatePlaceholderText="Departure"
 								/>
