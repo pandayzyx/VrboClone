@@ -7,6 +7,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { getBookingData } from "../../Redux/Booking/action";
 import { postBookingData } from "../../Redux/Booking/action";
+import axios from "axios"
 const queryString = require("query-string");
 var boolean  = true
 class BookingPage extends React.Component {
@@ -14,6 +15,9 @@ class BookingPage extends React.Component {
 		super(props);
 		this.state = {
 			firstName: "",
+			lastName:"",
+			mobileNo:"",
+			email:"",
 			params: "",
 			adultsCount: 0,
 			childrenCount: 0,
@@ -74,11 +78,60 @@ class BookingPage extends React.Component {
 			params: params,
 		});
 	}
+	handleChange = (e)=>{
+		this.setState({
+			[e.target.name] :e.target.value
+		})
+	}
 
-    handleBookNow = () => {
+	handleBooking = async () => {
+        let { data } = this.props
+        let order_res = await axios.post("http://c37912d3135d.ngrok.io/razorPay/pay", {
+            "amount": 1000,
+            "currency": "INR",
+            "receipt": 32 + "#" + "Gaurav",
+            "payment_capture": "1"
+        })
+        const options = {
+            "key": "rzp_test_TIeeqbck6yEzcU",      // Enter the Key ID generated from the Dashboard
+            "amount": "9000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Book Trip",
+            "description": "Transaction",
+            "image": "/logo.svg",
+            "order_id": order_res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            handler: async function (response) {
+                // alert(response.razorpay_payment_id);
+                // alert(response.razorpay_order_id);
+                // alert(response.razorpay_signature)
+                console.log(response)
+                let final_res = await axios.post("http://c37912d3135d.ngrok.io/razorPay/verify", {
+                    ...response
+                })
+                if (final_res.data.isRazorPaySuccess === true) {
+                    alert(final_res.data.message)
+                    // this.props.history.push('/')
+                } else {
+                    alert(final_res.data.message)
+                }
+            },
+            "prefill": {
+                "name": "Gaurav",
+                "email": "gauravx.gp@gmail.com",
+                "contact": "9707214633"
+            },
+            // "notes": {
+            //     "address": ""
+            // },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+        const paymentObject = new window.Razorpay(options)
+		paymentObject.open()
 
-    };
-
+	}
+		
     handleAgreeAndContinueBtn  =()=>{
       this.setState({
           isBookingStepOneDone:true
@@ -160,6 +213,9 @@ class BookingPage extends React.Component {
 									<div class="col">
 										<input
 											type="text"
+											name = "firstName"
+											value  = {this.state.firstName}
+											onChange  = {(e)=>this.handleChange(e)}
 											style={{ height: "50px" }}
 											class="form-control"
 											placeholder="First name"
@@ -168,6 +224,10 @@ class BookingPage extends React.Component {
 									<div class="col">
 										<input
 											type="text"
+											name = "lastName"
+											value  = {this.state.lastName}
+											onChange  = {(e)=>this.handleChange(e)}
+
 											style={{ height: "50px" }}
 											class="form-control"
 											placeholder="Last name"
@@ -178,6 +238,9 @@ class BookingPage extends React.Component {
 									<div class="col-6">
 										<input
 											type="text"
+											name = "email"
+											value  = {this.state.email}
+											onChange  = {(e)=>this.handleChange(e)}
 											style={{ height: "50px" }}
 											class="form-control"
 											placeholder="Email"
@@ -185,7 +248,10 @@ class BookingPage extends React.Component {
 									</div>
 									<div class="col-2">
 										<input
-											type="text"
+											type="number"
+											name = "mobileNo"
+											value  = {this.state.mobileNo}
+											onChange  = {(e)=>this.handleChange(e)}
 											style={{ height: "50px" }}
 											class="form-control"
 											placeholder="+91"
@@ -325,6 +391,7 @@ class BookingPage extends React.Component {
 							<div class="d-flex justify-content-end">
 								<button
 									type="button"
+									onClick =  {()=>this.handleBooking()}
 									class="btn btn-lg btn-primary rounded-pill my-3"
 								>
 									Book Now

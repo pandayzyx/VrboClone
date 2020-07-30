@@ -10,6 +10,7 @@ import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import date from "date-and-time";
 import axios from  "axios"
+import Autocomplete from "react-google-autocomplete";
 const queryString = require("query-string");
 
 class EntityPage extends React.Component {
@@ -322,13 +323,18 @@ class EntityPage extends React.Component {
 			<>
 				<div className="row navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3">
 					<div className="col-3 text-center py-2 mt-3">
-						<input
-							style={{ height: "48px" }}
-							className="form-control py-2 ml-4 mt-0"
-							placeholder="Location"
-							value={location}
-							onChange={(e) => this.setState({ location: e.target.value })}
-						/>
+					<Autocomplete
+								  className = "form-control"
+								  value = {this.state.location}
+								  onChange = {(e)=>this.setState({location:e.target.value})}
+									style={{ width: "100%%",height:"47px"}}
+									onPlaceSelected={(place) => {
+										console.log(place);
+										this.setState({location:place.formatted_address})
+									}}
+									types={["(regions)"]}
+									componentRestrictions={{ country: "in" }}
+								/>
 					</div>
 					<div className="col-4 ml-3 mt-4">
 						{/* Arrival */}
@@ -964,10 +970,7 @@ class EntityPage extends React.Component {
                                             </div>
                                         </div>
                                       </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                      </div>
+                                     
                                     </div>
                                   </div>
                         <div className={styles.grid1} style={{marginTop: '20px'}}>
@@ -989,7 +992,6 @@ class EntityPage extends React.Component {
 								</button>
 							</div>
                         <div>
-                            <button type="button" class="btn btn-primary rounded-pill btn-lg mt-4">Book Now</button>
                         </div>
                         <div style={{marginTop: '20px'}}><span><i class="fa fa-repeat" aria-hidden="true"></i></span><span style={{fontWeight: 'bolder', marginLeft: '5px'}}>Free Cancellation</span><span style={{fontSize: '10px', marginLeft: '5px'}}>until {cancellationUntil}</span></div>
                         

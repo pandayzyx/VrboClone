@@ -13,6 +13,7 @@ import "react-dates/lib/css/_datepicker.css";
 import date from "date-and-time";
 import Pagination from "../../Components/CommonComponents/Pagination/Pagination";
 import SimpleMap from "../../Components/CommonComponents/ReactMap/ReactMap";
+import Autocomplete from "react-google-autocomplete";
 const queryString = require("query-string");
 
 class ListingPage extends React.Component {
@@ -301,13 +302,18 @@ class ListingPage extends React.Component {
 				{/* This component is same as home component which can make the bookings */}
 				<div className="row navbar navbar-expand-lg navbar-light p-1" style={{marginTop: '-30px'}}>
 					<div className="col-3 text-center py-2 mt-3">
-						<input
-							style={{ height: "48px" }}
-							className="form-control shadow-lg py-2 ml-4 mt-0"
-							placeholder="Location"
-							value={location}
-							onChange={(e) => this.setState({ location: e.target.value })}
-						/>
+          <Autocomplete
+								  className = "form-control"
+								  value = {this.state.location}
+								  onChange = {(e)=>this.setState({location:e.target.value})}
+									style={{ width: "100%%",height:"47px"}}
+									onPlaceSelected={(place) => {
+										console.log(place);
+										this.setState({location:place.formatted_address})
+									}}
+									types={["(regions)"]}
+									componentRestrictions={{ country: "in" }}
+								/>
 					</div>
 					<div className="col-4 ml-3 mt-2">
 						{/* Arrival */}

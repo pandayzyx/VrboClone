@@ -11,12 +11,14 @@ import styles from "./home.module.css";
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
+import Autocomplete from "react-google-autocomplete";
 
 const breakPoints = [
 	{ width: 1, itemsToShow: 1 },
 	{ width: 550, itemsToShow: 2 },
 	{ width: 768, itemsToShow: 4 },
 ];
+const blockedDates = [new moment(new Date("08/15/2020"))]
 
 class Home extends React.Component {
 	constructor(props) {
@@ -33,10 +35,11 @@ class Home extends React.Component {
 	componentDidMount = () => {
 		var darte = new Date().toLocaleDateString();
 		let dating = moment(date.parse(darte, "DD/MM/YYYY"));
+		let dating2 = moment(date.parse("02/08/2020", "DD/MM/YYYY"));
 		console.log(dating);
 		this.setState({
 			startDate: dating,
-			endDate: dating,
+			endDate: dating2,
 		});
 	};
 	handleSearchBtn = () => {
@@ -69,6 +72,21 @@ class Home extends React.Component {
 			pets: e.target.id,
 		});
 	};
+	isDayBlocked = (start, end, dates) => {
+		console.log(dates);
+		const dateFormat = "MM/DD/YYYY";
+		const diff = moment(end).diff(start, "days") + 1;
+
+		for (let i = 0; i < diff; i++) {
+			const checkDate = moment(start).add(i, "d").format(dateFormat);
+
+			if (dates[checkDate] && dates[checkDate].blocked) {
+				return true;
+			}
+		}
+
+		return false;
+	};
 
 	render() {
 		let { adultsCount, childrenCount } = this.state;
@@ -83,23 +101,35 @@ class Home extends React.Component {
 						Beach House Condo? Cabin?<br></br>Find the perfect vacation rental
 					</h2>
 					<div
-						style={{ marginLeft: "120px", borderRadius: '20px'}}
+						style={{ marginLeft: "120px", borderRadius: "20px" }}
 						className="col-10 card border shadow-md  border-rounded"
 					>
 						<div className="row p-3">
 							<div className="col-3 text-center py-2 mt-3">
-								<input
+								<Autocomplete
+								  className = "form-control"
+								  value = {this.state.location}
+								  onChange = {(e)=>this.setState({location:e.target.value})}
+									style={{ width: "100%%",height:"47px"}}
+									onPlaceSelected={(place) => {
+										console.log(place);
+										this.setState({location:place.formatted_address})
+									}}
+									types={["(regions)"]}
+									componentRestrictions={{ country: "in" }}
+								/>
+								{/* <input
 									style={{ height: "48px", borderRadius: '20px'}}
 									className="form-control py-3"
 									placeholder="Location"
 									value={this.state.location}
 									onChange={(e) => this.setState({ location: e.target.value })}
-								/>
+								/> */}
 							</div>
 							<div className="col-4 ml-3 mt-4">
 								{/* Arrival */}
 								<DateRangePicker
-								   	isDayBlocked = {this.isDayBlocked}
+									
 									startDate={this.state.startDate}
 									startDateId="your_unique_start_date_id"
 									endDate={this.state.endDate}
@@ -112,7 +142,6 @@ class Home extends React.Component {
 									onFocusChange={(focusedInput) =>
 										this.setState({ focusedInput })
 									}
-
 									startDatePlaceholderText="Arrival"
 									endDatePlaceholderText="Departure"
 								/>
@@ -121,14 +150,23 @@ class Home extends React.Component {
 							{/* <div className="col-2 card shadow-lg">Departure</div> */}
 							<div className="col-2 py-3 ml-3">
 								<button
-									style={{ width: '170px', height: "50px", marginTop: '8px', textAlign: 'justify', borderRadius: '20px'}}
+									style={{
+										width: "170px",
+										height: "50px",
+										marginTop: "8px",
+										textAlign: "justify",
+										borderRadius: "20px",
+									}}
 									type="button"
 									class="btn btn-primary btn-block"
 									data-toggle="modal"
 									data-target="#exampleModal"
 									className={`form-control`}
 								>
-									<span style={{padding: '5px'}}><i class="fa fa-users" aria-hidden="true"></i></span> Guest
+									<span style={{ padding: "5px" }}>
+										<i class="fa fa-users" aria-hidden="true"></i>
+									</span>{" "}
+									Guest
 									{guestCount !== 0 && (
 										<small style={{ padding: "5px" }}>
 											{childrenCount + adultsCount} Guests
@@ -260,7 +298,7 @@ class Home extends React.Component {
 							<div className="col-2 mt-3">
 								<button
 									onClick={() => this.handleSearchBtn()}
-									style={{ borderRadius: "20px", padding: '12px'}}
+									style={{ borderRadius: "20px", padding: "12px" }}
 									class="btn btn-primary bg bg-primary text-white btn-block ml-4 mt-2"
 								>
 									Search
