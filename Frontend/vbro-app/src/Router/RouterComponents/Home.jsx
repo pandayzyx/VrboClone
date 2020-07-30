@@ -5,7 +5,7 @@ import HomeCard2 from "../../Components/CommonComponents/Cards/HomeCard/HomeCard
 import { v4 as uuidv4 } from "uuid";
 import data from "../../data.json";
 import { Link } from "react-router-dom";
-import date from 'date-and-time';
+import date from "date-and-time";
 import styles from "./home.module.css";
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";
@@ -40,8 +40,8 @@ class Home extends React.Component {
 			location,
 		} = this.state;
 		if (startDate._d && endDate._d) {
-			arrivalDate = date.format(startDate._d, 'MM/DD/YYYY')
-			destinationDate = date.format(endDate._d, 'MM/DD/YYYY')
+			arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
+			destinationDate = date.format(endDate._d, "MM/DD/YYYY");
 			console.log(arrivalDate, destinationDate);
 		} else {
 			arrivalDate = "";
@@ -108,16 +108,26 @@ class Home extends React.Component {
 							{/* <div className="col-2 card shadow-lg">Departure</div> */}
 							<div className="col-2 py-3 ml-3">
 								<button
-									style={{ width: '170px', height: "50px", marginTop: '8px', textAlign: 'justify'}}
+									style={{
+										width: "170px",
+										height: "50px",
+										marginTop: "8px",
+										textAlign: "justify",
+									}}
 									type="button"
 									class="btn btn-primary btn-block"
 									data-toggle="modal"
 									data-target="#exampleModal"
 									className={`form-control`}
 								>
-									<span style={{padding: '5px'}}><i class="fa fa-user" aria-hidden="true"></i></span> Guest
+									<span style={{ padding: "5px" }}>
+										<i class="fa fa-user" aria-hidden="true"></i>
+									</span>{" "}
+									Guest
 									{guestCount !== 0 && (
-										<small style={{padding: '5px'}}>{childrenCount + adultsCount} Guests</small>
+										<small style={{ padding: "5px" }}>
+											{childrenCount + adultsCount} Guests
+										</small>
 									)}
 								</button>
 								<div
@@ -135,7 +145,10 @@ class Home extends React.Component {
 									>
 										<div class="modal-content">
 											<div class="modal-header">
-												<p style = {{marginLeft:"20%"}} className="text-muted mt-5 ">{`${adultsCount} adult`}</p>
+												<p
+													style={{ marginLeft: "20%" }}
+													className="text-muted mt-5 "
+												>{`${adultsCount} adult`}</p>
 												<div class="modal-footer md-5 mr-5">
 													<button
 														style={{ width: "60px", height: "60px" }}
@@ -168,7 +181,10 @@ class Home extends React.Component {
 												</div>
 											</div>
 											<div class="modal-header">
-												<p style = {{marginLeft:"20%"}}  className="text-muted mt-5">{`${childrenCount} children`}</p>
+												<p
+													style={{ marginLeft: "20%" }}
+													className="text-muted mt-5"
+												>{`${childrenCount} children`}</p>
 												<div class="modal-footer mr-5">
 													<button
 														type="button"
@@ -201,7 +217,12 @@ class Home extends React.Component {
 												</div>
 											</div>
 											<div class="modal-header">
-												<p style = {{marginLeft:"20%"}} className="text-muted mt-1">Pets</p>
+												<p
+													style={{ marginLeft: "20%" }}
+													className="text-muted mt-1"
+												>
+													Pets
+												</p>
 												<div class="modal-footer mr-5">
 													<div className="mr-5">
 														<input
@@ -218,7 +239,7 @@ class Home extends React.Component {
 														<input
 															style={{ width: "30px", height: "30px" }}
 															type="radio"
-															id ="true"
+															id="true"
 															name="pets"
 															onChange={(e) => this.handleChange(e)}
 															value={this.state.isPetIncluded}
@@ -244,11 +265,13 @@ class Home extends React.Component {
 					</div>
 				</div>
 
-				<div className='mt-5'>
+				<div className="mt-5">
 					<h4 style={{ marginLeft: "6%" }} className="my-3 text-justify">
 						Recommended destinations
 					</h4>
-					<p className='text-justify' style={{marginLeft: '77px'}}>Based on your recent searches</p>
+					<p className="text-justify" style={{ marginLeft: "77px" }}>
+						Based on your recent searches
+					</p>
 					<Carousel pagination={false} breakPoints={breakPoints}>
 						{data.crousel1.map((item) => (
 							<div key={uuidv4()} className="p-1">
@@ -256,7 +279,7 @@ class Home extends React.Component {
 							</div>
 						))}
 					</Carousel>
-				</div>		
+				</div>
 
 				<div>
 					<h4
@@ -282,34 +305,99 @@ class Home extends React.Component {
 					</Carousel>
 				</div>
 
-				<div className='d-flex justify-content-around bd-highlight mb-5' style={{width: '1200px', marginLeft: '70px'}}>
-					<div style={{height: '150px', width: '270px'}}>
-						<div style={{fontSize: '50px', textAlign: 'justify', marginLeft: '10px'}}><i class="fa fa-shield" aria-hidden="true"></i></div>
-						<h6 style={{textAlign: 'justify', marginLeft: '10px'}}>Peace of mind</h6>
-						<p className='text-muted text-justify ml-2'>Our Book with Confidence guarantee gives you 24/7 support</p>
+				<div
+					className="d-flex justify-content-around bd-highlight mb-5"
+					style={{ width: "1200px", marginLeft: "70px" }}
+				>
+					<div style={{ height: "150px", width: "270px" }}>
+						<div
+							style={{
+								fontSize: "50px",
+								textAlign: "justify",
+								marginLeft: "10px",
+							}}
+						>
+							<i class="fa fa-shield" aria-hidden="true"></i>
+						</div>
+						<h6 style={{ textAlign: "justify", marginLeft: "10px" }}>
+							Peace of mind
+						</h6>
+						<p className="text-muted text-justify ml-2">
+							Our Book with Confidence guarantee gives you 24/7 support
+						</p>
 					</div>
-					<div style={{height: '150px', width: '270px'}}>
-						<div style={{fontSize: '50px', textAlign: 'justify', marginLeft: '10px'}}><i class="fa fa-coffee" aria-hidden="true"></i></div>
-						<h6 style={{textAlign: 'justify', marginLeft: '10px'}}>All the privacy of home</h6>
-						<p className='text-muted text-justify ml-2'>Enjoy full kitchens, laundry, pools, yards and more</p>
+					<div style={{ height: "150px", width: "270px" }}>
+						<div
+							style={{
+								fontSize: "50px",
+								textAlign: "justify",
+								marginLeft: "10px",
+							}}
+						>
+							<i class="fa fa-coffee" aria-hidden="true"></i>
+						</div>
+						<h6 style={{ textAlign: "justify", marginLeft: "10px" }}>
+							All the privacy of home
+						</h6>
+						<p className="text-muted text-justify ml-2">
+							Enjoy full kitchens, laundry, pools, yards and more
+						</p>
 					</div>
-					<div style={{height: '150px', width: '270px'}}>
-						<div style={{fontSize: '50px', textAlign: 'justify', marginLeft: '10px'}}><i class="fa fa-arrows" aria-hidden="true"></i></div>
-						<h6 style={{textAlign: 'justify', marginLeft: '10px'}}>More for less</h6>
-						<p className='text-muted text-justify ml-2'>More space, more privacy, more amenities — more value</p>
+					<div style={{ height: "150px", width: "270px" }}>
+						<div
+							style={{
+								fontSize: "50px",
+								textAlign: "justify",
+								marginLeft: "10px",
+							}}
+						>
+							<i class="fa fa-arrows" aria-hidden="true"></i>
+						</div>
+						<h6 style={{ textAlign: "justify", marginLeft: "10px" }}>
+							More for less
+						</h6>
+						<p className="text-muted text-justify ml-2">
+							More space, more privacy, more amenities — more value
+						</p>
 					</div>
-					<div style={{height: '150px', width: '270px'}}>
-						<div style={{fontSize: '50px', textAlign: 'justify', marginLeft: '10px'}}><img src="https://img.icons8.com/color/48/000000/heart-rainbow.png"/></div>
-						<h6 style={{textAlign: 'justify', marginLeft: '10px'}}>A place for everyone</h6>
-						<p className='text-muted text-justify ml-2'>We stand for diversity, inclusion and families everywhere</p>
+					<div style={{ height: "150px", width: "270px" }}>
+						<div
+							style={{
+								fontSize: "50px",
+								textAlign: "justify",
+								marginLeft: "10px",
+							}}
+						>
+							<img src="https://img.icons8.com/color/48/000000/heart-rainbow.png" />
+						</div>
+						<h6 style={{ textAlign: "justify", marginLeft: "10px" }}>
+							A place for everyone
+						</h6>
+						<p className="text-muted text-justify ml-2">
+							We stand for diversity, inclusion and families everywhere
+						</p>
 					</div>
 				</div>
 
-				<div className='d-flex mb-5 justify-content-center'>
-					<div>TrustScore <span style={{fontWeight: 'bolder'}}>4.2 out of 5</span></div>
-					<div className='p-2' style={{marginTop: '-10px'}}><img src="https://images-static.trustpilot.com/api/stars/4/star.svg" height='30px' alt="img"/></div>
-					<div>Based on <span style={{fontWeight: 'bolder'}}>86,225 reviews </span>on</div>
-					<div style={{marginLeft: '5px'}}><i class="fa fa-star" aria-hidden="true"></i>Trustpilot</div>
+				<div className="d-flex mb-5 justify-content-center">
+					<div>
+						TrustScore{" "}
+						<span style={{ fontWeight: "bolder" }}>4.2 out of 5</span>
+					</div>
+					<div className="p-2" style={{ marginTop: "-10px" }}>
+						<img
+							src="https://images-static.trustpilot.com/api/stars/4/star.svg"
+							height="30px"
+							alt="img"
+						/>
+					</div>
+					<div>
+						Based on{" "}
+						<span style={{ fontWeight: "bolder" }}>86,225 reviews </span>on
+					</div>
+					<div style={{ marginLeft: "5px" }}>
+						<i class="fa fa-star" aria-hidden="true"></i>Trustpilot
+					</div>
 				</div>
 
 				<div>
@@ -339,10 +427,24 @@ class Home extends React.Component {
 				</div>
 
 				<div className={styles.hme}>
-					<div style={{color: 'white', fontSize: '32px', width: '550px', marginLeft: '350px'}}>List your property on Vrbo and open your door to rental income</div>
-					<div><button type="button" class="btn rounded-pill mt-5 p-3 btn-dark">List your property</button></div>
+					<div
+						style={{
+							color: "white",
+							fontSize: "32px",
+							width: "550px",
+							marginLeft: "350px",
+						}}
+					>
+						List your property on Vrbo and open your door to rental income
+					</div>
+					<Link to="/listyourproperty">
+						<div>
+							<button type="button" class="btn rounded-pill mt-5 p-3 btn-dark">
+								List your property
+							</button>
+						</div>
+					</Link>
 				</div>
-
 			</div>
 		);
 	}

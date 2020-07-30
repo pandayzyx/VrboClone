@@ -74,6 +74,107 @@ class ListingPage extends React.Component {
       endDate: "",
     };
   }
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		"1 Star": {
+	// 			isChecked: false
+	// 		},
+	// 		"2 Star": {
+	// 			isChecked: false
+	// 		},
+	// 		"3 Star": {
+	// 			isChecked: false
+	// 		},
+	// 		"4 Star": {
+	// 			isChecked: false
+	// 		},
+	// 		Pool: {
+	// 			isChecked: false
+	// 		},
+	// 		Kitchen: {
+	// 			isChecked:false
+	// 		},
+	// 		"Air Conditioning": {
+	// 			isChecked:false
+	// 		},
+	// 		"House": {
+	// 			isChecked:false
+	// 		},
+	// 		"Apartment": {
+	// 			isChecked:false
+	// 		},
+	// 		"Villa": {
+	// 			isChecked:false
+	// 		},
+	// 		"Cottage": {
+	// 			isChecked:false
+	// 		},
+	// 		"Oceanfront": {
+	// 			isChecked:false
+	// 		},
+	// 		"Beachfront": {
+	// 			isChecked:false
+	// 		},
+	// 		"Beach": {
+	// 			isChecked:false
+	// 		},
+	// 		"Beach view": {
+	// 			isChecked:false
+	// 		},
+	// 		"OceanLakes": {
+	// 			isChecked:false
+	// 		},
+	// 		"Myrtle Beach Resort": {
+	// 			isChecked:false
+	// 		},
+	// 		"Kingston Plantation": {
+	// 			isChecked:false
+	// 		},
+	// 		"Ocean Creek Resort": {
+	// 			isChecked:false
+	// 		},
+	// 		"Free Cancellation": {
+	// 			isChecked:false
+	// 		},
+	// 		"Instant Confirmation": {
+	// 			isChecked:false
+	// 		},
+	// 		checkboxBoolean: true,
+	// 		filterArray: [
+	// 			{ type: "rating", values: [] },
+	// 			{ type: "category", values: [] },
+	// 			{ type: "locationtype", values: [] },
+	// 			{ type: "neighbourhoods", values: [] },
+	// 			{ type: "bookOption", values: [] },
+	// 		],
+	// 		filterCounter: 0,
+	// 		isFilterClicked: false,
+	// 		isClearFilterBtn: false,
+	// 		curr_page: 1,
+	// 		query: [],
+	// 		adultsCount: 0,
+	// 		childrenCount: 0,
+	// 		location: "",
+	// 		pets: "",
+	// 		startDate: "",
+	// 		endDate: "",
+			
+	// 	};
+	// }
+
+	// componentDidMount() {
+	// 	console.log("this.state in mount", this.state);
+	// 	console.log("params in mount", this.props.history);
+	// 	let tempParams = this.props.history.location.search.substring(1).split("&");
+	// 	let params = {};
+	// 	tempParams.forEach((param) => {
+	// 		let temp = param.split("=");
+	// 		params[temp[0]] = temp[1];
+	// 	});
+	// 	console.log("params after", params);
+	// 	const { getListData } = this.props;
+	// 	const url = "http://aa77f6adcf8b.ngrok.io/properties";
 
   componentDidMount() {
     console.log("this.state in mount", this.state);
@@ -174,6 +275,12 @@ class ListingPage extends React.Component {
       });
     }
   };
+  
+	handleChangePet=(e)=>{
+		this.setState({
+			pets:e.target.id
+		})
+	}
 
   handlePagination = (item) => {
     // console.log(item);
@@ -231,45 +338,56 @@ class ListingPage extends React.Component {
     });
   };
 
-  // This function is for the button  inside guest modal which send query params and makes an apirequest as well
-  handleApplyBtn = () => {
-    var arrivalDate, destinationDate;
-    let {
-      childrenCount,
-      adultsCount,
-      startDate,
-      endDate,
-      pets,
-      location,
-    } = this.state;
-    if (startDate._d && endDate._d) {
-      arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
-      destinationDate = date.format(endDate._d, "MM/DD/YYYY");
-      console.log(arrivalDate, destinationDate);
-    } else {
-      arrivalDate = "";
-      destinationDate = "";
-    }
-    console.log("handlesearch");
-    this.props.history.push(
-      `/listing?location=${location}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}&pets=${pets}&adultsCount=${adultsCount}&childrenCount=${childrenCount}`
-    );
-  };
-  handleLinkClicked = (e) => {
-    console.log("handle ckillkd");
-    console.log(e.currentTarget.id);
-    const values = queryString.parse(this.props.location.search);
-    let params = values;
-    var taburl = "";
-    for (let key in params) {
-      if (key !== "pageNum") {
-        taburl = taburl + key + "=" + params[key] + "&";
-      }
-    }
-    taburl = taburl.split("");
-    taburl = taburl.filter((item, index) => index < taburl.length - 1).join("");
-    this.props.history.push(`/listing/${e.currentTarget.id}?${taburl}`);
-  };
+	// This function is for the button  inside guest modal which send query params and makes an apirequest as well
+	handleApplyBtn = () => {
+		let {getListData} =  this.props
+		var arrivalDate, destinationDate;
+		let {
+			childrenCount,
+			adultsCount,
+			startDate,
+			endDate,
+			pets,
+			location,
+		} = this.state;
+		if (startDate._d &&endDate._d) {
+			arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
+			destinationDate = date.format(endDate._d, "MM/DD/YYYY");
+			console.log(arrivalDate, destinationDate);
+		} else {
+			arrivalDate = "";
+			destinationDate = "";
+		}
+		console.log("handlesearch");
+		this.props.history.push(
+			`/listing?location=${location}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}&pets=${pets}&adultsCount=${adultsCount}&childrenCount=${childrenCount}`
+		);
+		const values = queryString.parse(this.props.location.search);
+		let params =  values
+		const url = "http://3.134.153.158:80/properties";
+		getListData({
+			url: url,
+			params: params,
+		});
+
+		
+	};
+	handleLinkClicked =(e)=>{
+		console.log("handle ckillkd")
+		console.log(e.currentTarget.id)
+		const values = queryString.parse(this.props.location.search);
+		let params = values;
+		var taburl  = ""
+		for(let key in params){
+			if(key!== "pageNum"){
+				taburl  =  taburl + key +  "="+ params[key]+ "&"
+			}
+		}
+		taburl =  taburl.split("")
+		taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
+		this.props.history.push(`/listing/${e.currentTarget.id}?${taburl}`)
+        
+	}
 
   render() {
     let search = this.props.location.search;
@@ -310,162 +428,154 @@ class ListingPage extends React.Component {
             ></DateRangePicker>
           </div>
 
-          {/* <div className="col-2 card shadow-lg">Departure</div> */}
-          <div className="col-2 py-3 ml-3">
-            <button
-              style={{
-                width: "170px",
-                height: "50px",
-                marginTop: "8px",
-                textAlign: "justify",
-              }}
-              type="button"
-              class="btn btn-primary btn-block"
-              data-toggle="modal"
-              data-target="#exampleModal"
-              className={`form-control`}
-            >
-              <span style={{ padding: "5px" }}>
-                <i class="fa fa-user" aria-hidden="true"></i>
-              </span>{" "}
-              Guest
-              {guestCount !== 0 && (
-                <small style={{ padding: "5px" }}>{guestCount} Guests</small>
-              )}
-            </button>
-            <div
-              class="modal fade md-5 mt-5"
-              id="exampleModal"
-              tabindex="-10"
-              role="dialog"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div
-                style={{ marginRight: "100px", marginTop: "80px" }}
-                class="modal-dialog modal-dialog-centered"
-                role="document"
-              >
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <p
-                      style={{ marginLeft: "20%" }}
-                      className="text-muted mt-5 "
-                    >{`${adultsCount} adult`}</p>
-                    <div class="modal-footer md-5 mr-5">
-                      <button
-                        style={{ width: "60px", height: "60px" }}
-                        type="button"
-                        class="btn border border-primary rounded-circle"
-                        onClick={() =>
-                          this.setState({
-                            adultsCount:
-                              this.state.adultsCount >= 1
-                                ? this.state.adultsCount - 1
-                                : this.state.adultsCount,
-                          })
-                        }
-                      >
-                        -
-                      </button>
-                      {this.state.num_adults}
-                      <button
-                        style={{ width: "60px", height: "60px" }}
-                        type="button"
-                        class="btn border border-primary rounded-circle"
-                        onClick={() =>
-                          this.setState({
-                            adultsCount: this.state.adultsCount + 1,
-                          })
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <div class="modal-header">
-                    <p
-                      style={{ marginLeft: "20%" }}
-                      className="text-muted mt-5"
-                    >{`${childrenCount} children`}</p>
-                    <div class="modal-footer mr-5">
-                      <button
-                        type="button"
-                        style={{ width: "60px", height: "60px" }}
-                        class="btn border border-primary rounded-circle"
-                        onClick={() =>
-                          this.setState({
-                            childrenCount:
-                              this.state.childrenCount >= 1
-                                ? this.state.childrenCount - 1
-                                : this.state.childrenCount,
-                          })
-                        }
-                      >
-                        -
-                      </button>
-                      {this.state.num_child}
-                      <button
-                        style={{ width: "60px", height: "60px" }}
-                        type="button"
-                        class="btn border border-primary rounded-circle"
-                        onClick={() =>
-                          this.setState({
-                            childrenCount: this.state.childrenCount + 1,
-                          })
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <div class="modal-header">
-                    <p
-                      style={{ marginLeft: "20%" }}
-                      className="text-muted mt-1"
-                    >
-                      Pets
-                    </p>
-                    <div class="modal-footer mr-5">
-                      <div className="mr-5">
-                        <input
-                          style={{ width: "30px", height: "30px" }}
-                          type="radio"
-                          id="false"
-                          name="pets"
-                          onChange={(e) => this.handleChange(e)}
-                          value={this.state.isPetIncluded}
-                        ></input>
-                        <label className="text-muted ml-1">No</label>
-                      </div>
-                      <div>
-                        <input
-                          style={{ width: "30px", height: "30px" }}
-                          type="radio"
-                          id="true"
-                          name="pets"
-                          onChange={(e) => this.handleChange(e)}
-                          value={this.state.isPetIncluded}
-                        ></input>
-                        <label className="text-muted ml-1">Yes</label>
-                      </div>
-                      <br></br>
-                      <div>
-                        <button
-                          onClick={() => this.handleApplyBtn()}
-                          className="btn btn-primary rounded-pill mt-2"
-                        >
-                          Apply
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* The top component that takes booking ends here */}
+					{/* <div className="col-2 card shadow-lg">Departure</div> */}
+					<div className="col-2 py-3 ml-3">
+					<button
+									style={{ width: '170px', height: "50px", marginTop: '8px', textAlign: 'justify'}}
+									type="button"
+									class="btn btn-primary btn-block"
+									data-toggle="modal"
+									data-target="#exampleModal"
+									className={`form-control`}
+								>
+									<span style={{padding: '5px'}}><i class="fa fa-user" aria-hidden="true"></i></span> Guest
+									{guestCount !== 0 && (
+										<small style={{padding: '5px'}}>{guestCount} Guests</small>
+									)}
+								</button>
+						<div
+							class="modal fade md-5 mt-5"
+							id="exampleModal"
+							tabindex="-10"
+							role="dialog"
+							aria-labelledby="exampleModalLabel"
+							aria-hidden="true"
+						>
+							<div
+								style={{ marginRight: "100px", marginTop: "80px" }}
+								class="modal-dialog modal-dialog-centered"
+								role="document"
+							>
+								<div class="modal-content">
+									<div class="modal-header">
+										<p
+											style={{ marginLeft: "20%" }}
+											className="text-muted mt-5 "
+										>{`${adultsCount} adult`}</p>
+										<div class="modal-footer md-5 mr-5">
+											<button
+												style={{ width: "60px", height: "60px" }}
+												type="button"
+												class="btn border border-primary rounded-circle"
+												onClick={() =>
+													this.setState({
+														adultsCount:
+															this.state.adultsCount >= 1
+																? this.state.adultsCount - 1
+																: this.state.adultsCount,
+													})
+												}
+											>
+												-
+											</button>
+											{this.state.num_adults}
+											<button
+												style={{ width: "60px", height: "60px" }}
+												type="button"
+												class="btn border border-primary rounded-circle"
+												onClick={() =>
+													this.setState({
+														adultsCount: this.state.adultsCount + 1,
+													})
+												}
+											>
+												+
+											</button>
+										</div>
+									</div>
+									<div class="modal-header">
+										<p
+											style={{ marginLeft: "20%" }}
+											className="text-muted mt-5"
+										>{`${childrenCount} children`}</p>
+										<div class="modal-footer mr-5">
+											<button
+												type="button"
+												style={{ width: "60px", height: "60px" }}
+												class="btn border border-primary rounded-circle"
+												onClick={() =>
+													this.setState({
+														childrenCount:
+															this.state.childrenCount >= 1
+																? this.state.childrenCount - 1
+																: this.state.childrenCount,
+													})
+												}
+											>
+												-
+											</button>
+											{this.state.num_child}
+											<button
+												style={{ width: "60px", height: "60px" }}
+												type="button"
+												class="btn border border-primary rounded-circle"
+												onClick={() =>
+													this.setState({
+														childrenCount: this.state.childrenCount + 1,
+													})
+												}
+											>
+												+
+											</button>
+										</div>
+									</div>
+									<div class="modal-header">
+										<p
+											style={{ marginLeft: "20%" }}
+											className="text-muted mt-1"
+										>
+											Pets
+										</p>
+										<div class="modal-footer mr-5">
+											<div className="mr-5">
+												<input
+													style={{ width: "30px", height: "30px" }}
+													type="radio"
+													id="false"
+													name="pets"
+													onChange={(e) => this.handleChangePet(e)}
+													value={this.state.isPetIncluded}
+												></input>
+												<label className="text-muted ml-1">No</label>
+											</div>
+											<div>
+												<input
+													style={{ width: "30px", height: "30px" }}
+													type="radio"
+													id="true"
+													name="pets"
+													onChange={(e) => this.handleChangePet(e)}
+													value={this.state.isPetIncluded}
+												></input>
+												<label className="text-muted ml-1">Yes</label>
+											</div>
+											<br></br>
+											<div>
+												<button
+													onClick={() => this.handleApplyBtn()}
+													className="btn btn-primary rounded-pill mt-2"
+												>
+													Apply
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{/* The top component that takes booking ends here */}
 
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm text-primary mt-3 ">
           <button
@@ -628,45 +738,46 @@ class ListingPage extends React.Component {
         )}
         {/* Activate this code whn data is coming from the back end */}
 
-        <div className="container-fluid">
-          {dataListingPage.length === 0 && (
-            <div class="spinner-border text-dark" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          )}
-          <div className="row">
-            <div className="col-7">
-              {!isFilterClicked &&
-                dataListingPage &&
-                dataListingPage.map((item) => (
-                  <>
-                    <ListingCard
-                      onclick={this.handleLinkClicked}
-                      key={uuidv4()}
-                      id={item.id}
-                      title={item.title}
-                      category={item.category}
-                      bedrooms={item.bedRooms}
-                      sleeps={item.sleeps}
-                      area={item.area}
-                      rating={item.rating}
-                      price={item.pricePerNight}
-                    />
-                  </>
-                ))}
-            </div>
-            <div
-              style={{
-                position: "-webkit-sticky",
-                position: "sticky",
-                top: "10px",
-              }}
-              className="col-5 card shadow-md p-2"
-            >
-              <SimpleMap />
-            </div>
-          </div>
-        </div>
+				<div className="container-fluid">
+					{dataListingPage.length === 0 && (
+						<div class="spinner-border text-dark" role="status">
+							<span class="sr-only">Loading...</span>
+						</div>
+					)}
+					<div className="row">
+						<div className="col-7">
+							{!isFilterClicked &&
+								dataListingPage &&
+								dataListingPage.map((item) => (
+									<>
+										<ListingCard
+										     onclick = {this.handleLinkClicked}
+											key={uuidv4()}
+											 id = {item.id}
+											title={item.title}
+											category={item.category}
+											bedrooms={item.bedRooms}
+											sleeps={item.sleeps}
+											area={item.area}
+											rating={item.rating}
+											price={item.pricePerNight}
+										/>
+									</>
+								))}
+							
+						</div>
+						<div
+							style={{
+								position: "-webkit-sticky",
+								position: "sticky",
+								top: "10px",
+							}}
+							className="col-5 card shadow-md p-2"
+						>
+							<SimpleMap />
+						</div>
+					</div>
+				</div>
 
         {/* For entity page for now keep this demo list card and work */}
 
