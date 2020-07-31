@@ -18,7 +18,7 @@ const breakPoints = [
 	{ width: 550, itemsToShow: 2 },
 	{ width: 768, itemsToShow: 4 },
 ];
-const blockedDates = [new moment(new Date("08/15/2020"))]
+const blockedDates = [new moment(new Date("08/15/2020"))];
 
 class Home extends React.Component {
 	constructor(props) {
@@ -107,24 +107,22 @@ class Home extends React.Component {
 						<div className="row p-2">
 							<div className="col-3 text-center py-2 mt-3">
 								<Autocomplete
-								  className = "form-control"
-								  value = {this.state.location}
-								  onChange = {(e)=>this.setState({location:e.target.value})}
-									style={{ width: "100%%",height:"47px"}}
+									className="form-control"
+									value={this.state.location}
+									onChange={(e) => this.setState({ location: e.target.value })}
+									style={{ width: "100%%", height: "47px" }}
 									onPlaceSelected={(place) => {
 										console.log(place);
-										this.setState({location:place.formatted_address})
+										this.setState({ location: place.formatted_address });
 									}}
 									types={["(regions)"]}
-									placeholder  = "Search "
+									placeholder="Search "
 									componentRestrictions={{ country: "in" }}
 								/>
-								
 							</div>
 							<div className="col-4 ml-3 mt-4">
 								{/* Arrival */}
 								<DateRangePicker
-									
 									startDate={this.state.startDate}
 									startDateId="your_unique_start_date_id"
 									endDate={this.state.endDate}
