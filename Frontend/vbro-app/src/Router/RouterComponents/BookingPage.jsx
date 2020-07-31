@@ -25,6 +25,7 @@ class BookingPage extends React.Component {
 			pets: "",
 			startDate: "",
 			endDate: "",
+			isAllDetailsFilled :true,
 			isBookingStepOneDone: false,
 		};
 	}
@@ -84,13 +85,21 @@ class BookingPage extends React.Component {
 			[e.target.name]: e.target.value,
 		});
 	};
+	
 
 	handleBooking = async () => {
+		let {firstName,lastName,email,mobileNo} =this.state
+		var redirectToPaymentPage = ()=>{
+			const values = queryString.parse(this.props.location.search);
+			let params =  values
+		   this.props.history.push(`/payment?arrivalDate=${params.arrivalDate}&destinationDate=${params.destinationDate}&adultsCount=${params.adultsCount}&childrenCount=${params.childrenCount}&firstName=${firstName}&location=${params.location}&lastName=${lastName}&email=${email}&mobileNo=${mobileNo}`)
+				   
+			}
 		let { data } = this.props;
 		let order_res = await axios.post(
-			"http://c37912d3135d.ngrok.io/razorPay/pay",
+			"http://897b11e852ce.ngrok.io/razorPay/verify",
 			{
-				amount: 1000,
+				amount: 203333,
 				currency: "INR",
 				receipt: 32 + "#" + "Gaurav",
 				payment_capture: "1",
@@ -98,7 +107,7 @@ class BookingPage extends React.Component {
 		);
 		const options = {
 			key: "rzp_test_TIeeqbck6yEzcU", // Enter the Key ID generated from the Dashboard
-			amount: "9000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+			amount: "203333", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
 			currency: "INR",
 			name: "Book Trip",
 			description: "Transaction",
@@ -110,13 +119,15 @@ class BookingPage extends React.Component {
 				// alert(response.razorpay_signature)
 				console.log(response);
 				let final_res = await axios.post(
-					"http://c37912d3135d.ngrok.io/razorPay/verify",
+					"http://897b11e852ce.ngrok.io/razorPay/verify",
 					{
 						...response,
 					}
 				);
 				if (final_res.data.isRazorPaySuccess === true) {
-					alert(final_res.data.message);
+					 redirectToPaymentPage()
+					//  alert(final_res.data.message);
+					console.log(final_res.data)
 					// this.props.history.push('/')
 				} else {
 					alert(final_res.data.message);
@@ -139,14 +150,36 @@ class BookingPage extends React.Component {
 	};
 
 	handleAgreeAndContinueBtn = () => {
-		this.setState({
-			isBookingStepOneDone: true,
-		});
+		let {firstName,lastName,email,mobileNo,isAllDetailsFilled} = this.state
+		let flag  =  isAllDetailsFilled
+		console.log(firstName,lastName,email,mobileNo)
+	
+		if(firstName === ""||lastName === ""||mobileNo === ""||email ===""){
+				flag =  false
+				console.log("if")
+			this.setState({
+				isAllDetailsFilled:false
+			})
+		}
+		else{
+			 flag = true
+			this.setState({
+				isAllDetailsFilled:true
+			})
+		}
+		console.log(flag)
+		
+		if(flag){
+			this.setState({
+				isBookingStepOneDone: true,
+			});	
+		}
+		
 	};
 	handleBackBtn = () => {};
 
 	render() {
-		let { isBookingStepOneDone } = this.state;
+		let { isBookingStepOneDone ,isAllDetailsFilled} = this.state;
 		var Guests = 4;
 		var Title =
 			"A Ritz Sea Inn- Perfect Location! Across from the Beach! - Seaside, FL Rental";
@@ -249,25 +282,19 @@ class BookingPage extends React.Component {
 												placeholder="Email"
 											/>
 										</div>
-										<div class="col-2">
+										
+										<div class="col-6">
 											<input
-												type="number"
-												name="mobileNo"
+												type = "text"
+												name ="mobileNo"
 												value={this.state.mobileNo}
-												onChange={(e) => this.handleChange(e)}
-												style={{ height: "50px" }}
-												class="form-control"
-												placeholder="+91"
-											/>
-										</div>
-										<div class="col-4">
-											<input
-												type="text"
+												onChange ={(e) => this.handleChange(e)}
 												style={{ height: "50px" }}
 												class="form-control"
 												placeholder="Phone"
 											/>
 										</div>
+										{!isAllDetailsFilled &&<p className = "text-danger ml-4">Please Fill All The Details to Continue Booking</p>}
 									</div>
 									<div className="container">
 										<div className="row mt-2">
