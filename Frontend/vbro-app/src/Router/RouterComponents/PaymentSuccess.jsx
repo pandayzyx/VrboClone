@@ -17,7 +17,7 @@ class PaymentSuccess extends React.Component{
             childreCount:""
         }
     }
-
+  
     componentDidMount(){
         const values = queryString.parse(this.props.location.search);
         let params =  values
@@ -72,14 +72,23 @@ class PaymentSuccess extends React.Component{
         }
 
     }
+
+    redirectToHomePage = ()=>{
+        let history =  this.props.history
+      setTimeout(function(){
+           history.push("/")
+     },3000)
+    }
+
     render(){
+        this.redirectToHomePage()
         let {firstname,lastname,email,Location,startDate,endDate,mobileNo,adultsCount,childreCount} = this.state
         var transactionId = 12345
 		var date = `${startDate} - ${endDate}`
 		var Title = 'Spacious 3 Bedrooms'
         // var Location = 'Virginia, USA'
         console.log(endDate)
-		var numberOfNights = endDate.split("/")[1] - startDate.split("/")[1]
+		var numberOfNights = 3
 		var Guests = adultsCount+ childreCount
 		var TotalPricePaid = '$ 1220.00'
         return (
