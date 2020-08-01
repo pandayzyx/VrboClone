@@ -1065,11 +1065,11 @@ class EntityPage extends React.Component {
 							</div>
                         <div>
                         </div>
-						{freeCancellation && 
+						
                         	<div style={{marginTop: '20px'}}>
 								<span><i class="fa fa-repeat" aria-hidden="true"></i></span><span style={{fontWeight: 'bolder', marginLeft: '5px'}}>Free Cancellation</span><span style={{fontSize: '10px', marginLeft: '5px'}}>until {cancellationUntil}</span>
 							</div>
-						}
+						
                         
                     </div>                        
                 </div>                

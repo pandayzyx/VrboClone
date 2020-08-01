@@ -14,7 +14,8 @@ class PaymentSuccess extends React.Component{
             endDate:"",
             Location:"",
             adultsCount:"",
-            childreCount:""
+			childreCount:"",
+			totalSum:""
         }
     }
   
@@ -62,6 +63,12 @@ class PaymentSuccess extends React.Component{
                     adultsCount:Number(params[key])
               
                 })
+			}
+			else if(key ==="totalSum"){
+                this.setState({
+                   totalSum:Number(params[key])
+              
+                })
             }
             else if(key ==="childrenCount"){
                 this.setState({
@@ -81,6 +88,7 @@ class PaymentSuccess extends React.Component{
     }
 
     render(){
+		let {totalSum} = this.state
         this.redirectToHomePage()
         let {firstname,lastname,email,Location,startDate,endDate,mobileNo,adultsCount,childreCount} = this.state
         var transactionId = 12345
@@ -167,7 +175,7 @@ class PaymentSuccess extends React.Component{
 							<hr/>
 							<div className="d-flex p-2 text-justify my-3">
 								<div className='col-9' style={{fontWeight: 'bolder'}}>Paid Amount</div>
-								<div className='col-3'>{TotalPricePaid}</div>
+								<div className='col-3'> ${totalSum}</div>
 							</div>
 						</div>
 					</div>

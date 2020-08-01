@@ -88,18 +88,19 @@ class BookingPage extends React.Component {
 	
 
 	handleBooking = async () => {
+		let {totalSum} = this.props
 		let {firstName,lastName,email,mobileNo} =this.state
-		var redirectToPaymentPage = ()=>{
+		var redirectToPaymentPage = (totalSum)=>{
 			const values = queryString.parse(this.props.location.search);
 			let params =  values
-		   this.props.history.push(`/payment?arrivalDate=${params.arrivalDate}&destinationDate=${params.destinationDate}&adultsCount=${params.adultsCount}&childrenCount=${params.childrenCount}&firstName=${firstName}&location=${params.location}&lastName=${lastName}&email=${email}&mobileNo=${mobileNo}`)
+		   this.props.history.push(`/payment?arrivalDate=${params.arrivalDate}&totalSum=${totalSum}&destinationDate=${params.destinationDate}&adultsCount=${params.adultsCount}&childrenCount=${params.childrenCount}&firstName=${firstName}&location=${params.location}&lastName=${lastName}&email=${email}&mobileNo=${mobileNo}`)
 				   
 			}
 		let { data } = this.props;
 		let order_res = await axios.post(
-			"http://7e38921b25f0.ngrok.io/razorPay/pay",
+			"http://4f2ec186484b.ngrok.io/razorPay/pay",
 			{
-				amount: 203333,
+				amount: totalSum*100,
 				currency: "INR",
 				receipt: 32 + "#" + "Gaurav",
 				payment_capture: "1",
@@ -107,7 +108,7 @@ class BookingPage extends React.Component {
 		);
 		const options = {
 			key: "rzp_test_TIeeqbck6yEzcU", // Enter the Key ID generated from the Dashboard
-			amount: "203333", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+			amount: totalSum*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
 			currency: "INR",
 			name: "Book Trip",
 			description: "Transaction",
@@ -119,13 +120,13 @@ class BookingPage extends React.Component {
 				// alert(response.razorpay_signature)
 				console.log(response);
 				let final_res = await axios.post(
-					"http://7e38921b25f0.ngrok.io/razorPay/verify",
+					"http://4f2ec186484b.ngrok.io/razorPay/verify",
 					{
 						...response,
 					}
 				);
 				if (final_res.data.isRazorPaySuccess === true) {
-					 redirectToPaymentPage()
+					 redirectToPaymentPage(totalSum)
 					//  alert(final_res.data.message);
 					console.log(final_res.data)
 					// this.props.history.push('/')
@@ -179,6 +180,7 @@ class BookingPage extends React.Component {
 	handleBackBtn = () => {};
 
 	render() {
+		let {totalSum} = this.props
 		let { isBookingStepOneDone ,isAllDetailsFilled} = this.state;
 		var Guests = 4;
 		var Title =
@@ -573,7 +575,7 @@ class BookingPage extends React.Component {
 							<div className="container" style={{ fontWeight: "bolder" }}>
 								<div className="d-flex justify-content-between p-2">
 									<div>Total</div>
-									<div>${Total}</div>
+									<div>${totalSum}</div>
 								</div>
 							</div>
 							<hr />
@@ -587,6 +589,7 @@ class BookingPage extends React.Component {
 const MapStateToProps = (state) => {
 	return {
 		dataBookingPage: state.book.dataBookingPage,
+		totalSum: state.entity.totalSum
 	};
 };
 
