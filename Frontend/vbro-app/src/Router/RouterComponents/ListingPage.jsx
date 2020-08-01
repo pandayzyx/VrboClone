@@ -279,12 +279,14 @@ class ListingPage extends React.Component {
 		let params = values;
 		var taburl  = ""
 		for(let key in params){
-			if(key!== "pageNum"){
+			if(key!== "pageNum"&&key!=="location"){
 				taburl  =  taburl + key +  "="+ params[key]+ "&"
 			}
 		}
 		taburl =  taburl.split("")
 		taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
+		taburl =  taburl + `&location=${this.state.location}`
+		console.log(taburl)
 		this.props.history.push(`/listing/${e.currentTarget.id}?${taburl}`)
         
 	}

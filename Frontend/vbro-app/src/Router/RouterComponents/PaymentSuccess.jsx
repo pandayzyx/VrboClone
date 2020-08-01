@@ -77,7 +77,7 @@ class PaymentSuccess extends React.Component{
         let history =  this.props.history
       setTimeout(function(){
            history.push("/")
-     },3000)
+     },5000)
     }
 
     render(){
@@ -90,7 +90,7 @@ class PaymentSuccess extends React.Component{
         console.log(endDate)
 		var numberOfNights = 3
 		var Guests = adultsCount+ childreCount
-		var TotalPricePaid = '$ 1220.00'
+		var TotalPricePaid = '$ 2033.33'
         return (
 			<div>
 				<div className="container d-flex mt-5">
