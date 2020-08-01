@@ -232,6 +232,8 @@ class ListingPage extends React.Component {
   };
 
   hideClearFilterBtn = () => {
+	// this.props.history.push('/listing');
+	this.props.getListData({url: `http://3.134.153.158:80/properties`});
     this.setState({
       isClearFilterBtn: false,
       filterCounter: 0,
@@ -516,7 +518,7 @@ class ListingPage extends React.Component {
                 </Link>
               </li>
               <li class="nav-item dropdown">
-                <Link
+                {/* <Link
                   class="nav-link dropdown-toggle text-primary ml-4"
                   to=""
                   id="navbarDropdown"
@@ -526,7 +528,7 @@ class ListingPage extends React.Component {
                   aria-expanded="false"
                 >
                   Sort by Price
-                </Link>
+                </Link> */}
                 <div
                   class="dropdown-menu mt-2 "
                   aria-labelledby="navbarDropdownMenuLink"
@@ -549,7 +551,7 @@ class ListingPage extends React.Component {
               </li>
               {/* This component is shown when user is loggen in */}
               <li class="nav-item dropdown">
-                <Link
+                {/* <Link
                   class="nav-link dropdown-toggle text-primary ml-4"
                   id="navbarDropdown"
                   role="button"
@@ -558,7 +560,7 @@ class ListingPage extends React.Component {
                   aria-expanded="false"
                 >
                   Sort by Ratings
-                </Link>
+                </Link> */}
                 <div
                   class="dropdown-menu mt-2 "
                   aria-labelledby="navbarDropdownMenuLink"
