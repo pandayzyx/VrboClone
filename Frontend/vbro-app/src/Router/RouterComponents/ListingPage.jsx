@@ -87,7 +87,7 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "http://3.134.153.158/properties";
+		const url = "http://4f2ec186484b.ngrok.io/properties";
 
     // These line of codes are written to reatin the booking details from the home page
     for (let key in params) {
@@ -228,12 +228,12 @@ class ListingPage extends React.Component {
 		}
 	});
 	history.push(paramsUrl);
-	getListData({url: `http://3.134.153.158:80/properties${paramsUrl}`});
+	getListData({url: `http://4f2ec186484b.ngrok.io/properties${paramsUrl}`});
   };
 
   hideClearFilterBtn = () => {
 	// this.props.history.push('/listing');
-	this.props.getListData({url: `http://3.134.153.158:80/properties`});
+	this.props.getListData({url: `http://4f2ec186484b.ngrok.io/properties`});
     this.setState({
       isClearFilterBtn: false,
       filterCounter: 0,
@@ -266,7 +266,7 @@ class ListingPage extends React.Component {
 		);
 		const values = queryString.parse(this.props.location.search);
 		let params =  values
-		const url = "http://3.134.153.158:80/properties";
+		const url = "http://4f2ec186484b.ngrok.io/properties";
 		getListData({
 			url: url,
 			params: params,
@@ -668,13 +668,18 @@ class ListingPage extends React.Component {
 						<div className="col-7">
 							{!isFilterClicked &&
 								dataListingPage &&
-								dataListingPage.map((item) => (
+								dataListingPage.map((item,index) => (
 									<>
 										<ListingCard
-										     onclick = {this.handleLinkClicked}
+										    onclick = {this.handleLinkClicked}
 											key={uuidv4()}
 											 id = {item.id}
 											title={item.title}
+											image = {item.imgsrc === "https://odis.homeaway.com/odis/destination/5941b1e0-2600-4b2a-b27e-c667abf7e510.carousel-m.jpg"
+											?
+											"https://odis.homeaway.com/odis/listing/170885a1-86a8-45c5-b42f-6cbe5d0b3fe1.f10.jpg":item.imgsrc
+										
+										}
 											category={item.category}
 											bedrooms={item.bedRooms}
 											sleeps={item.sleeps}

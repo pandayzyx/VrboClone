@@ -97,7 +97,7 @@ class BookingPage extends React.Component {
 			}
 		let { data } = this.props;
 		let order_res = await axios.post(
-			"http://897b11e852ce.ngrok.io/razorPay/verify",
+			"http://7e38921b25f0.ngrok.io/razorPay/pay",
 			{
 				amount: 203333,
 				currency: "INR",
@@ -119,7 +119,7 @@ class BookingPage extends React.Component {
 				// alert(response.razorpay_signature)
 				console.log(response);
 				let final_res = await axios.post(
-					"http://897b11e852ce.ngrok.io/razorPay/verify",
+					"http://7e38921b25f0.ngrok.io/razorPay/verify",
 					{
 						...response,
 					}
