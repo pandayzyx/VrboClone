@@ -76,4 +76,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 6.react-google-map "https://www.npmjs.com/package/google-map-react"
 7.react date-time parser "https://www.npmjs.com/package/date-and-time"
 8.react-airbnb date-picker  "https://github.com/airbnb/react-dates"
-9.Moment js for converting date to desired format
+9.Moment js for converting date to desired format "https://www.npmjs.com/package/moment"
+10.google-autocomplte  "https://www.npmjs.com/package/react-google-autocomplete"
+11.react-ga  "https://www.npmjs.com/package/react-ga?activeTab=readme"

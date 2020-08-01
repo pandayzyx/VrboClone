@@ -7,25 +7,26 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { getBookingData } from "../../Redux/Booking/action";
 import { postBookingData } from "../../Redux/Booking/action";
-import axios from "axios"
+import axios from "axios";
 const queryString = require("query-string");
-var boolean  = true
+var boolean = true;
 class BookingPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			firstName: "",
-			lastName:"",
-			mobileNo:"",
-			email:"",
+			lastName: "",
+			mobileNo: "",
+			email: "",
 			params: "",
 			adultsCount: 0,
 			childrenCount: 0,
 			location: "",
 			pets: "",
 			startDate: "",
-            endDate: "",
-            isBookingStepOneDone:false
+			endDate: "",
+			isAllDetailsFilled :true,
+			isBookingStepOneDone: false,
 		};
 	}
 	componentDidMount() {
@@ -40,6 +41,7 @@ class BookingPage extends React.Component {
 		let params = values;
 		for (let key in params) {
 			if (key === "adultsCount") {
+				console.log(key, typeof adultsCount);
 				this.setState({
 					adultsCount: Number(params[key]),
 				});
@@ -78,71 +80,106 @@ class BookingPage extends React.Component {
 			params: params,
 		});
 	}
-	handleChange = (e)=>{
+	handleChange = (e) => {
 		this.setState({
-			[e.target.name] :e.target.value
-		})
-	}
+			[e.target.name]: e.target.value,
+		});
+	};
+	
 
 	handleBooking = async () => {
-        let { data } = this.props
-        let order_res = await axios.post("http://c37912d3135d.ngrok.io/razorPay/pay", {
-            "amount": 1000,
-            "currency": "INR",
-            "receipt": 32 + "#" + "Gaurav",
-            "payment_capture": "1"
-        })
-        const options = {
-            "key": "rzp_test_TIeeqbck6yEzcU",      // Enter the Key ID generated from the Dashboard
-            "amount": "9000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            "currency": "INR",
-            "name": "Book Trip",
-            "description": "Transaction",
-            "image": "/logo.svg",
-            "order_id": order_res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            handler: async function (response) {
-                // alert(response.razorpay_payment_id);
-                // alert(response.razorpay_order_id);
-                // alert(response.razorpay_signature)
-                console.log(response)
-                let final_res = await axios.post("http://c37912d3135d.ngrok.io/razorPay/verify", {
-                    ...response
-                })
-                if (final_res.data.isRazorPaySuccess === true) {
-                    alert(final_res.data.message)
-                    // this.props.history.push('/')
-                } else {
-                    alert(final_res.data.message)
-                }
-            },
-            "prefill": {
-                "name": "Gaurav",
-                "email": "gauravx.gp@gmail.com",
-                "contact": "9707214633"
-            },
-            // "notes": {
-            //     "address": ""
-            // },
-            "theme": {
-                "color": "#F37254"
-            }
-        };
-        const paymentObject = new window.Razorpay(options)
-		paymentObject.open()
+		let {firstName,lastName,email,mobileNo} =this.state
+		var redirectToPaymentPage = ()=>{
+			const values = queryString.parse(this.props.location.search);
+			let params =  values
+		   this.props.history.push(`/payment?arrivalDate=${params.arrivalDate}&destinationDate=${params.destinationDate}&adultsCount=${params.adultsCount}&childrenCount=${params.childrenCount}&firstName=${firstName}&location=${params.location}&lastName=${lastName}&email=${email}&mobileNo=${mobileNo}`)
+				   
+			}
+		let { data } = this.props;
+		let order_res = await axios.post(
+			"http://897b11e852ce.ngrok.io/razorPay/verify",
+			{
+				amount: 203333,
+				currency: "INR",
+				receipt: 32 + "#" + "Gaurav",
+				payment_capture: "1",
+			}
+		);
+		const options = {
+			key: "rzp_test_TIeeqbck6yEzcU", // Enter the Key ID generated from the Dashboard
+			amount: "203333", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+			currency: "INR",
+			name: "Book Trip",
+			description: "Transaction",
+			image: "/logo.svg",
+			order_id: order_res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+			handler: async function (response) {
+				// alert(response.razorpay_payment_id);
+				// alert(response.razorpay_order_id);
+				// alert(response.razorpay_signature)
+				console.log(response);
+				let final_res = await axios.post(
+					"http://897b11e852ce.ngrok.io/razorPay/verify",
+					{
+						...response,
+					}
+				);
+				if (final_res.data.isRazorPaySuccess === true) {
+					 redirectToPaymentPage()
+					//  alert(final_res.data.message);
+					console.log(final_res.data)
+					// this.props.history.push('/')
+				} else {
+					alert(final_res.data.message);
+				}
+			},
+			prefill: {
+				name: "Gaurav",
+				email: "gauravx.gp@gmail.com",
+				contact: "9707214633",
+			},
+			// "notes": {
+			//     "address": ""
+			// },
+			theme: {
+				color: "#F37254",
+			},
+		};
+		const paymentObject = new window.Razorpay(options);
+		paymentObject.open();
+	};
 
-	}
+	handleAgreeAndContinueBtn = () => {
+		let {firstName,lastName,email,mobileNo,isAllDetailsFilled} = this.state
+		let flag  =  isAllDetailsFilled
+		console.log(firstName,lastName,email,mobileNo)
+	
+		if(firstName === ""||lastName === ""||mobileNo === ""||email ===""){
+				flag =  false
+				console.log("if")
+			this.setState({
+				isAllDetailsFilled:false
+			})
+		}
+		else{
+			 flag = true
+			this.setState({
+				isAllDetailsFilled:true
+			})
+		}
+		console.log(flag)
 		
-    handleAgreeAndContinueBtn  =()=>{
-      this.setState({
-          isBookingStepOneDone:true
-      })
-    }
-    handleBackBtn = ()=>{
-
-    }
+		if(flag){
+			this.setState({
+				isBookingStepOneDone: true,
+			});	
+		}
+		
+	};
+	handleBackBtn = () => {};
 
 	render() {
-        let {isBookingStepOneDone} = this.state
+		let { isBookingStepOneDone ,isAllDetailsFilled} = this.state;
 		var Guests = 4;
 		var Title =
 			"A Ritz Sea Inn- Perfect Location! Across from the Beach! - Seaside, FL Rental";
@@ -168,240 +205,233 @@ class BookingPage extends React.Component {
 			<div>
 				<div className="container">
 					<div className="row">
-
-                        {/* Component that contains input form which need to be send for booking */}
-                        {!isBookingStepOneDone &&
-						<div className ="col-6">
-							<div
-								style={{
-									fontWeight: "bolder",
-									fontSize: "32px",
-									textAlign: "justify",
-									height: "70px",
-									borderBottom: "1px dashed grey",
-									marginTop: "25px",
-								}}
-							>
-								Begin your booking
-							</div>
-							<div
-								style={{
-									fontWeight: "bolder",
-									textAlign: "justify",
-									marginTop: "15px",
-								}}
-							>
-								Book with confidence. Guaranteed.
-							</div>
-							<div className="text-justify">
-								You’re covered when you book and pay on Vrbo.
-							</div>
-							<div className="text-justify mt-3">
-								<span style={{ fontWeight: "bolder" }}>
-									<i class="fa fa-clock-o pr-2" aria-hidden="true"></i>Act Fast!
-								</span>{" "}
-								Price and availability may change.
-							</div>
-							<hr
-								style={{ borderBottom: "1px dashed grey", marginTop: "30px" }}
-							/>
-							<div style={{ textAlign: "justify", fontWeight: "bolder" }}>
-								Enter contact information
-							</div>
-							<form>
-								<div class="row mt-4">
-									<div class="col">
-										<input
-											type="text"
-											name = "firstName"
-											value  = {this.state.firstName}
-											onChange  = {(e)=>this.handleChange(e)}
-											style={{ height: "50px" }}
-											class="form-control"
-											placeholder="First name"
-										/>
-									</div>
-									<div class="col">
-										<input
-											type="text"
-											name = "lastName"
-											value  = {this.state.lastName}
-											onChange  = {(e)=>this.handleChange(e)}
-
-											style={{ height: "50px" }}
-											class="form-control"
-											placeholder="Last name"
-										/>
-									</div>
-								</div>
-								<div class="row mt-2">
-									<div class="col-6">
-										<input
-											type="text"
-											name = "email"
-											value  = {this.state.email}
-											onChange  = {(e)=>this.handleChange(e)}
-											style={{ height: "50px" }}
-											class="form-control"
-											placeholder="Email"
-										/>
-									</div>
-									<div class="col-2">
-										<input
-											type="number"
-											name = "mobileNo"
-											value  = {this.state.mobileNo}
-											onChange  = {(e)=>this.handleChange(e)}
-											style={{ height: "50px" }}
-											class="form-control"
-											placeholder="+91"
-										/>
-									</div>
-									<div class="col-4">
-										<input
-											type="text"
-											style={{ height: "50px" }}
-											class="form-control"
-											placeholder="Phone"
-										/>
-									</div>
-								</div>
-								<div className="container">
-									<div className="row mt-2">
-										<textarea
-											class="form-control"
-											style={{ height: "80px" }}
-											aria-label="With textarea"
-											placeholder="Your message...(Optional)"
-										></textarea>
-										<small className="mt-2">
-											<span style={{ fontWeight: "bolder" }}>Tip:</span>{" "}
-											Managers are more likely to approve your request when you
-											include a message.
-										</small>
-										<span style={{ fontSize: "20px" }}>
-											<i
-												class="fa fa-lightbulb-o ml-3 p-2"
-												aria-hidden="true"
-											></i>
-										</span>
-									</div>
-								</div>
-							</form>
-							<div
-								style={{
-									textAlign: "justify",
-									marginTop: "25px",
-									fontSize: "13px",
-								}}
-							>
-								By clicking 'Agree & continue' you are agreeing to our{" "}
-								<a href="">Terms and Conditions</a>,{" "}
-								<a href="">Privacy Policy</a>, and to receive booking-related
-								texts. Standard messaging rates may apply.
-							</div>
-							<div class="d-flex justify-content-end">
-								<button
-                                    type="button"
-                                    onClick = {()=>this.handleAgreeAndContinueBtn()}
-									class="btn btn-lg btn-primary rounded-pill my-3"
+						{/* Component that contains input form which need to be send for booking */}
+						{!isBookingStepOneDone && (
+							<div className="col-6">
+								<div
+									style={{
+										fontWeight: "bolder",
+										fontSize: "32px",
+										textAlign: "justify",
+										height: "70px",
+										borderBottom: "1px dashed grey",
+										marginTop: "25px",
+									}}
 								>
-									Agree & continue
-								</button>
-							</div>
-						</div>
-                         }
-					
-                    {/* Component that will contain book now button for final Booking */}
-                       {isBookingStepOneDone &&
-                        <div className="col-6">
-							<div
-								style={{
-									fontWeight: "bolder",
-									fontSize: "32px",
-									textAlign: "justify",
-									height: "70px",
-									borderBottom: "1px dashed grey",
-									marginTop: "25px",
-								}}
-							>
-								Review rules & policies
-							</div>
-							<div
-								style={{
-									fontWeight: "bolder",
-									textAlign: "justify",
-									marginTop: "15px",
-								}}
-							>
-								House Rules
-							</div>
-							<div style={{ textAlign: "justify", marginTop: "15px" }}>
-								Check in after: 16:00
-							</div>
-							<div style={{ textAlign: "justify" }}>
-								Check out before: 10:00
-							</div>
-							<ul style={{ textAlign: "justify", marginTop: "20px" }}>
-								{HouseRules.map((item) => (
-									<li style={{ padding: "7px" }}>{item}</li>
-								))}
-							</ul>
-							<hr
-								style={{ borderBottom: "1px dashed grey", marginTop: "30px" }}
-							/>
-							<div
-								style={{
-									fontWeight: "bolder",
-									textAlign: "justify",
-									marginTop: "15px",
-								}}
-							>
-								Policies
-							</div>
-							<div
-								style={{
-									fontWeight: "bolder",
-									textAlign: "justify",
-									marginTop: "20px",
-								}}
-							>
-								<i class="fa fa-file-text mr-3" aria-hidden="true"></i>Manager's
-								Cancellation Policy:
-							</div>
-							<div style={{ textAlign: "justify", marginTop: "20px" }}>
-								<i class="fa fa-home mr-3" aria-hidden="true"></i>
-								<span style={{ fontWeight: "bolder" }}>Damage Policy: </span>You
-								will be responsible for any damage to the rental property caused
-								by you or your party during your stay.
-							</div>
-							<div className="card my-4">
-								<div class="p-3 custom-control custom-checkbox">
-									<input
-										type="checkbox"
-										class="custom-control-input"
-										id="customCheck1"
-									/>
-									<label class="custom-control-label" for="customCheck1">
-										I have read and agree to comply with all rental policies and
-										terms.
-									</label>
+									Begin your booking
+								</div>
+								<div
+									style={{
+										fontWeight: "bolder",
+										textAlign: "justify",
+										marginTop: "15px",
+									}}
+								>
+									Book with confidence. Guaranteed.
+								</div>
+								<div className="text-justify">
+									You’re covered when you book and pay on Vrbo.
+								</div>
+								<div className="text-justify mt-3">
+									<span style={{ fontWeight: "bolder" }}>
+										<i class="fa fa-clock-o pr-2" aria-hidden="true"></i>Act
+										Fast!
+									</span>{" "}
+									Price and availability may change.
+								</div>
+								<hr
+									style={{ borderBottom: "1px dashed grey", marginTop: "30px" }}
+								/>
+								<div style={{ textAlign: "justify", fontWeight: "bolder" }}>
+									Enter contact information
+								</div>
+								<form>
+									<div class="row mt-4">
+										<div class="col">
+											<input
+												type="text"
+												name="firstName"
+												value={this.state.firstName}
+												onChange={(e) => this.handleChange(e)}
+												style={{ height: "50px" }}
+												class="form-control"
+												placeholder="First name"
+											/>
+										</div>
+										<div class="col">
+											<input
+												type="text"
+												name="lastName"
+												value={this.state.lastName}
+												onChange={(e) => this.handleChange(e)}
+												style={{ height: "50px" }}
+												class="form-control"
+												placeholder="Last name"
+											/>
+										</div>
+									</div>
+									<div class="row mt-2">
+										<div class="col-6">
+											<input
+												type="text"
+												name="email"
+												value={this.state.email}
+												onChange={(e) => this.handleChange(e)}
+												style={{ height: "50px" }}
+												class="form-control"
+												placeholder="Email"
+											/>
+										</div>
+										
+										<div class="col-6">
+											<input
+												type = "text"
+												name ="mobileNo"
+												value={this.state.mobileNo}
+												onChange ={(e) => this.handleChange(e)}
+												style={{ height: "50px" }}
+												class="form-control"
+												placeholder="Phone"
+											/>
+										</div>
+										{!isAllDetailsFilled &&<p className = "text-danger ml-4">Please Fill All The Details to Continue Booking</p>}
+									</div>
+									<div className="container">
+										<div className="row mt-2">
+											<textarea
+												class="form-control"
+												style={{ height: "80px" }}
+												aria-label="With textarea"
+												placeholder="Your message...(Optional)"
+											></textarea>
+											<small className="mt-2">
+												<span style={{ fontWeight: "bolder" }}>Tip:</span>{" "}
+												Managers are more likely to approve your request when
+												you include a message.
+											</small>
+											<span style={{ fontSize: "20px" }}>
+												<i
+													class="fa fa-lightbulb-o ml-3 p-2"
+													aria-hidden="true"
+												></i>
+											</span>
+										</div>
+									</div>
+								</form>
+								<div
+									style={{
+										textAlign: "justify",
+										marginTop: "25px",
+										fontSize: "13px",
+									}}
+								>
+									By clicking 'Agree & continue' you are agreeing to our{" "}
+									<a href="">Terms and Conditions</a>,{" "}
+									<a href="">Privacy Policy</a>, and to receive booking-related
+									texts. Standard messaging rates may apply.
+								</div>
+								<div class="d-flex justify-content-end">
+									<button
+										type="button"
+										onClick={() => this.handleAgreeAndContinueBtn()}
+										class="btn btn-lg btn-primary rounded-pill my-3"
+									>
+										Agree & continue
+									</button>
 								</div>
 							</div>
-							<div class="d-flex justify-content-end">
-								<button
-									type="button"
-									onClick =  {()=>this.handleBooking()}
-									class="btn btn-lg btn-primary rounded-pill my-3"
+						)}
+
+						{/* Component that will contain book now button for final Booking */}
+						{isBookingStepOneDone && (
+							<div className="col-6">
+								<div
+									style={{
+										fontWeight: "bolder",
+										fontSize: "32px",
+										textAlign: "justify",
+										height: "70px",
+										borderBottom: "1px dashed grey",
+										marginTop: "25px",
+									}}
 								>
-									Book Now
-								</button>
+									Review rules & policies
+								</div>
+								<div
+									style={{
+										fontWeight: "bolder",
+										textAlign: "justify",
+										marginTop: "15px",
+									}}
+								>
+									House Rules
+								</div>
+								<div style={{ textAlign: "justify", marginTop: "15px" }}>
+									Check in after: 16:00
+								</div>
+								<div style={{ textAlign: "justify" }}>
+									Check out before: 10:00
+								</div>
+								<ul style={{ textAlign: "justify", marginTop: "20px" }}>
+									{HouseRules.map((item) => (
+										<li style={{ padding: "7px" }}>{item}</li>
+									))}
+								</ul>
+								<hr
+									style={{ borderBottom: "1px dashed grey", marginTop: "30px" }}
+								/>
+								<div
+									style={{
+										fontWeight: "bolder",
+										textAlign: "justify",
+										marginTop: "15px",
+									}}
+								>
+									Policies
+								</div>
+								<div
+									style={{
+										fontWeight: "bolder",
+										textAlign: "justify",
+										marginTop: "20px",
+									}}
+								>
+									<i class="fa fa-file-text mr-3" aria-hidden="true"></i>
+									Manager's Cancellation Policy:
+								</div>
+								<div style={{ textAlign: "justify", marginTop: "20px" }}>
+									<i class="fa fa-home mr-3" aria-hidden="true"></i>
+									<span style={{ fontWeight: "bolder" }}>Damage Policy: </span>
+									You will be responsible for any damage to the rental property
+									caused by you or your party during your stay.
+								</div>
+								<div className="card my-4">
+									<div class="p-3 custom-control custom-checkbox">
+										<input
+											type="checkbox"
+											class="custom-control-input"
+											id="customCheck1"
+										/>
+										<label class="custom-control-label" for="customCheck1">
+											I have read and agree to comply with all rental policies
+											and terms.
+										</label>
+									</div>
+								</div>
+								<div class="d-flex justify-content-end">
+									<button
+										type="button"
+										onClick={() => this.handleBooking()}
+										class="btn btn-lg btn-primary rounded-pill my-3"
+									>
+										Book Now
+									</button>
+								</div>
 							</div>
-						</div>
-    }
-                        
-                        {/* Right Side component containing information about Pricing */}
-                        <div className="col-6 border">
+						)}
+
+						{/* Right Side component containing information about Pricing */}
+						<div className="col-6 border">
 							<div className="card mt-4 p-2">
 								<div className="d-flex">
 									<div
@@ -434,13 +464,25 @@ class BookingPage extends React.Component {
 							</div>
 							<div className="d-flex mt-2 ml-5">
 								<div className="p-1">
-									<img className ="img-fluid" src="https://odis.homeaway.com/odis/listing/f71ba4c0-3e0e-472c-b3ca-5b0a74c9ec1b.c10.jpg" alt="img" />
+									<img
+										className="img-fluid"
+										src="https://odis.homeaway.com/odis/listing/f71ba4c0-3e0e-472c-b3ca-5b0a74c9ec1b.c10.jpg"
+										alt="img"
+									/>
 								</div>
 								<div className="p-1">
-									<img className ="img-fluid" src="https://odis.homeaway.com/odis/listing/6a8c565e-b974-4499-9912-b409e7b3cecb.c10.jpg" alt="img" />
+									<img
+										className="img-fluid"
+										src="https://odis.homeaway.com/odis/listing/6a8c565e-b974-4499-9912-b409e7b3cecb.c10.jpg"
+										alt="img"
+									/>
 								</div>
 								<div className="p-1">
-									<img className = "img-fluid" src="https://odis.homeaway.com/odis/listing/ee113445-1757-4b1c-88da-4bc8a1ee124c.c10.jpg" alt="img" />
+									<img
+										className="img-fluid"
+										src="https://odis.homeaway.com/odis/listing/ee113445-1757-4b1c-88da-4bc8a1ee124c.c10.jpg"
+										alt="img"
+									/>
 								</div>
 							</div>
 							<div
@@ -483,8 +525,7 @@ class BookingPage extends React.Component {
 									{/* Arrival */}
 									<DateRangePicker
 										startDate={this.state.startDate}
-                                        startDateId="your_unique_start_date_id"
-                                       
+										startDateId="your_unique_start_date_id"
 										endDate={this.state.endDate}
 										endDateId="your_unique_end_date_id"
 										onDatesChange={({ startDate, endDate }) =>
@@ -494,9 +535,8 @@ class BookingPage extends React.Component {
 										onFocusChange={(focusedInput2) =>
 											this.setState({ focusedInput2 })
 										}
-                                        startDatePlaceholderText="Arrival"
-                                        readOnly =  {true}
-                                        
+										startDatePlaceholderText="Arrival"
+										readOnly={true}
 										endDatePlaceholderText="Departure"
 									></DateRangePicker>
 								</div>
@@ -540,12 +580,6 @@ class BookingPage extends React.Component {
 						</div>
 					</div>
 				</div>
-
-            
-                
-
-				
-    
 			</div>
 		);
 	}

@@ -6,8 +6,8 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
 class SimpleMap extends Component {
   static defaultProps = {
     center: {
-      lat: 10.85,
-      lng: 76.27
+      lat: 59.95,
+      lng: 30.33
     },
     zoom: 11
   };
@@ -21,24 +21,11 @@ class SimpleMap extends Component {
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
+        
+           
           <AnyReactComponent
-            lat={59.955413}
-            lng={30.337844}
-            text= {<i style = {{color:"red",fontSize:"20px"}} class="fa fa-map-marker" aria-hidden="true">Yombu</i>}
-          />
-           <AnyReactComponent
-            lat={59.965419}
-            lng={30.357844}
-            text= {<i style = {{color:"red",fontSize:"20px"}} class="fa fa-map-marker" aria-hidden="true">Youfeed</i>}
-          />
-          <AnyReactComponent
-            lat={59.98419}
-            lng={30.357844}
-            text= {<i style = {{color:"red",fontSize:"20px"}} class="fa fa-map-marker" aria-hidden="true">Feednation</i>}
-          />
-          <AnyReactComponent
-            lat={59.99419}
-            lng={30.247844}
+            lat={59.99999}
+            lng={30.249944}
             text= {<i style = {{color:"red",fontSize:"20px"}} class="fa fa-map-marker" aria-hidden="true">Cogilith</i>}
           />
           

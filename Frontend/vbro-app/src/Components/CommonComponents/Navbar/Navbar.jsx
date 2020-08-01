@@ -26,7 +26,7 @@ class Navbar extends React.Component {
         <SignUPModal />
         <TravellerLoginModal />
         <OwnerLoginModal />
-        <nav class="navbar navbar-expand-lg navbar-light bg-light text-primary font-weight-bold ">
+        <nav style ={{fontSize:"14px"}} class="navbar navbar-expand-lg navbar-light bg-light text-primary ">
           <Link to="/" class="navbar-brand" href="#">
             <img
               className="img-fluid"
@@ -53,7 +53,7 @@ class Navbar extends React.Component {
           >
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <Link class="nav-link text-primary ml-4 " href="#">
+                <Link  class="nav-link text-primary ml-4 " href="#">
                   <span style={{padding: '5px'}}><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                   Trip Boards<span class="sr-only">(current)</span>
                 </Link>
@@ -165,7 +165,8 @@ class Navbar extends React.Component {
                 <li class="nav-item">
                   <button
                     type="button"
-                    class="btn btn-light text-primary font-weight-bold"
+                    style ={{fontSize:"14px"}}
+                    class="btn btn-light text-primary"
                     data-toggle="modal"
                     data-target="#signupModal"
                   >
@@ -219,7 +220,8 @@ class Navbar extends React.Component {
               <li class="nav-item">
                 <Link to="/listyourproperty">
                   <button
-                    style={{ borderRadius: "40px" }}
+                    style={{ borderRadius: "40px",fontSize:"14px"}}
+                   
                     class="btn btn-outline-primary my-2 my-sm-0 ml-4"
                     type="submit"
                   >
