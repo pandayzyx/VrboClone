@@ -45,7 +45,9 @@ cd into the directory
 ```bash
 cd Frontedt
 ```
-cd vbro-app
+
+```bash
+cd vrbo-app
 ```
 
 install all the dependencies
@@ -81,8 +83,7 @@ After running the development server the site should be running on https://local
 <br> 
 8.react-airbnb date-picker 
 <br> 
-9.Moment js
-<br>  
+9.Moment js 
 10.google-autocomplte
 <br> 
 11.react-ga 
