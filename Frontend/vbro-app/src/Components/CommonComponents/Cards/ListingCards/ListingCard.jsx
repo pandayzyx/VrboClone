@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 function ListingCard(props) {
-	let { title, category, bedrooms, sleeps, area, rating, price,id,onclick } = props;
+	let { title, category, bedrooms, sleeps, area, rating, price,id,onclick,image} = props;
 	return (
 		
 		<div onClick = {(e)=>onclick(e)} id = {id} class="card mb-3 shadow-md border-rounded" style = {{maxHeight:"400px"}}>
 				<div  class="row no-gutters">
 					<div class="col-md-6 overflow-hidden">
-						<img
-							style={{ height: "100%" }}
+						<img className = "img-fluid"
+							// style={{ height: "100%" }}
 							
-							src="https://odis.homeaway.com/odis/listing/e4559c88-6cd7-4306-88dd-29c4f64909ae.f10.jpg"
+							src = {image}
 							class="card-img"
 							alt="..."
 						/>

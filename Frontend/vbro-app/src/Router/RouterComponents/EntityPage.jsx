@@ -5,11 +5,13 @@ import { DateRangePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
 import { connect } from "react-redux";
 import moment from "moment";
-import { getEntityData } from "../../Redux/Entity/action";
+import { getEntityData, getEntityReviewData, getTotalPrice } from "../../Redux/Entity/action";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import date from "date-and-time";
-import axios from  "axios"
+import axios from "axios";
+import Autocomplete from "react-google-autocomplete";
+import SimpleMap from "../../Components/CommonComponents/ReactMap/EntityMap";
 const queryString = require("query-string");
 
 class EntityPage extends React.Component {
@@ -23,19 +25,16 @@ class EntityPage extends React.Component {
 			location: "",
 			pets: "",
 			startDate: "",
-            endDate: "",
-            bookingStartDate:"",
-			bookingEndDate:"",
-			isGuestCountZero:"",
-			isBookingDateAvailable:""
-           
-
-            
+			endDate: "",
+			bookingStartDate: "",
+			bookingEndDate: "",
+			isGuestCountZero: "",
+			isBookingDateAvailable: "",
 		};
 	}
 	componentDidMount() {
-		let { getEntityData } = this.props;
-		let id = this.props.match.params.id
+		let { getEntityData, getEntityReviewData, getTotalPrice } = this.props;
+		let id = this.props.match.params.id;
 		let tempParams = this.props.history.location.search.substring(1).split("&");
 		let params = {};
 		tempParams.forEach((param) => {
@@ -60,116 +59,143 @@ class EntityPage extends React.Component {
 				});
 			} else if (key === "location") {
 				this.setState({
-					location: params[key],
+					location: params[key].split("%20").join(""),
 				});
 			} else if (key === "arrivalDate" && params[key] !== "") {
 				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
 				console.log(dating);
 
 				this.setState({
-                    startDate: dating,
-                    bookingStartDate:dating
-                   
+					startDate: dating,
+					bookingStartDate: dating,
 				});
 			} else if (key === "destinationDate" && params[key] !== "") {
 				let dating = moment(date.parse(params[key], "MM/DD/YYYY"));
 				console.log(dating);
 
 				this.setState({
-                    endDate: dating,
-                    bookingEndDate:dating
-                   
+					endDate: dating,
+					bookingEndDate: dating,
 				});
 			}
 		}
 
-		const url = `http://3.134.153.158/properties/${id}`;
+		const url = `http://4f2ec186484b.ngrok.io/properties/${id}`;
 		getEntityData({
 			url: url,
 			params: params,
 		});
+		const url2 = `http://4f2ec186484b.ngrok.io/reviews?propId=${id}`;
+		getEntityReviewData({
+			url: url2,
+			params: params,
+		});
+		getTotalPrice({
+			url: `http://4f2ec186484b.ngrok.io/properties/getTotalCost?propId=${id}&adultsCount=1&childrenCount=1`,
+			params: params
+		})
 	}
-  
-	handleSearchBtn = ()=>{
-	    var arrivalDate,destinationDate;
-	    let {startDate,endDate} = this.state
-	    if (startDate._d && endDate._d) {
-			arrivalDate = date.format(startDate._d, 'MM/DD/YYYY')
-			destinationDate = date.format(endDate._d, 'MM/DD/YYYY')
+
+	handleSearchBtn = () => {
+		var arrivalDate, destinationDate;
+		let { startDate, endDate } = this.state;
+		if (startDate._d && endDate._d) {
+			arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
+			destinationDate = date.format(endDate._d, "MM/DD/YYYY");
 			console.log(arrivalDate, destinationDate);
 		} else {
 			arrivalDate = startDate;
 			destinationDate = endDate;
-	    }
-	    const values = queryString.parse(this.props.location.search);
+		}
+		const values = queryString.parse(this.props.location.search);
 		let params = values;
-        var taburl  = ""
-        params["location"] = this.state.location
-		for(let key in params){
-			if(key!== "arrivalDate"&& key!== "destinationDate"){
-				taburl  =  taburl + key +  "="+ params[key]+ "&"
+		var taburl = "";
+		params["location"] = this.state.location;
+		for (let key in params) {
+			if (key !== "arrivalDate" && key !== "destinationDate") {
+				taburl = taburl + key + "=" + params[key] + "&";
 			}
 		}
-		taburl =  taburl.split("")
-	    taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
-	    taburl  =  taburl + `&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`
-		this.props.history.push(`/listing?${taburl}`)
-	   console.log(this.props.location.search)
-	}
+		taburl = taburl.split("");
+		taburl = taburl.filter((item, index) => index < taburl.length - 1).join("");
+		taburl =
+			taburl + `&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`;
+		this.props.history.push(`/listing?${taburl}`);
+		console.log(this.props.location.search);
+	};
 
 	handleBooking = () => {
-		let {adultsCount,childrenCount} = this.state
+		let { adultsCount, childrenCount } = this.state;
 		const values = queryString.parse(this.props.location.search);
-		var arrivalDate,destinationDate; 
-			let {bookingStartDate,bookingEndDate} = this.state
-			if (bookingStartDate._d && bookingEndDate._d) {
-				arrivalDate = date.format(bookingStartDate._d, 'MM/DD/YYYY')
-				destinationDate = date.format(bookingEndDate._d, 'MM/DD/YYYY')
-				console.log(arrivalDate, destinationDate);
-			} else {
-				arrivalDate = bookingStartDate;
-				destinationDate = bookingEndDate;
-			}
+		var arrivalDate, destinationDate;
+		let { bookingStartDate, bookingEndDate } = this.state;
+		if (bookingStartDate._d && bookingEndDate._d) {
+			arrivalDate = date.format(bookingStartDate._d, "MM/DD/YYYY");
+			destinationDate = date.format(bookingEndDate._d, "MM/DD/YYYY");
+			console.log(arrivalDate, destinationDate);
+		} else {
+			arrivalDate = bookingStartDate;
+			destinationDate = bookingEndDate;
+		}
 
 		let params = values;
-		const url  = ""
-		axios.get(url,
-			{params:params}
-			)
+		const url = "";
+		axios.get(url, { params: params });
 
-		if(adultsCount+childrenCount > 0 ){
-			
-			
-			var taburl  = ""
-			params["location"] = this.state.location
-			for(let key in params){
-				if(key!== "arrivalDate"&& key!== "destinationDate"){
-					taburl  =  taburl + key +  "="+ params[key]+ "&"
+		if (adultsCount + childrenCount > 0) {
+			var taburl = "";
+			params["location"] = this.state.location;
+			for (let key in params) {
+				if (
+					key !== "arrivalDate" &&
+					key !== "destinationDate" &&
+					key !== "childrenCount" &&
+					key !== "adultsCount"
+				) {
+					taburl = taburl + key + "=" + params[key] + "&";
 				}
 			}
-			let id = this.props.match.params.id
-			taburl =  taburl.split("")
-			taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
-			taburl  =  taburl + `&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`
-			this.props.history.push(`/listing/${id}/checkout?${taburl}`)
-		}
+			let id = this.props.match.params.id;
+			taburl = taburl.split("");
+			taburl = taburl
+				.filter((item, index) => index < taburl.length - 1)
+				.join("");
 
-		else{
+			taburl =
+				taburl +
+				`&adultsCount=${adultsCount}&childrenCount=${childrenCount}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}`;
+			this.props.history.push(`/listing/${id}/checkout?${taburl}`);
+		} else {
 			this.setState({
-				isGuestCountZero:true
-			})
+				isGuestCountZero: true,
+			});
 		}
-		
-		
-		
-			   
-	   };
+	};
+
+	   getTotalPriceHandler = () => {
+		let id = this.props.match.params.id;
+		let tempParams = this.props.history.location.search.substring(1).split("&");
+		let params = {};
+		tempParams.forEach((param) => {
+			let temp = param.split("=");
+			params[temp[0]] = temp[1];
+		});
+		console.log("params after", params);
+		console.log(this.props.match);
+		this.props.getTotalPrice({
+			url: `http://4f2ec186484b.ngrok.io/properties/getTotalCost?propId=${id}&adultsCount=${this.state.adultsCount}&childrenCount=${this.state.childrenCount}`,
+			params: params
+		});
+	   }
 
 	render() {
-		let { getEntityData } = this.props;
 		let { location, adultsCount } = this.state;
-
-		var avRating = 4;
+		let {category, sleeps, bedRooms, bathRooms, minStay, pricePerNight, features, freeCancellation, locations, genFeatures} = this.props.dataEntityPage;
+		console.log("dataEntityPage", this.props.dataEntityPage);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>", this.props.totalSum);
+		const {reviews, totalSum} = this.props;
+		console.log(reviews);
+		// var avRating = 4;
 		var perNightPrice = "$ " + 52 + ".00 ";
 		// var guests = {this.state.adult + this.state.child}
 		var bedroom = 1;
@@ -302,32 +328,41 @@ class EntityPage extends React.Component {
 			"No parties/events",
 			"Minimum age of primary renter: 25",
 		];
-		var reviews = [
-			{
-				reviewby: "Spring break 2020",
-				ratings: "5",
-				review: "We loved it!",
-				publishedat: "Published Mar 15, 2020",
-			},
-			{
-				reviewby: "Valet Parking Nightmare",
-				ratings: "3",
-				review:
-					"The property is great. The location is close to all that Seaside has to offer. The problem we had was that the valet parking consumed all the traffic flow which backed up in front of this unit. We would have like to of been able to go away from Seaside in the evenings but we literally could not get our car out due to the traffic situation. Also, the cabana man was booked up over a month in advance. I purchased nice chairs and an umbrella to use and it was impossible because there was only 20 ft of area available for public use. I had to go down there at 6 a.m. to put my stuff out to get a place on the front row.",
-				publishedat: "Published Jul 22, 2019",
-			},
-		];
+		// var reviews = [
+		// 	{
+		// 		reviewby: "Spring break 2020",
+		// 		ratings: "5",
+		// 		review: "We loved it!",
+		// 		publishedat: "Published Mar 15, 2020",
+		// 	},
+		// 	{
+		// 		reviewby: "Valet Parking Nightmare",
+		// 		ratings: "3",
+		// 		review:
+		// 			"The property is great. The location is close to all that Seaside has to offer. The problem we had was that the valet parking consumed all the traffic flow which backed up in front of this unit. We would have like to of been able to go away from Seaside in the evenings but we literally could not get our car out due to the traffic situation. Also, the cabana man was booked up over a month in advance. I purchased nice chairs and an umbrella to use and it was impossible because there was only 20 ft of area available for public use. I had to go down there at 6 a.m. to put my stuff out to get a place on the front row.",
+		// 		publishedat: "Published Jul 22, 2019",
+		// 	},
+		// ];
 
 		return (
 			<>
-				<div className="row navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3">
-					<div className="col-3 text-center py-2 mt-3">
-						<input
-							style={{ height: "48px" }}
-							className="form-control py-2 ml-4 mt-0"
-							placeholder="Location"
-							value={location}
+				<div
+					className="row navbar navbar-expand-lg navbar-light p-1"
+					style={{ marginTop: "-30px" }}
+				>
+					<div className="col-3 text-center py-2 mt-4">
+						<Autocomplete
+							className="form-control ml-5 py-2"
+							value={this.state.location}
 							onChange={(e) => this.setState({ location: e.target.value })}
+							style={{ width: "100%%", height: "47px" }}
+							onPlaceSelected={(place) => {
+								console.log(place);
+								this.setState({ location: place.formatted_address });
+							}}
+							types={["(regions)"]}
+							placeholder="Search"
+							componentRestrictions={{ country: "in" }}
 						/>
 					</div>
 					<div className="col-4 ml-3 mt-4">
@@ -344,11 +379,12 @@ class EntityPage extends React.Component {
 							onFocusChange={(focusedInput) => this.setState({ focusedInput })}
 							startDatePlaceholderText="Check In"
 							endDatePlaceholderText="Check Out"
-							startDateAriaLabel = "Check In"
+							startDateAriaLabel="Check In"
 						></DateRangePicker>
-							
 					</div>
-					<div className="col-2 mt-3">
+
+					{/* <div className="col-2 card shadow-lg">Departure</div> */}
+					<div className="col-2 mt-4">
 						<button
 							onClick={() => this.handleSearchBtn()}
 							style={{ borderRadius: "40px" }}
@@ -357,8 +393,6 @@ class EntityPage extends React.Component {
 							Search
 						</button>
 					</div>
-
-					{/* <div className="col-2 card shadow-lg">Departure</div> */}
 				</div>
 
 				<br></br>
@@ -367,13 +401,14 @@ class EntityPage extends React.Component {
 						<div>
 							<div
 								id="carouselExampleInterval"
-								class="carousel slide"
-								style={{ width: "550px", marginLeft: "200px" }}
+								class="carousel slide container"
+								style={{ width: "100%" }}
 								data-ride="carousel"
 							>
 								<div class="carousel-inner">
 									<div class="carousel-item active" data-interval="5000">
 										<img
+											style={{ width: "100%" }}
 											src="https://odis.homeaway.com/odis/listing/9b6c8562-3a45-411b-9052-c956dfccca3d.f10.jpg"
 											class="d-block w-100"
 											alt="..."
@@ -460,48 +495,67 @@ class EntityPage extends React.Component {
 											</li>
 										</ul>
 									</div>
-									<div class="card-body">
-										<h5 id="overview" class="card-title text-justify">
-											{PropertyTitle}
-										</h5>
-										{/* <p class="card-text"></p> */}
-										<div style={{ textAlign: "justify" }}>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-home" aria-hidden="true"></i>
-												</span>
-												{PropertyType[2]}
-											</div>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-users" aria-hidden="true"></i>
-												</span>
-												sleeps: {this.state.adult + this.state.child}
-											</div>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-bed" aria-hidden="true"></i>
-												</span>
-												Bedrooms: {bedroom}
-											</div>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-bath" aria-hidden="true"></i>
-												</span>
-												Bathrooms: {bathroom}
-											</div>
-											<div>
-												<span style={{ marginRight: "10px" }}>
-													<i class="fa fa-moon" aria-hidden="true"></i>
-												</span>
-												Min Stay: {nights} night
+									<div class="card-body mt-0">
+										<div
+											style={{ height: "180px", width: "500px" }}
+											className="float-right overflow-hidden mt-0"
+										>
+											<SimpleMap /> here is the map
+										</div>
+										<div>
+											<h5 id="overview" class="card-title text-justify">
+												{PropertyTitle}
+											</h5>
+											{/* <p class="card-text"></p> */}
+											<div style={{ textAlign: "justify" }}>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-home" aria-hidden="true"></i>
+													</span>
+													{category}
+												</div>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-users" aria-hidden="true"></i>
+													</span>
+													sleeps: {sleeps}
+												</div>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-bed" aria-hidden="true"></i>
+													</span>
+													Bedrooms: {bedRooms}
+												</div>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-bath" aria-hidden="true"></i>
+													</span>
+													Bathrooms: {bathRooms}
+												</div>
+												<div>
+													<span style={{ marginRight: "10px" }}>
+														<i class="fa fa-moon" aria-hidden="true"></i>
+													</span>
+													Min Stay: {minStay} night
+												</div>
 											</div>
 										</div>
 										<hr />
 										<div style={{ display: "flex", flexWrap: "wrap" }}>
 											{/* <div style={{flex: 'left', marginRight: '30px', backgroundColor: 'rgb(222, 222, 222)'}}>Instant Confirmation</div>
                                         <div style={{backgroundColor: 'rgb(222, 222, 222)'}}>No Smoking</div> */}
-											{PropertyFeatures.map((item) => (
+											{features && features.map((item) => (
+												<div
+													style={{
+														backgroundColor: "rgb(222, 222, 222)",
+														margin: "5px",
+														padding: "10px",
+													}}
+												>
+													{item}
+												</div>
+											))}
+											{locations && locations.map((item) => (
 												<div
 													style={{
 														backgroundColor: "rgb(222, 222, 222)",
@@ -536,7 +590,7 @@ class EntityPage extends React.Component {
 												<span style={{ marginRight: "10px" }}>
 													<i class="fa fa-bed" aria-hidden="true"></i>
 												</span>
-												Bedrooms: {bedroom}
+												Bedrooms: {bedRooms}
 											</div>
 											<div
 												style={{
@@ -547,7 +601,7 @@ class EntityPage extends React.Component {
 												<span style={{ marginRight: "10px" }}>
 													<i class="fa fa-users" aria-hidden="true"></i>
 												</span>
-												sleeps: {this.state.adult + this.state.child}
+												sleeps: {sleeps}
 											</div>
 										</div>
 										<h5 id="amenities" class="font-bolder text-justify mt-5">
@@ -557,7 +611,7 @@ class EntityPage extends React.Component {
 										<h6 class="font-bolder text-justify my-3">Featured</h6>
 										{/* <div style={{backgroundColor: 'rgb(222, 222, 222)', width: '130px'}}><span style={{marginRight: '10px'}}><i class="fa fa-fire" aria-hidden="true"></i></span>No Smoking</div> */}
 										<div style={{ display: "flex", flexWrap: "wrap" }}>
-											{PropertyFeatures.map((item) => (
+											{features && features.map((item) => (
 												<div
 													style={{
 														backgroundColor: "rgb(222, 222, 222)",
@@ -581,11 +635,24 @@ class EntityPage extends React.Component {
 											<span style={{ marginRight: "10px" }}>
 												<i class="fa fa-bath" aria-hidden="true"></i>
 											</span>
-											Bathrooms: {bathroom}
+											Bathrooms: {bathRooms}
 										</div>
 										<hr />
 										<h6 class="text-justify my-3">Location Type</h6>
-										<div
+										<div style={{ display: "flex", flexWrap: "wrap" }}>
+											{locations && locations.map((item) => (
+												<div
+													style={{
+														backgroundColor: "rgb(222, 222, 222)",
+														margin: "5px",
+														padding: "10px",
+													}}
+												>
+													{item}
+												</div>
+											))}
+										</div>
+										{/* <div
 											style={{
 												width: "150px",
 												backgroundColor: "rgb(222, 222, 222",
@@ -595,12 +662,12 @@ class EntityPage extends React.Component {
 											<span style={{ marginRight: "10px" }}>
 												<i class="fa fa-bath" aria-hidden="true"></i>
 											</span>
-											{PropertyType[2]}
-										</div>
+											{category}
+										</div> */}
 										<hr />
 										<h6 class="text-justify my-3">General</h6>
 										<div style={{ display: "flex", flexWrap: "wrap" }}>
-											{General.map((item) => (
+											{genFeatures && genFeatures.map((item) => (
 												<div
 													style={{
 														backgroundColor: "rgb(222, 222, 222)",
@@ -733,13 +800,14 @@ class EntityPage extends React.Component {
 												))}
 											</ul>
 										</div>
+										{reviews &&
 										<div>
 											<h5 id="reviews" className="text-justify mt-5">
 												{reviews.length} Reviews
 											</h5>
-											<div style={{ textAlign: "justify" }}>
+											{/* <div style={{ textAlign: "justify" }}>
 												Rating {avRating}/5
-											</div>
+											</div> */}
 											<hr />
 											<div>
 												{reviews.length != 0 &&
@@ -756,7 +824,8 @@ class EntityPage extends React.Component {
 													))}
 											</div>
 										</div>
-										{reviews.length == 0 && (
+										}
+										{reviews && reviews.length == 0 && (
 											<div className="text-justify">
 												This property doesn't have any reviews yet.
 											</div>
@@ -768,7 +837,7 @@ class EntityPage extends React.Component {
 						<div style={{ width: "350px", height: "500px" }}>
 							<div className={styles.grid1}>
 								<div style={{ fontSize: "32px" }}>
-									{perNightPrice}{" "}
+									${pricePerNight}{" "}
 									<span style={{ fontSize: "10px" }} className="text-muted">
 										per night
 									</span>
@@ -811,21 +880,25 @@ class EntityPage extends React.Component {
 							>
 								<div>
 									{/* Arrival */}
-                                    <DateRangePicker
-							startDate ={this.state.bookingStartDate}
-							startDateId="your_unique_start_date_id"
-							endDate = {this.state.bookingEndDate}
-							endDateId="your_unique_end_date_id"
-							onDatesChange={({ startDate,endDate }) =>
-								this.setState({ bookingStartDate:startDate, bookingEndDate:endDate})
-							}
-							focusedInput={this.state.focusedInput2}
-							onFocusChange={(focusedInput2) => this.setState({ focusedInput2})}
-							startDatePlaceholderText="Check In"
-							endDatePlaceholderText="Check Out"
-							startDateAriaLabel = "Check In"
-						></DateRangePicker>
-									
+									<DateRangePicker
+										startDate={this.state.bookingStartDate}
+										startDateId="your_unique_start_date_id"
+										endDate={this.state.bookingEndDate}
+										endDateId="your_unique_end_date_id"
+										onDatesChange={({ startDate, endDate }) =>
+											this.setState({
+												bookingStartDate: startDate,
+												bookingEndDate: endDate,
+											})
+										}
+										focusedInput={this.state.focusedInput2}
+										onFocusChange={(focusedInput2) =>
+											this.setState({ focusedInput2 })
+										}
+										startDatePlaceholderText="Check In"
+										endDatePlaceholderText="Check Out"
+										startDateAriaLabel="Check In"
+									></DateRangePicker>
 								</div>
 
 								<div className="border" style={{ width: "285px" }}>
@@ -834,7 +907,11 @@ class EntityPage extends React.Component {
 										{this.state.adultsCount + this.state.childrenCount} guests
 									</div>
 									<br></br>
-						{this.state.isGuestCountZero && <p className = "text-danger">Please Add Guest To Continue Booking</p>}
+									{this.state.isGuestCountZero && (
+										<p className="text-danger">
+											Please Add Guest To Continue Booking
+										</p>
+									)}
 								</div>
 								<div style={{ width: "285px" }}>
 									{/* <!-- Button trigger modal --> */}
@@ -957,6 +1034,7 @@ class EntityPage extends React.Component {
 														type="button"
 														class="btn btn-primary"
 														data-dismiss="modal"
+														onClick={this.getTotalPriceHandler}
 													>
 														Save Changes
 													</button>
@@ -964,10 +1042,7 @@ class EntityPage extends React.Component {
                                             </div>
                                         </div>
                                       </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                      </div>
+                                     
                                     </div>
                                   </div>
                         <div className={styles.grid1} style={{marginTop: '20px'}}>
@@ -976,7 +1051,7 @@ class EntityPage extends React.Component {
                                 <div className='text-muted'>Includes taxes and fees</div>
                             </div>
                             <div style={{textAlign: 'right', marginRight: '20px'}}>
-                                <div style={{fontWeight: 'bolder'}}>$ {total}</div>
+                                <div style={{fontWeight: 'bolder'}}>$ {totalSum}</div>
                                 <div style={{color: 'blue'}}>View Details</div>
                             </div>
                         </div>
@@ -989,28 +1064,33 @@ class EntityPage extends React.Component {
 								</button>
 							</div>
                         <div>
-                            <button type="button" class="btn btn-primary rounded-pill btn-lg mt-4">Book Now</button>
                         </div>
-                        <div style={{marginTop: '20px'}}><span><i class="fa fa-repeat" aria-hidden="true"></i></span><span style={{fontWeight: 'bolder', marginLeft: '5px'}}>Free Cancellation</span><span style={{fontSize: '10px', marginLeft: '5px'}}>until {cancellationUntil}</span></div>
+						
+                        	<div style={{marginTop: '20px'}}>
+								<span><i class="fa fa-repeat" aria-hidden="true"></i></span><span style={{fontWeight: 'bolder', marginLeft: '5px'}}>Free Cancellation</span><span style={{fontSize: '10px', marginLeft: '5px'}}>until {cancellationUntil}</span>
+							</div>
+						
                         
                     </div>                        
                 </div>                
             </div>
 			</>
-        )
-    }
-
-
+		);
+	}
 }
 
 const MapStateToProps = (state) => {
 	return {
 		dataEntityPage: state.entity.dataEntityPage,
+		reviews: state.entity.reviews,
+		totalSum: state.entity.totalSum,
 	};
 };
 const MapDisaptchToProps = (dispatch) => {
 	return {
 		getEntityData: (payload) => dispatch(getEntityData(payload)),
+		getEntityReviewData: (payload) => dispatch(getEntityReviewData(payload)),
+		getTotalPrice: (payload) => dispatch(getTotalPrice(payload)),
 	};
 };
 export default connect(MapStateToProps, MapDisaptchToProps)(EntityPage);
