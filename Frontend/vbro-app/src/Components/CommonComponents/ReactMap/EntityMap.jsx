@@ -13,7 +13,6 @@ class SimpleMap extends Component {
   };
  
   render() {
-    console.log(process.env.REACT_APP_API_KEY)
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>
