@@ -74,7 +74,7 @@ class BookingPage extends React.Component {
 			}
 		}
 		console.log(params);
-		const url = "http://aa77f6adcf8b.ngrok.io/properties";
+		const url = "http://localhost:8000/properties";
 		getBookingData({
 			url: url,
 			params: params,
@@ -98,7 +98,7 @@ class BookingPage extends React.Component {
 			}
 		let { data } = this.props;
 		let order_res = await axios.post(
-			"http://4f2ec186484b.ngrok.io/razorPay/pay",
+			"http://localhost:8000/razorPay/pay",
 			{
 				amount: totalSum*100,
 				currency: "INR",
@@ -120,7 +120,7 @@ class BookingPage extends React.Component {
 				// alert(response.razorpay_signature)
 				console.log(response);
 				let final_res = await axios.post(
-					"http://4f2ec186484b.ngrok.io/razorPay/verify",
+					"http://localhost:8000/razorPay/verify",
 					{
 						...response,
 					}

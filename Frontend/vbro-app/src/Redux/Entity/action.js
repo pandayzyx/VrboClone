@@ -54,7 +54,7 @@ export const getEntityData = (payload) => (dispatch) => {
       },
     )
     .then((res) => {
-		console.log(res);
+		  console.log("Entity Data", res);
       return res.data;
     })
     .then((res) => {
