@@ -63,16 +63,26 @@ After running the development server the site should be running on https://local
 
 
 
-Dependecies 
+### Dependecies 
 
-1.react-elastic-carousel 
+1.react-elastic-carousel
+<br> 
 2.react-google-login 
+<br> 
 3.email-validator 
+<br> 
 4.password-validator 
+<br> 
 5.query-string 
+<br> 
 6.react-google-map 
+<br> 
 7.react date-time parser
+<br> 
 8.react-airbnb date-picker 
-9.Moment js 
-10.google-autocomplte  
+<br> 
+9.Moment js
+<br>  
+10.google-autocomplte
+<br> 
 11.react-ga 
