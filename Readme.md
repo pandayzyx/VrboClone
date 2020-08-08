@@ -43,7 +43,7 @@ git clone https://github.com/pandayzyx/VrboClone.git
 cd into the directory
 
 ```bash
-cd Frontedt
+cd Frontend
 ```
 
 ```bash
