@@ -80,18 +80,18 @@ class EntityPage extends React.Component {
 			}
 		}
 
-		const url = `http://localhost:8000/properties/${id}`;
+		const url = `https://3.134.153.158:8282/properties/${id}`;
 		getEntityData({
 			url: url,
 			params: params,
 		});
-		const url2 = `http://localhost:8000/reviews?propId=${id}`;
+		const url2 = `https://3.134.153.158:8282/reviews?propId=${id}`;
 		getEntityReviewData({
 			url: url2,
 			params: params,
 		});
 		getTotalPrice({
-			url: `http://localhost:8000/properties/getTotalCost?propId=${id}&adultsCount=1&childrenCount=1`,
+			url: `https://3.134.153.158:8282/properties/getTotalCost?propId=${id}&adultsCount=1&childrenCount=1`,
 			params: params
 		})
 	}
@@ -183,7 +183,7 @@ class EntityPage extends React.Component {
 		console.log("params after", params);
 		console.log(this.props.match);
 		this.props.getTotalPrice({
-			url: `http://localhost:8000/properties/getTotalCost?propId=${id}&adultsCount=${this.state.adultsCount}&childrenCount=${this.state.childrenCount}`,
+			url: `https://3.134.153.158:8282/properties/getTotalCost?propId=${id}&adultsCount=${this.state.adultsCount}&childrenCount=${this.state.childrenCount}`,
 			params: params
 		});
 	   }
