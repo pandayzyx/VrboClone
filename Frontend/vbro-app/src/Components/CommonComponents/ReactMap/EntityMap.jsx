@@ -1,38 +1,39 @@
-import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
- 
+import React, { Component } from "react";
+import GoogleMapReact from "google-map-react";
+
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
- 
+
 class SimpleMap extends Component {
-  static defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33
-    },
-    zoom: 11
-  };
- 
+
   render() {
+    const { lat, long, title } = this.props.defaultCenter;
+    const center = { lat: parseFloat(lat), lng: parseFloat(long) };
+
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height: '100vh', width: '100%' }}>
+      <div style={{ height: "20vh", width: "100%" }}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key: process.env.REACT_APP_API_KEY}}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
+          bootstrapURLKeys={{ key: "AIzaSyCcS0j7hDpSs-F4xDi2q6AkTD_sWqECR9M" }}
+          center={center}
+          defaultZoom={15}
         >
-        
-           
           <AnyReactComponent
-            lat={59.99999}
-            lng={30.249944}
-            text= {<i style = {{color:"red",fontSize:"20px"}} class="fa fa-map-marker" aria-hidden="true">Cogilith</i>}
+            lat={lat}
+            lng={long}
+            text={
+              <i
+                style={{ color: "red", fontSize: "20px" }}
+                class="fa fa-map-marker"
+                aria-hidden="true"
+              >
+                {title}
+              </i>
+            }
           />
-          
         </GoogleMapReact>
       </div>
     );
   }
 }
- 
+
 export default SimpleMap;

@@ -80,18 +80,18 @@ class EntityPage extends React.Component {
 			}
 		}
 
-		const url = `http://4f2ec186484b.ngrok.io/properties/${id}`;
+		const url = `https://3.134.153.158:8282/properties/${id}`;
 		getEntityData({
 			url: url,
 			params: params,
 		});
-		const url2 = `http://4f2ec186484b.ngrok.io/reviews?propId=${id}`;
+		const url2 = `https://3.134.153.158:8282/reviews?propId=${id}`;
 		getEntityReviewData({
 			url: url2,
 			params: params,
 		});
 		getTotalPrice({
-			url: `http://4f2ec186484b.ngrok.io/properties/getTotalCost?propId=${id}&adultsCount=1&childrenCount=1`,
+			url: `https://3.134.153.158:8282/properties/getTotalCost?propId=${id}&adultsCount=1&childrenCount=1`,
 			params: params
 		})
 	}
@@ -183,125 +183,17 @@ class EntityPage extends React.Component {
 		console.log("params after", params);
 		console.log(this.props.match);
 		this.props.getTotalPrice({
-			url: `http://4f2ec186484b.ngrok.io/properties/getTotalCost?propId=${id}&adultsCount=${this.state.adultsCount}&childrenCount=${this.state.childrenCount}`,
+			url: `https://3.134.153.158:8282/properties/getTotalCost?propId=${id}&adultsCount=${this.state.adultsCount}&childrenCount=${this.state.childrenCount}`,
 			params: params
 		});
 	   }
 
 	render() {
 		let { location, adultsCount } = this.state;
-		let {category, sleeps, bedRooms, bathRooms, minStay, pricePerNight, features, freeCancellation, locations, genFeatures} = this.props.dataEntityPage;
-		console.log("dataEntityPage", this.props.dataEntityPage);
-		console.log(">>>>>>>>>>>>>>>>>>>>>>", this.props.totalSum);
+		let {category, sleeps, bedRooms, bathRooms, minStay, pricePerNight, features, title, instantConfirmation, freeCancellation, latitude, longitude, description, locations, genFeatures} = this.props.dataEntityPage;
 		const {reviews, totalSum} = this.props;
-		console.log(reviews);
-		// var avRating = 4;
-		var perNightPrice = "$ " + 52 + ".00 ";
-		// var guests = {this.state.adult + this.state.child}
-		var bedroom = 1;
-		var bathroom = 1;
-		var nights = 1;
-		var total = 406 + ".00";
+
 		var cancellationUntil = "Dec 10, 2020";
-		var PropertyTitle = "Comfortable rooms Stay near Miramar Beach";
-		var PropertyReviews = [1, 2, 3, 4, 5];
-		var PropertyType = [
-			"Villa",
-			"Apartment or condo",
-			"House",
-			"Studio",
-			"Cabin",
-			"Cottage",
-			"Bungalow",
-			"Bed & breakfast",
-			"Guest house",
-			"Castle",
-			"Chateau/country house",
-			"Estate",
-			"Boat",
-			"Yacht",
-			"Lodge",
-			"Farmhouse",
-			"Barn",
-			"RV",
-			"Tower",
-			"Chalet",
-			"Townhouse",
-			"Resort",
-			"Hotel",
-			"Houseboat",
-			"Mill",
-		];
-		var PropertyFeatures = [
-			"Air conditioning",
-			"Pool",
-			"Private pool",
-			"Internet or Wifi",
-			"Washer",
-			"Dryer",
-			"Stove",
-			"Oven",
-			"Parking available",
-			"TV",
-			"Hot tub",
-			"Bed linens provided",
-			"Outdoor grill",
-			"Dishwasher",
-			"Fireplace",
-			"Microwave",
-			"Iron and board",
-			"Crib",
-			"Kids high chair",
-		];
-		var PropertyLocation = [
-			"Oceanfront",
-			"Beachfront",
-			"Beach",
-			"Ocean",
-			"Downtown",
-			"Beach view",
-			"Lake",
-			"Mountains",
-			"Rural",
-			"Ski-in/ski-out",
-			"Village",
-		];
-		var NearbyActivities = [
-			"Spa and wellness",
-			"Theme parks",
-			"Zoo or wildlife viewing",
-			"Museums",
-			"Golfing",
-			"Fishing",
-			"Skiing or snowboarding",
-			"Hiking",
-			"Shopping",
-			"Cycling",
-			"Horseback riding",
-			"Watersports",
-			"Scuba diving or snorkeling",
-			"Rock or mountain climbing",
-			"Casinos",
-		];
-		var BookingOptions = ["Instant Confirmation", "24 Hour Confirmation"];
-		var PropertyDescription =
-			"The location of this property is definitely the best feature which compels one to book the place. The comforts are just like a home, for unbelievably reasonable tariffs. The rooms are simple and classy, with comfortable beds and ample space for luggage. They are well lit up by natural light.All homely comforts are provided like free Wi-Fi, TV, AC, geyser and parking facility, they also accept card payment at the time of checkout.";
-		var General = [
-			"Telephone",
-			"Air Conditioning",
-			"Heating",
-			"Linens Provided",
-			"Washing Machine",
-			"Clothes Dryer",
-			"Parking",
-			"Internet",
-			"Towels Provided",
-			"FitnessRoom/ Equipment",
-			"Iron & Board",
-			"Hair Dryer",
-			"Elevator",
-			"Living Room",
-		];
 		var Kitchen = [
 			"Dishwasher",
 			"Oven",
@@ -328,21 +220,6 @@ class EntityPage extends React.Component {
 			"No parties/events",
 			"Minimum age of primary renter: 25",
 		];
-		// var reviews = [
-		// 	{
-		// 		reviewby: "Spring break 2020",
-		// 		ratings: "5",
-		// 		review: "We loved it!",
-		// 		publishedat: "Published Mar 15, 2020",
-		// 	},
-		// 	{
-		// 		reviewby: "Valet Parking Nightmare",
-		// 		ratings: "3",
-		// 		review:
-		// 			"The property is great. The location is close to all that Seaside has to offer. The problem we had was that the valet parking consumed all the traffic flow which backed up in front of this unit. We would have like to of been able to go away from Seaside in the evenings but we literally could not get our car out due to the traffic situation. Also, the cabana man was booked up over a month in advance. I purchased nice chairs and an umbrella to use and it was impossible because there was only 20 ft of area available for public use. I had to go down there at 6 a.m. to put my stuff out to get a place on the front row.",
-		// 		publishedat: "Published Jul 22, 2019",
-		// 	},
-		// ];
 
 		return (
 			<>
@@ -496,16 +373,20 @@ class EntityPage extends React.Component {
 										</ul>
 									</div>
 									<div class="card-body mt-0">
-										<div
-											style={{ height: "180px", width: "500px" }}
-											className="float-right overflow-hidden mt-0"
-										>
-											<SimpleMap /> here is the map
-										</div>
+										{latitude && 
+											<div
+												style={{ height: "180px", width: "500px" }}
+												className="float-right overflow-hidden mt-0"
+											>
+												<SimpleMap defaultCenter={{lat: latitude, long: longitude, title: title}} /> here is the map
+											</div>
+										}
 										<div>
-											<h5 id="overview" class="card-title text-justify">
-												{PropertyTitle}
-											</h5>
+											{title && 
+												<h5 id="overview" class="card-title text-justify">
+													{title}
+												</h5>
+											}
 											{/* <p class="card-text"></p> */}
 											<div style={{ textAlign: "justify" }}>
 												<div>
@@ -568,15 +449,17 @@ class EntityPage extends React.Component {
 											))}
 										</div>
 										<hr />
-										<div
-											style={{
-												textAlign: "justify",
-												marginTop: "30px",
-												color: "gray",
-											}}
-										>
-											{PropertyDescription}
-										</div>
+										{description && 
+											<div
+												style={{
+													textAlign: "justify",
+													marginTop: "30px",
+													color: "gray",
+												}}
+											>
+												{description}
+											</div>
+										}
 										<h5 class="font-bolder text-justify mt-5">Bedrooms</h5>
 										<div style={{ display: "flex", marginTop: "30px" }}>
 											<div
@@ -1056,21 +939,24 @@ class EntityPage extends React.Component {
                             </div>
                         </div>
 						<div>
-								<button onClick= {()=>this.handleBooking()}
-									type="button"
-									class="btn btn-primary rounded-pill btn-lg mt-4"
-								>
-									Book Now
-								</button>
-							</div>
-                        <div>
-                        </div>
-						
-                        	<div style={{marginTop: '20px'}}>
+							<button onClick= {()=>this.handleBooking()}
+								type="button"
+								class="btn btn-primary rounded-pill btn-lg mt-4"
+							>
+								Book Now
+							</button>
+						</div>
+						{freeCancellation ?
+							<div style={{marginTop: '20px'}}>
 								<span><i class="fa fa-repeat" aria-hidden="true"></i></span><span style={{fontWeight: 'bolder', marginLeft: '5px'}}>Free Cancellation</span><span style={{fontSize: '10px', marginLeft: '5px'}}>until {cancellationUntil}</span>
-							</div>
-						
-                        
+							</div> : ''
+						}
+						{
+							instantConfirmation ? 
+							<div style={{marginTop: '20px'}}>
+								<span><i class="fas fa-bolt"></i></span><span style={{fontWeight: 'bolder', marginLeft: '5px'}}>Instant Confirmation</span>
+							</div> : ''
+						}
                     </div>                        
                 </div>                
             </div>
