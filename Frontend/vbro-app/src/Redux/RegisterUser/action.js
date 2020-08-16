@@ -38,7 +38,7 @@ export const sendRegisterData = (payload) => (dispatch) => {
   console.log("u are in Account availabilty checking");
   dispatch(sendUserData(payload.data));
   return axios
-    .post("https://3.134.153.158:81/checkStatus", {
+    .post("https://vrboauthserver.devganesh.tech/checkStatus", {
       ...payload.data,
     })
     .then((res) => dispatch(userDataSent(res)))
@@ -53,7 +53,7 @@ export const registerUser = (payload) => (dispatch) => {
   console.log("u are in registration");
   dispatch(sendUserData(payload.data));
   return axios
-    .post("https://3.134.153.158:81/register", {
+    .post("https://vrboauthserver.devganesh.tech/register", {
       ...payload.data,
     })
     .then((res) => dispatch(receiveRegisteredData(res)))

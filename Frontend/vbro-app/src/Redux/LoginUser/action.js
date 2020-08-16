@@ -37,7 +37,7 @@ export const sendLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("https://3.134.153.158:81/login", {
+    .post("https://vrboauthserver.devganesh.tech/login", {
       ...payload.data,
     })
     .then((res) => {
@@ -64,7 +64,7 @@ export const sendGoogleLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("https://3.134.153.158:81/oauth/google", {
+    .post("https://vrboauthserver.devganesh.tech/oauth/google", {
       ...payload.data,
     })
     .then((res) => {
@@ -79,7 +79,7 @@ export const sendFacebookLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("https://3.134.153.158:81/oauth/facebook", {
+    .post("https://vrboauthserver.devganesh.tech/oauth/facebook", {
       ...payload.data,
     })
     .then((res) => {

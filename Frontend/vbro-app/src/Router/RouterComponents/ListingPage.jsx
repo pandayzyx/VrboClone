@@ -87,7 +87,7 @@ class ListingPage extends React.Component {
 		});
 		console.log("params after", params);
 		const { getListData } = this.props;
-		const url = "https://3.134.153.158:8282/properties";
+		const url = "https://vrboserver.devganesh.tech/properties";
 
     // These line of codes are written to reatin the booking details from the home page
     for (let key in params) {
@@ -228,12 +228,12 @@ class ListingPage extends React.Component {
 		}
 	});
 	history.push(paramsUrl);
-	getListData({url: `https://3.134.153.158:8282/properties${paramsUrl}`});
+	getListData({url: `https://vrboserver.devganesh.tech/properties${paramsUrl}`});
   };
 
   hideClearFilterBtn = () => {
 	// this.props.history.push('/listing');
-	this.props.getListData({url: `https://3.134.153.158:8282/properties`});
+	this.props.getListData({url: `https://vrboserver.devganesh.tech/properties`});
     this.setState({
       isClearFilterBtn: false,
       filterCounter: 0,
@@ -266,7 +266,7 @@ class ListingPage extends React.Component {
 		);
 		const values = queryString.parse(this.props.location.search);
 		let params =  values
-		const url = "https://3.134.153.158:8282/properties";
+		const url = "https://vrboserver.devganesh.tech/properties";
 		getListData({
 			url: url,
 			params: params,

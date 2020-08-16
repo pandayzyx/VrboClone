@@ -74,7 +74,7 @@ class BookingPage extends React.Component {
 			}
 		}
 		console.log(params);
-		const url = "https://3.134.153.158:8282/properties";
+		const url = "https://vrboserver.devganesh.tech/properties";
 		getBookingData({
 			url: url,
 			params: params,
@@ -98,7 +98,7 @@ class BookingPage extends React.Component {
 			}
 		let { data } = this.props;
 		let order_res = await axios.post(
-			"https://3.134.153.158:8282/razorPay/pay",
+			"https://vrboserver.devganesh.tech/razorPay/pay",
 			{
 				amount: totalSum*100,
 				currency: "INR",
@@ -120,7 +120,7 @@ class BookingPage extends React.Component {
 				// alert(response.razorpay_signature)
 				console.log(response);
 				let final_res = await axios.post(
-					"https://3.134.153.158:8282/razorPay/verify",
+					"https://vrboserver.devganesh.tech/razorPay/verify",
 					{
 						...response,
 					}
