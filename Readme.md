@@ -12,7 +12,7 @@ React vrbo clone is inspired from Vrbo website offering housing properties on re
 
 **Vrbo Web link:**https://www.vrbo.com/
 
-**Vrbo clone demo:**http://vrboclone.devganesh.tech/
+**Vrbo clone demo:**https://vrboclone.devganesh.tech/
 
 
 
@@ -84,6 +84,7 @@ After running the development server the site should be running on https://local
 8.react-airbnb date-picker 
 <br> 
 9.Moment js 
+<br>
 10.google-autocomplte
 <br> 
 11.react-ga 
