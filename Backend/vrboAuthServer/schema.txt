@@ -1,0 +1,30 @@
+desc oauth_infos;
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| id              | int          | NO   | PRI | NULL    | auto_increment |
+| provider        | varchar(255) | NO   |     | NULL    |                |
+| providerId      | varchar(255) | NO   |     | NULL    |                |
+| accessToken     | varchar(255) | NO   |     | NULL    |                |
+| expires_at      | varchar(255) | NO   |     | NULL    |                |
+| expires_in      | varchar(255) | NO   |     | NULL    |                |
+| first_issued_at | varchar(255) | NO   |     | NULL    |                |
+| refreshToken    | varchar(255) | YES  |     | NULL    |                |
+| imageUrl        | varchar(255) | NO   |     | NULL    |                |
+| data            | varchar(255) | YES  |     | NULL    |                |
+| userId          | int          | NO   | MUL | NULL    |                |
+| createdAt       | datetime     | NO   |     | NULL    |                |
+| updatedAt       | datetime     | NO   |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+
+desc users;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int          | NO   | PRI | NULL    | auto_increment |
+| name      | varchar(255) | NO   |     | NULL    |                |
+| email     | varchar(255) | NO   |     | NULL    |                |
+| password  | varchar(255) | YES  |     | NULL    |                |
+| createdAt | datetime     | NO   |     | NULL    |                |
+| updatedAt | datetime     | NO   |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
