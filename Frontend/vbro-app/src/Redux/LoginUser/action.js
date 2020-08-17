@@ -2,7 +2,7 @@ import {
   USER__LOGIN_DATA_SENDING_FAILED,
   SEND_LOGIN_USER_DATA,
   USER_LOGIN_DATA_SENT,
-  USER_LOGOUT
+  USER_LOGOUT,
 } from "./actionType";
 import axios from "axios";
 const sendUserData = (payload) => {
@@ -37,7 +37,7 @@ export const sendLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("https://vrboauthserver.devganesh.tech/login", {
+    .post(`${process.env.REACT_APP_AUTH_HOST}/login`, {
       ...payload.data,
     })
     .then((res) => {
@@ -64,7 +64,7 @@ export const sendGoogleLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("https://vrboauthserver.devganesh.tech/oauth/google", {
+    .post(`${process.env.REACT_APP_AUTH_HOST}/oauth/google`, {
       ...payload.data,
     })
     .then((res) => {
@@ -79,7 +79,7 @@ export const sendFacebookLoginData = (payload) => (dispatch) => {
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
   return axios
-    .post("https://vrboauthserver.devganesh.tech/oauth/facebook", {
+    .post(`${process.env.REACT_APP_AUTH_HOST}/oauth/facebook`, {
       ...payload.data,
     })
     .then((res) => {

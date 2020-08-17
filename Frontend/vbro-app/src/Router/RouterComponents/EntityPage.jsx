@@ -80,18 +80,18 @@ class EntityPage extends React.Component {
 			}
 		}
 
-		const url = `https://vrboserver.devganesh.tech/properties/${id}`;
+		const url = `${process.env.REACT_APP_PROPERTY_HOST}/properties/${id}`;
 		getEntityData({
 			url: url,
 			params: params,
 		});
-		const url2 = `https://vrboserver.devganesh.tech/reviews?propId=${id}`;
+		const url2 = `${process.env.REACT_APP_PROPERTY_HOST}/reviews?propId=${id}`;
 		getEntityReviewData({
 			url: url2,
 			params: params,
 		});
 		getTotalPrice({
-			url: `https://vrboserver.devganesh.tech/properties/getTotalCost?propId=${id}&adultsCount=1&childrenCount=1`,
+			url: `${process.env.REACT_APP_PROPERTY_HOST}/properties/getTotalCost?propId=${id}&adultsCount=1&childrenCount=1`,
 			params: params
 		})
 	}
@@ -183,7 +183,7 @@ class EntityPage extends React.Component {
 		console.log("params after", params);
 		console.log(this.props.match);
 		this.props.getTotalPrice({
-			url: `https://vrboserver.devganesh.tech/properties/getTotalCost?propId=${id}&adultsCount=${this.state.adultsCount}&childrenCount=${this.state.childrenCount}`,
+			url: `${process.env.REACT_APP_PROPERTY_HOST}/properties/getTotalCost?propId=${id}&adultsCount=${this.state.adultsCount}&childrenCount=${this.state.childrenCount}`,
 			params: params
 		});
 	   }

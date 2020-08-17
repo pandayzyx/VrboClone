@@ -1,0 +1,6 @@
+REACT_APP_API_KEY=
+
+
+REACT_APP_AUTH_HOST=https://vrboauthserver.devganesh.tech
+
+REACT_APP_PROPERTY_HOST=https://vrboserver.devganesh.tech

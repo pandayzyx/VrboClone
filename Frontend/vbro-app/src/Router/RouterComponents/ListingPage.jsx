@@ -76,18 +76,19 @@ class ListingPage extends React.Component {
     };
   }
 
-	componentDidMount() {
-		console.log("this.state in mount", this.state);
-		console.log("params in mount", this.props.history);
-		let tempParams = this.props.history.location.search.substring(1).split("&");
-		let params = {};
-		tempParams.forEach((param) => {
-			let temp = param.split("=");
-			params[temp[0]] = temp[1];
-		});
-		console.log("params after", params);
-		const { getListData } = this.props;
-		const url = "https://vrboserver.devganesh.tech/properties";
+  componentDidMount() {
+    console.log("this.state in mount", this.state);
+    console.log("params in mount", this.props.history);
+    let tempParams = this.props.history.location.search.substring(1).split("&");
+    let params = {};
+    tempParams.forEach((param) => {
+      let temp = param.split("=");
+      params[temp[0]] = temp[1];
+    });
+    console.log("params after", params);
+    const { getListData } = this.props;
+    const url = `${process.env.REACT_APP_PROPERTY_HOST}/properties`;
+    console.log("Host url", process.env);
 
     // These line of codes are written to reatin the booking details from the home page
     for (let key in params) {
@@ -122,9 +123,9 @@ class ListingPage extends React.Component {
           endDate: dating,
         });
       }
-	}
-	
-	let tempParam = window.location.href.split('?')[1];
+    }
+
+    let tempParam = window.location.href.split("?")[1];
 
     getListData({
       url: url,
@@ -135,10 +136,10 @@ class ListingPage extends React.Component {
   handleChange = (e) => {
     let { filterArray } = this.state;
     let tempArr = filterArray;
-	const parent = e.target.dataset.parent;
-	const target = e.target.value;
+    const parent = e.target.dataset.parent;
+    const target = e.target.value;
     this.setState((prev) => {
-		console.log(prev);
+      console.log(prev);
       return {
         [parent]: {
           ...prev[parent],
@@ -175,12 +176,12 @@ class ListingPage extends React.Component {
       });
     }
   };
-  
-	handleChangePet=(e)=>{
-		this.setState({
-			pets:e.target.id
-		})
-	}
+
+  handleChangePet = (e) => {
+    this.setState({
+      pets: e.target.id,
+    });
+  };
 
   handlePagination = (item) => {
     // console.log(item);
@@ -203,7 +204,7 @@ class ListingPage extends React.Component {
   };
 
   handleSearchBtn = () => {
-	  let {history, getListData} = this.props;
+    let { history, getListData } = this.props;
     let { filterCounter } = this.state;
     if (filterCounter !== 0) {
       this.setState({
@@ -215,300 +216,304 @@ class ListingPage extends React.Component {
         isFilterClicked: false,
       });
     }
-	console.log(this.state.filterArray);
-	let prevParams = window.location.href.split('?')[1];
-	let paramsUrl = '?';
-	if (prevParams !== undefined) {
-		paramsUrl = `?${window.location.href.split('?')[1]}`;
-	}
-	this.state.filterArray.forEach(filter => {
-		let tempholder = filter.values.join();
-		if (tempholder.length !== 0) {
-			paramsUrl += `&${filter.type}=${tempholder}`;
-		}
-	});
-	history.push(paramsUrl);
-	getListData({url: `https://vrboserver.devganesh.tech/properties${paramsUrl}`});
+    console.log(this.state.filterArray);
+    let prevParams = window.location.href.split("?")[1];
+    let paramsUrl = "?";
+    if (prevParams !== undefined) {
+      paramsUrl = `?${window.location.href.split("?")[1]}`;
+    }
+    this.state.filterArray.forEach((filter) => {
+      let tempholder = filter.values.join();
+      if (tempholder.length !== 0) {
+        paramsUrl += `&${filter.type}=${tempholder}`;
+      }
+    });
+    history.push(paramsUrl);
+    getListData({
+      url: `${process.env.REACT_APP_PROPERTY_HOST}/properties${paramsUrl}`,
+    });
   };
 
   hideClearFilterBtn = () => {
-	// this.props.history.push('/listing');
-	this.props.getListData({url: `https://vrboserver.devganesh.tech/properties`});
+    // this.props.history.push('/listing');
+    this.props.getListData({
+      url: `${process.env.REACT_APP_PROPERTY_HOST}/properties`,
+    });
     this.setState({
       isClearFilterBtn: false,
       filterCounter: 0,
     });
   };
 
-	// This function is for the button  inside guest modal which send query params and makes an apirequest as well
-	handleApplyBtn = () => {
-		let {getListData} =  this.props
-		var arrivalDate, destinationDate;
-		let {
-			childrenCount,
-			adultsCount,
-			startDate,
-			endDate,
-			pets,
-			location,
-		} = this.state;
-		if (startDate._d &&endDate._d) {
-			arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
-			destinationDate = date.format(endDate._d, "MM/DD/YYYY");
-			console.log(arrivalDate, destinationDate);
-		} else {
-			arrivalDate = "";
-			destinationDate = "";
-		}
-		console.log("handlesearch");
-		this.props.history.push(
-			`/listing?location=${location}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}&pets=${pets}&adultsCount=${adultsCount}&childrenCount=${childrenCount}`
-		);
-		const values = queryString.parse(this.props.location.search);
-		let params =  values
-		const url = "https://vrboserver.devganesh.tech/properties";
-		getListData({
-			url: url,
-			params: params,
-		});
+  // This function is for the button  inside guest modal which send query params and makes an apirequest as well
+  handleApplyBtn = () => {
+    let { getListData } = this.props;
+    var arrivalDate, destinationDate;
+    let {
+      childrenCount,
+      adultsCount,
+      startDate,
+      endDate,
+      pets,
+      location,
+    } = this.state;
+    if (startDate._d && endDate._d) {
+      arrivalDate = date.format(startDate._d, "MM/DD/YYYY");
+      destinationDate = date.format(endDate._d, "MM/DD/YYYY");
+      console.log(arrivalDate, destinationDate);
+    } else {
+      arrivalDate = "";
+      destinationDate = "";
+    }
+    console.log("handlesearch");
+    this.props.history.push(
+      `/listing?location=${location}&arrivalDate=${arrivalDate}&destinationDate=${destinationDate}&pets=${pets}&adultsCount=${adultsCount}&childrenCount=${childrenCount}`
+    );
+    const values = queryString.parse(this.props.location.search);
+    let params = values;
+    const url = `${process.env.REACT_APP_PROPERTY_HOST}/properties`;
+    getListData({
+      url: url,
+      params: params,
+    });
+  };
+  handleLinkClicked = (e) => {
+    console.log("handle ckillkd");
+    console.log(e.currentTarget.id);
+    const values = queryString.parse(this.props.location.search);
+    let params = values;
+    var taburl = "";
+    for (let key in params) {
+      if (key !== "pageNum" && key !== "location") {
+        taburl = taburl + key + "=" + params[key] + "&";
+      }
+    }
+    taburl = taburl.split("");
+    taburl = taburl.filter((item, index) => index < taburl.length - 1).join("");
+    taburl = taburl + `&location=${this.state.location}`;
+    console.log(taburl);
+    this.props.history.push(`/listing/${e.currentTarget.id}?${taburl}`);
+  };
 
-		
-	};
-	handleLinkClicked =(e)=>{
-		console.log("handle ckillkd")
-		console.log(e.currentTarget.id)
-		const values = queryString.parse(this.props.location.search);
-		let params = values;
-		var taburl  = ""
-		for(let key in params){
-			if(key!== "pageNum"&&key!=="location"){
-				taburl  =  taburl + key +  "="+ params[key]+ "&"
-			}
-		}
-		taburl =  taburl.split("")
-		taburl =  taburl.filter((item,index)=>index<taburl.length-1).join("")
-		taburl =  taburl + `&location=${this.state.location}`
-		console.log(taburl)
-		this.props.history.push(`/listing/${e.currentTarget.id}?${taburl}`)
-        
-	}
+  render() {
+    let search = this.props.location.search;
+    let { dataListingPage } = this.props;
+    let { history } = this.props;
+    let { childrenCount, adultsCount, location } = this.state;
+    let guestCount = childrenCount + adultsCount;
+    let { isFilterClicked, isClearFilterBtn } = this.state;
+    let filterData = data.filter;
+    return (
+      <>
+        {/* This component is same as home component which can make the bookings */}
+        <div
+          className="row navbar navbar-expand-lg navbar-light p-1"
+          style={{ marginTop: "-30px" }}
+        >
+          <div className="col-3 text-center py-2 mt-3">
+            <Autocomplete
+              className="form-control ml-5 py-2"
+              value={this.state.location}
+              onChange={(e) => this.setState({ location: e.target.value })}
+              style={{ width: "100%%", height: "47px" }}
+              onPlaceSelected={(place) => {
+                console.log(place);
+                this.setState({ location: place.formatted_address });
+              }}
+              types={["(regions)"]}
+              componentRestrictions={{ country: "in" }}
+            />
+          </div>
+          <div className="col-4 ml-3 mt-3">
+            {/* Arrival */}
+            <DateRangePicker
+              startDate={this.state.startDate}
+              startDateId="your_unique_start_date_id"
+              endDate={this.state.endDate}
+              endDateId="your_unique_end_date_id"
+              onDatesChange={({ startDate, endDate }) =>
+                this.setState({ startDate, endDate })
+              }
+              focusedInput={this.state.focusedInput}
+              onFocusChange={(focusedInput) => this.setState({ focusedInput })}
+              startDatePlaceholderText="Check In"
+              endDatePlaceholderText="Check Out"
+              startDateAriaLabel="Check In"
+            ></DateRangePicker>
+          </div>
 
-	render() {
-		let search = this.props.location.search;
-		let { dataListingPage } = this.props;
-		let { history } = this.props;
-		let { childrenCount, adultsCount, location } = this.state;
-		let guestCount = childrenCount + adultsCount;
-		let { isFilterClicked, isClearFilterBtn } = this.state;
-		let filterData = data.filter;
-		return (
-			<>
-				{/* This component is same as home component which can make the bookings */}
-				<div className="row navbar navbar-expand-lg navbar-light p-1" style={{marginTop: '-30px'}}>
-					<div className="col-3 text-center py-2 mt-3">
-          <Autocomplete
-								  className = "form-control ml-5 py-2"
-								  value = {this.state.location}
-								  onChange = {(e)=>this.setState({location:e.target.value})}
-									style={{ width: "100%%",height:"47px"}}
-									onPlaceSelected={(place) => {
-										console.log(place);
-										this.setState({location:place.formatted_address})
-									}}
-									types={["(regions)"]}
-									componentRestrictions={{ country: "in" }}
-								/>
-					</div>
-					<div className="col-4 ml-3 mt-3">
-						{/* Arrival */}
-						<DateRangePicker
-							startDate={this.state.startDate}
-							startDateId="your_unique_start_date_id"
-							endDate={this.state.endDate}
-							endDateId="your_unique_end_date_id"
-							onDatesChange={({ startDate, endDate }) =>
-								this.setState({ startDate, endDate })
-							}
-							focusedInput={this.state.focusedInput}
-							onFocusChange={(focusedInput) => this.setState({ focusedInput })}
-							startDatePlaceholderText="Check In"
-							endDatePlaceholderText="Check Out"
-							startDateAriaLabel = "Check In"
-						></DateRangePicker>
-					</div>
+          {/* <div className="col-2 card shadow-lg">Departure</div> */}
+          <div className="col-2 ml-3 mt-2">
+            <button
+              style={{
+                width: "170px",
+                height: "50px",
+                marginTop: "8px",
+                textAlign: "justify",
+                borderRadius: "20px",
+              }}
+              type="button"
+              class="btn btn-primary btn-block"
+              data-toggle="modal"
+              data-target="#exampleModal"
+              className={`form-control`}
+            >
+              <span style={{ padding: "5px" }}>
+                <i class="fa fa-users" aria-hidden="true"></i>
+              </span>{" "}
+              Guest
+              {guestCount !== 0 && (
+                <small style={{ padding: "5px" }}>
+                  {childrenCount + adultsCount} Guests
+                </small>
+              )}
+            </button>
+            <div
+              class="modal fade md-5 mt-5"
+              id="exampleModal"
+              tabindex="-10"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div
+                style={{ marginRight: "100px", marginTop: "80px" }}
+                class="modal-dialog modal-dialog-centered"
+                role="document"
+              >
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <p
+                      style={{ marginLeft: "20%" }}
+                      className="text-muted mt-5 "
+                    >{`${adultsCount} adult`}</p>
+                    <div class="modal-footer md-5 mr-5">
+                      <button
+                        style={{ width: "60px", height: "60px" }}
+                        type="button"
+                        class="btn border border-primary rounded-circle"
+                        onClick={() =>
+                          this.setState({
+                            adultsCount:
+                              this.state.adultsCount >= 1
+                                ? this.state.adultsCount - 1
+                                : this.state.adultsCount,
+                          })
+                        }
+                      >
+                        -
+                      </button>
+                      {this.state.num_adults}
+                      <button
+                        style={{ width: "60px", height: "60px" }}
+                        type="button"
+                        class="btn border border-primary rounded-circle"
+                        onClick={() =>
+                          this.setState({
+                            adultsCount: this.state.adultsCount + 1,
+                          })
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  <div class="modal-header">
+                    <p
+                      style={{ marginLeft: "20%" }}
+                      className="text-muted mt-5"
+                    >{`${childrenCount} children`}</p>
+                    <div class="modal-footer mr-5">
+                      <button
+                        type="button"
+                        style={{ width: "60px", height: "60px" }}
+                        class="btn border border-primary rounded-circle"
+                        onClick={() =>
+                          this.setState({
+                            childrenCount:
+                              this.state.childrenCount >= 1
+                                ? this.state.childrenCount - 1
+                                : this.state.childrenCount,
+                          })
+                        }
+                      >
+                        -
+                      </button>
+                      {this.state.num_child}
+                      <button
+                        style={{ width: "60px", height: "60px" }}
+                        type="button"
+                        class="btn border border-primary rounded-circle"
+                        onClick={() =>
+                          this.setState({
+                            childrenCount: this.state.childrenCount + 1,
+                          })
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  <div class="modal-header">
+                    <p
+                      style={{ marginLeft: "20%" }}
+                      className="text-muted mt-1"
+                    >
+                      Pets
+                    </p>
+                    <div class="modal-footer mr-5">
+                      <div className="mr-5">
+                        <input
+                          style={{ width: "30px", height: "30px" }}
+                          type="radio"
+                          id="false"
+                          name="pets"
+                          onChange={(e) => this.handleChangePet(e)}
+                          value={this.state.isPetIncluded}
+                        ></input>
+                        <label className="text-muted ml-1">No</label>
+                      </div>
+                      <div>
+                        <input
+                          style={{ width: "30px", height: "30px" }}
+                          type="radio"
+                          id="true"
+                          name="pets"
+                          onChange={(e) => this.handleChangePet(e)}
+                          value={this.state.isPetIncluded}
+                        ></input>
+                        <label className="text-muted ml-1">Yes</label>
+                      </div>
+                      <br></br>
+                      <div>
+                        <button
+                          onClick={() => this.handleApplyBtn()}
+                          className="btn btn-primary rounded-pill mt-2"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* The top component that takes booking ends here */}
 
-					{/* <div className="col-2 card shadow-lg">Departure</div> */}
-					<div className="col-2 ml-3 mt-2">
-					<button
-									style={{
-										width: "170px",
-										height: "50px",
-										marginTop: "8px",
-										textAlign: "justify",
-										borderRadius: "20px",
-									}}
-									type="button"
-									class="btn btn-primary btn-block"
-									data-toggle="modal"
-									data-target="#exampleModal"
-									className={`form-control`}
-								>
-									<span style={{ padding: "5px" }}>
-										<i class="fa fa-users" aria-hidden="true"></i>
-									</span>{" "}
-									Guest
-									{guestCount !== 0 && (
-										<small style={{ padding: "5px" }}>
-											{childrenCount + adultsCount} Guests
-										</small>
-									)}
-								</button>
-						<div
-							class="modal fade md-5 mt-5"
-							id="exampleModal"
-							tabindex="-10"
-							role="dialog"
-							aria-labelledby="exampleModalLabel"
-							aria-hidden="true"
-						>
-							<div
-								style={{ marginRight: "100px", marginTop: "80px" }}
-								class="modal-dialog modal-dialog-centered"
-								role="document"
-							>
-								<div class="modal-content">
-									<div class="modal-header">
-										<p
-											style={{ marginLeft: "20%" }}
-											className="text-muted mt-5 "
-										>{`${adultsCount} adult`}</p>
-										<div class="modal-footer md-5 mr-5">
-											<button
-												style={{ width: "60px", height: "60px" }}
-												type="button"
-												class="btn border border-primary rounded-circle"
-												onClick={() =>
-													this.setState({
-														adultsCount:
-															this.state.adultsCount >= 1
-																? this.state.adultsCount - 1
-																: this.state.adultsCount,
-													})
-												}
-											>
-												-
-											</button>
-											{this.state.num_adults}
-											<button
-												style={{ width: "60px", height: "60px" }}
-												type="button"
-												class="btn border border-primary rounded-circle"
-												onClick={() =>
-													this.setState({
-														adultsCount: this.state.adultsCount + 1,
-													})
-												}
-											>
-												+
-											</button>
-										</div>
-									</div>
-									<div class="modal-header">
-										<p
-											style={{ marginLeft: "20%" }}
-											className="text-muted mt-5"
-										>{`${childrenCount} children`}</p>
-										<div class="modal-footer mr-5">
-											<button
-												type="button"
-												style={{ width: "60px", height: "60px" }}
-												class="btn border border-primary rounded-circle"
-												onClick={() =>
-													this.setState({
-														childrenCount:
-															this.state.childrenCount >= 1
-																? this.state.childrenCount - 1
-																: this.state.childrenCount,
-													})
-												}
-											>
-												-
-											</button>
-											{this.state.num_child}
-											<button
-												style={{ width: "60px", height: "60px" }}
-												type="button"
-												class="btn border border-primary rounded-circle"
-												onClick={() =>
-													this.setState({
-														childrenCount: this.state.childrenCount + 1,
-													})
-												}
-											>
-												+
-											</button>
-										</div>
-									</div>
-									<div class="modal-header">
-										<p
-											style={{ marginLeft: "20%" }}
-											className="text-muted mt-1"
-										>
-											Pets
-										</p>
-										<div class="modal-footer mr-5">
-											<div className="mr-5">
-												<input
-													style={{ width: "30px", height: "30px" }}
-													type="radio"
-													id="false"
-													name="pets"
-													onChange={(e) => this.handleChangePet(e)}
-													value={this.state.isPetIncluded}
-												></input>
-												<label className="text-muted ml-1">No</label>
-											</div>
-											<div>
-												<input
-													style={{ width: "30px", height: "30px" }}
-													type="radio"
-													id="true"
-													name="pets"
-													onChange={(e) => this.handleChangePet(e)}
-													value={this.state.isPetIncluded}
-												></input>
-												<label className="text-muted ml-1">Yes</label>
-											</div>
-											<br></br>
-											<div>
-												<button
-													onClick={() => this.handleApplyBtn()}
-													className="btn btn-primary rounded-pill mt-2"
-												>
-													Apply
-												</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				{/* The top component that takes booking ends here */}
-
-				<nav class="navbar navbar-expand-lg navbar-light shadow-sm text-primary">
-					<button
-						class="navbar-toggler"
-						type="button"
-						data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent"
-						aria-expanded="false"
-						aria-label="Toggle navigation"
-					>
-						<span class="navbar-toggler-icon"></span>
-					</button>
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm text-primary">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -658,51 +663,51 @@ class ListingPage extends React.Component {
         )}
         {/* Activate this code whn data is coming from the back end */}
 
-				<div className="container-fluid">
-					{dataListingPage.length === 0 && (
-						<div class="spinner-border text-dark" role="status">
-							<span class="sr-only">Loading...</span>
-						</div>
-					)}
-					<div className="row">
-						<div className="col-7">
-							{!isFilterClicked &&
-								dataListingPage &&
-								dataListingPage.map((item,index) => (
-									<>
-										<ListingCard
-										    onclick = {this.handleLinkClicked}
-											key={uuidv4()}
-											 id = {item.id}
-											title={item.title}
-											image = {item.imgsrc === "https://odis.homeaway.com/odis/destination/5941b1e0-2600-4b2a-b27e-c667abf7e510.carousel-m.jpg"
-											?
-											"https://odis.homeaway.com/odis/listing/170885a1-86a8-45c5-b42f-6cbe5d0b3fe1.f10.jpg":item.imgsrc
-										
-										}
-											category={item.category}
-											bedrooms={item.bedRooms}
-											sleeps={item.sleeps}
-											area={item.area}
-											rating={item.rating}
-											price={item.pricePerNight}
-										/>
-									</>
-								))}
-							
-						</div>
-						<div
-							style={{
-								position: "-webkit-sticky",
-								position: "sticky",
-								top: "10px",
-							}}
-							className="col-5 card shadow-md p-2"
-						>
-							<SimpleMap />
-						</div>
-					</div>
-				</div>
+        <div className="container-fluid">
+          {dataListingPage.length === 0 && (
+            <div class="spinner-border text-dark" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          )}
+          <div className="row">
+            <div className="col-7">
+              {!isFilterClicked &&
+                dataListingPage &&
+                dataListingPage.map((item, index) => (
+                  <>
+                    <ListingCard
+                      onclick={this.handleLinkClicked}
+                      key={uuidv4()}
+                      id={item.id}
+                      title={item.title}
+                      image={
+                        item.imgsrc ===
+                        "https://odis.homeaway.com/odis/destination/5941b1e0-2600-4b2a-b27e-c667abf7e510.carousel-m.jpg"
+                          ? "https://odis.homeaway.com/odis/listing/170885a1-86a8-45c5-b42f-6cbe5d0b3fe1.f10.jpg"
+                          : item.imgsrc
+                      }
+                      category={item.category}
+                      bedrooms={item.bedRooms}
+                      sleeps={item.sleeps}
+                      area={item.area}
+                      rating={item.rating}
+                      price={item.pricePerNight}
+                    />
+                  </>
+                ))}
+            </div>
+            <div
+              style={{
+                position: "-webkit-sticky",
+                position: "sticky",
+                top: "10px",
+              }}
+              className="col-5 card shadow-md p-2"
+            >
+              <SimpleMap />
+            </div>
+          </div>
+        </div>
 
         {/* For entity page for now keep this demo list card and work */}
 
