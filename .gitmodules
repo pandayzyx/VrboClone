@@ -1,0 +1,6 @@
+[submodule "Backend/vrboAuthServer"]
+	path = Backend/vrboAuthServer
+	url = https://github.com/Devganesh1998/vrboAuthServer.git
+[submodule "Backend/vrboServer"]
+	path = Backend/vrboServer
+	url = https://github.com/Devganesh1998/vrboServer.git
