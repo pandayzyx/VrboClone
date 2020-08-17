@@ -3,7 +3,9 @@ import {
   BOOKING_DATA_SEND,
   BOOKING_DATA_SUCCESS,
 } from "./actionTypes";
-import axios from "axios";
+
+import axiosInstance from "../axiosInstance";
+
 import { bindActionCreators } from "redux";
 
 const sendBookingData = (payload) => {
@@ -31,7 +33,7 @@ export const getBookingData = (payload) => (dispatch) => {
   dispatch(sendBookingData(payload));
   let {url, params} = payload;
 
-  return axios
+  return axiosInstance
     .get(
       url,
       {
@@ -52,7 +54,7 @@ export const postBookingData = (payload) => (dispatch) => {
   dispatch(sendBookingData(payload));
   let {url, params} = payload;
 
-  return axios
+  return axiosInstance
     .post(
       {...payload},
       url,

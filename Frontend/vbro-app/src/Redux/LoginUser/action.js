@@ -6,7 +6,9 @@ import {
   USER_VERIFY_AUTH,
   USER_VERIFY_AUTH_FAILED
 } from "./actionType";
-import axios from "axios";
+
+import axiosInstance from "../axiosInstance";
+
 const sendUserData = (payload) => {
   return {
     type: SEND_LOGIN_USER_DATA,
@@ -59,7 +61,7 @@ export const sendLoginData = (payload) => (dispatch) => {
   console.log("uareinsendlogin");
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
-  return axios
+  return axiosInstance
     .post(`${process.env.REACT_APP_AUTH_HOST}/login`, {
       ...payload.data,
     })
@@ -86,7 +88,7 @@ export const sendGoogleLoginData = (payload) => (dispatch) => {
   console.log("Google oauth");
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
-  return axios
+  return axiosInstance
     .post(`${process.env.REACT_APP_AUTH_HOST}/oauth/google`, {
       ...payload.data,
     })
@@ -101,7 +103,7 @@ export const sendFacebookLoginData = (payload) => (dispatch) => {
   console.log("Facebook oauth");
   console.log("payload", payload);
   dispatch(sendUserData(payload.data));
-  return axios
+  return axiosInstance
     .post(`${process.env.REACT_APP_AUTH_HOST}/oauth/facebook`, {
       ...payload.data,
     })
@@ -112,17 +114,15 @@ export const sendFacebookLoginData = (payload) => (dispatch) => {
     .catch((err) => dispatch(userDataSendFailed(err)));
 };
 
-export const logout = (payload) => (dispatch) => {
-  return axios
-    .post(`${process.env.REACT_APP_AUTH_HOST}/logout`, {
-      ...payload
-    })
+export const logout = () => (dispatch) => {
+  return axiosInstance
+    .get(`${process.env.REACT_APP_AUTH_HOST}/logout`)
     .then((res) => dispatch(userLogout(res.data)))
     .catch((err) => dispatch(userLogoutFailed(err)));
 };
 
 export const verifyAuth = () => (dispatch) => {
-  return axios
+  return axiosInstance
     .get(`${process.env.REACT_APP_AUTH_HOST}/verifyAuth`)
     .then((res) => dispatch(userVerifyAuth(res.data)))
     .catch((err) => dispatch(userVerifyAuthFailed(err)));

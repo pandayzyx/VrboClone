@@ -4,7 +4,8 @@ import {
   USER_DATA_SENT,
   REGISTER_USER_SUCCESS
 } from "./actionType";
-import axios from "axios";
+
+import axiosInstance from "../axiosInstance";
 
 const sendUserData = (payload) => {
   return {
@@ -37,7 +38,7 @@ const userDataSendFailed = (payload) => {
 export const sendRegisterData = (payload) => (dispatch) => {
   console.log("u are in Account availabilty checking");
   dispatch(sendUserData(payload.data));
-  return axios
+  return axiosInstance
     .post(`${process.env.REACT_APP_AUTH_HOST}/checkStatus`, {
       ...payload.data,
     })
@@ -52,7 +53,7 @@ export const sendRegisterData = (payload) => (dispatch) => {
 export const registerUser = (payload) => (dispatch) => {
   console.log("u are in registration");
   dispatch(sendUserData(payload.data));
-  return axios
+  return axiosInstance
     .post(`${process.env.REACT_APP_AUTH_HOST}/register`, {
       ...payload.data,
     })

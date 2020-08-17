@@ -16,10 +16,7 @@ class Navbar extends React.Component {
   }
 
   handlelogout = () => {
-    const { userEmail } = this.props;
-    this.props.userLogout({
-      email: userEmail,
-    });
+    this.props.userLogout();
   };
 
   render() {
@@ -264,7 +261,6 @@ class Navbar extends React.Component {
 const MapStateToProps = (state) => {
   return {
     username: state.login.username,
-    userEmail: state.login.email,
     isUserLoggedIn: state.login.isUserLoggedIn,
   };
 };

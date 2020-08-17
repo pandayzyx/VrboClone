@@ -5,7 +5,8 @@ import {
   ENTITY_REVIEW_DATA_SUCCESS,
   ENTITY_TOTAL_PRICE_DATA_SUCCESS
 } from "./actionTypes";
-import axios from "axios";
+
+import axiosInstance from "../axiosInstance";
 
 const sendEntityData = (payload) => {
   return {
@@ -46,7 +47,7 @@ export const getEntityData = (payload) => (dispatch) => {
   dispatch(sendEntityData(payload));
   let {url, params} = payload;
 
-  return axios
+  return axiosInstance
     .get(
       url,
       {
@@ -67,7 +68,7 @@ export const getEntityReviewData = (payload) => (dispatch) => {
   dispatch(sendEntityData(payload));
   let {url, params} = payload;
 
-  return axios
+  return axiosInstance
     .get(
       url,
       {
@@ -88,7 +89,7 @@ export const getTotalPrice = (payload) => (dispatch) => {
   dispatch(sendEntityData(payload));
   let {url, params} = payload;
 
-  return axios
+  return axiosInstance
     .get(
       url,
       {

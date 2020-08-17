@@ -3,7 +3,8 @@ import {
   LISTING_DATA_SEND,
   LISTING_DATA_SUCCESS,
 } from "./actionTypes";
-import axios from "axios";
+
+import axiosInstance from "../axiosInstance";
 
 const sendListingData = (payload) => {
   return {
@@ -30,7 +31,7 @@ export const getListData = (payload) => (dispatch) => {
   dispatch(sendListingData(payload));
   let {url, params} = payload;
 
-  return axios
+  return axiosInstance
     .get(
       url,
       {
