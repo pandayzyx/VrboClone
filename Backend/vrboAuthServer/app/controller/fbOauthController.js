@@ -82,6 +82,8 @@ exports.fbOauth = (req, res) => {
               {
                 maxAge: expires_in - 10,
                 httpOnly: true,
+                secure: true,
+                domain: 'devganesh.tech'
               }
             );
             redis.client.setex(email, expires_in - 10, auth_token, (err, reply) => {
@@ -133,6 +135,8 @@ exports.fbOauth = (req, res) => {
               {
                 maxAge: expires_in - 10,
                 httpOnly: true,
+                secure: true,
+                domain: 'devganesh.tech'
               }
             );
             redis.client.setex(email, expires_in - 10, auth_token, (err, reply) => {

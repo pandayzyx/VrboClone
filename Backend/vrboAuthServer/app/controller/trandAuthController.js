@@ -102,6 +102,8 @@ exports.register = (req, res) => {
         {
           maxAge: expirationSeconds,
           httpOnly: true,
+          secure: true,
+          domain: 'devganesh.tech'
         }
       );
       redis.client.setex(email, expirationSeconds, auth_token, (err, reply) => {
@@ -190,6 +192,8 @@ exports.login = (req, res) => {
         {
           maxAge: expirationSeconds,
           httpOnly: true,
+          secure: true,
+          domain: 'devganesh.tech'
         }
       );
       redis.client.setex(email, expirationSeconds, auth_token, (err, reply) => {
@@ -247,41 +251,39 @@ exports.logout = async (req, res) => {
 };
 
 exports.verifyAuth = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(200).json({
-      errors: errors.array(),
-      errormsg: "Please send required Details",
-      "Required fields": ["email"],
-      "sample Format": {
-        email: "TestEmail@mail.com",
-      },
+  const emailAuth_tokenPair = req.cookies.emailAuth_tokenPair;
+
+  if (emailAuth_tokenPair === null || emailAuth_tokenPair === undefined) {
+    res.send({
+      msg: "Session Expired Login Again",
+      isAuthenticated: false,
+    });
+  } else {
+    const { email, auth_token } = emailAuth_tokenPair;
+
+    redis.client.get(email, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ "Internal Server Error": err });
+        res.send();
+      } else {
+        if (result === auth_token) {
+          res.send({
+            user: {
+              email: email,
+            },
+            isAuthenticated: true,
+          });
+        } else {
+          res.send({
+            user: {
+              email: email,
+            },
+            isAuthenticated: false,
+          });
+        }
+      }
     });
   }
-
-  const email = req.body.email;
-
-  redis.client.get(email, (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).json({ "Internal Server Error": err });
-      res.send();
-    } else {
-      if (result !== null) {
-        res.send({
-          user: {
-            email: email,
-          },
-          isAuthenticated: true,
-        });
-      } else {
-        res.send({
-          user: {
-            email: email,
-          },
-          isAuthenticated: false,
-        });
-      }
-    }
-  });
 };
+

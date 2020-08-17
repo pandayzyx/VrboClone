@@ -9,9 +9,8 @@ router.post(
   trandAuth.checkMailStatus
 );
 
-router.post(
+router.get(
   "/verifyAuth",
-  [body("email").exists().bail().isEmail().bail().trim()],
   trandAuth.verifyAuth
 );
 
