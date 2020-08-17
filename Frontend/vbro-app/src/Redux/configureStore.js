@@ -1,9 +1,10 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import { registerreducer } from "../Redux/RegisterUser/registerreducer";
-import { loginreducer } from "../Redux/LoginUser/loginreducer";
-import { listingreducer } from "../Redux/Listing/listingreducer";
-import { entityreducer } from "../Redux/Entity/entityreducer";
-import { bookingreducer } from "../Redux/Booking/bookingreducer";
+import { registerreducer } from "./RegisterUser/registerreducer";
+import { loginreducer } from "./LoginUser/loginreducer";
+import { listingreducer } from "./Listing/listingreducer";
+import { entityreducer } from "./Entity/entityreducer";
+import { bookingreducer } from "./Booking/bookingreducer";
+import { verifyAuth } from "./LoginUser/action";
 // import thunk from "redux-thunk"
 
 const thunk = (store) => (next) => (action) => {
@@ -17,7 +18,7 @@ const saveToLocalStorage = (state) => {
   } catch (e) {
     console.log(e);
   }
-}
+};
 
 const loadFromLocalStorage = () => {
   try {
@@ -28,7 +29,7 @@ const loadFromLocalStorage = () => {
     console.log(e);
     return undefined;
   }
-}
+};
 
 const rootreducer = combineReducers({
   register: registerreducer,
@@ -40,12 +41,15 @@ const rootreducer = combineReducers({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(
-  rootreducer,
-  loadFromLocalStorage(),
-  composeEnhancers(applyMiddleware(thunk))
-);
+export default function configureStore() {
+  const store = createStore(
+    rootreducer,
+    loadFromLocalStorage(),
+    composeEnhancers(applyMiddleware(thunk))
+  );
+  store.dispatch(verifyAuth());
+  store.subscribe(() => saveToLocalStorage(store.getState()));
+  console.log(store.getState());
 
-store.subscribe(()=> saveToLocalStorage(store.getState()))
-
-console.log(store.getState());
+  return store;
+}

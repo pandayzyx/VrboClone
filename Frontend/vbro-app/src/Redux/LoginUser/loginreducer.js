@@ -3,6 +3,8 @@ import {
   SEND_LOGIN_USER_DATA,
   USER_LOGIN_DATA_SENT,
   USER_LOGOUT,
+  USER_VERIFY_AUTH,
+  USER_VERIFY_AUTH_FAILED
 } from "./actionType";
 
 const initState = {
@@ -43,6 +45,25 @@ export const loginreducer = (state = initState, action) => {
     }
 
     case USER_LOGOUT: {
+      return {
+        ...state,
+        username: "",
+        email: "",
+        isUserLoggedIn: false,
+      };
+    }
+
+    case USER_VERIFY_AUTH: {
+      console.log("verify action.payload", action.payload);
+      const {user, isAuthenticated} = action.payload;
+      return {
+        ...state,
+        email: user.email,
+        isUserLoggedIn: isAuthenticated,
+      };
+    }
+
+    case USER_VERIFY_AUTH_FAILED: {
       return {
         ...state,
         username: "",

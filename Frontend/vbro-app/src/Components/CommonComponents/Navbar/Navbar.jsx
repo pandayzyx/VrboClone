@@ -5,7 +5,7 @@ import TravellerLoginModal from "./Modals/TravellerLoginModal/TravellerLoginModa
 import OwnerLoginModal from "./Modals/OwnerLoginModal/OwnerLoginModal";
 import { connect } from "react-redux";
 
-import { userLogout } from "../../../Redux/LoginUser/action";
+import { logout } from "../../../Redux/LoginUser/action";
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -16,7 +16,10 @@ class Navbar extends React.Component {
   }
 
   handlelogout = () => {
-    this.props.userLogout();
+    const { userEmail } = this.props;
+    this.props.userLogout({
+      email: userEmail,
+    });
   };
 
   render() {
@@ -26,7 +29,10 @@ class Navbar extends React.Component {
         <SignUPModal />
         <TravellerLoginModal />
         <OwnerLoginModal />
-        <nav style ={{fontSize:"14px"}} class="navbar navbar-expand-lg navbar-light bg-light text-primary ">
+        <nav
+          style={{ fontSize: "14px" }}
+          class="navbar navbar-expand-lg navbar-light bg-light text-primary "
+        >
           <Link to="/" class="navbar-brand" href="#">
             <img
               className="img-fluid"
@@ -47,14 +53,16 @@ class Navbar extends React.Component {
           </button>
 
           <div
-            style={{fontFamily: 'Sora'}}
+            style={{ fontFamily: "Sora" }}
             class="collapse navbar-collapse offset-4"
             id="navbarSupportedContent"
           >
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <Link  class="nav-link text-primary ml-4 " href="#">
-                  <span style={{padding: '5px'}}><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                <Link class="nav-link text-primary ml-4 " href="#">
+                  <span style={{ padding: "5px" }}>
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                  </span>
                   Trip Boards<span class="sr-only">(current)</span>
                 </Link>
               </li>
@@ -69,7 +77,9 @@ class Navbar extends React.Component {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span style={{padding: '5px'}}><i class="fa fa-user" aria-hidden="true"></i></span>
+                  <span style={{ padding: "5px" }}>
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                  </span>
                   Login
                 </Link>
                 <div
@@ -165,12 +175,14 @@ class Navbar extends React.Component {
                 <li class="nav-item">
                   <button
                     type="button"
-                    style ={{fontSize:"14px"}}
+                    style={{ fontSize: "14px" }}
                     class="btn btn-light text-primary"
                     data-toggle="modal"
                     data-target="#signupModal"
                   >
-                    <span style={{padding: '5px'}}><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+                    <span style={{ padding: "5px" }}>
+                      <i class="fa fa-user-plus" aria-hidden="true"></i>
+                    </span>
                     Sign Up
                   </button>
                 </li>
@@ -185,7 +197,9 @@ class Navbar extends React.Component {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span style={{padding: '5px'}}><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+                  <span style={{ padding: "5px" }}>
+                    <i class="fa fa-question-circle" aria-hidden="true"></i>
+                  </span>
                   Help
                 </Link>
                 <div class="dropdown-menu " aria-labelledby="navbarDropdown">
@@ -213,15 +227,19 @@ class Navbar extends React.Component {
                     Property Manager Help
                   </Link>
                   <div class="dropdown-divider"></div>
-                  <Link to ="/trustandsafety" class="dropdown-item text-primary" href="#">Trust And safety</Link>
-                  
+                  <Link
+                    to="/trustandsafety"
+                    class="dropdown-item text-primary"
+                    href="#"
+                  >
+                    Trust And safety
+                  </Link>
                 </div>
               </li>
               <li class="nav-item">
                 <Link to="/listyourproperty">
                   <button
-                    style={{ borderRadius: "40px",fontSize:"14px"}}
-                   
+                    style={{ borderRadius: "40px", fontSize: "14px" }}
                     class="btn btn-outline-primary my-2 my-sm-0 ml-4"
                     type="submit"
                   >
@@ -246,13 +264,14 @@ class Navbar extends React.Component {
 const MapStateToProps = (state) => {
   return {
     username: state.login.username,
+    userEmail: state.login.email,
     isUserLoggedIn: state.login.isUserLoggedIn,
   };
 };
 
 const MapDisaptchToProps = (dispatch) => {
   return {
-    userLogout: (payload) => dispatch(userLogout(payload)),
+    userLogout: (payload) => dispatch(logout(payload)),
   };
 };
 export default connect(MapStateToProps, MapDisaptchToProps)(Navbar);

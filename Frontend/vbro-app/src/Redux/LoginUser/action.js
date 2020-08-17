@@ -3,6 +3,8 @@ import {
   SEND_LOGIN_USER_DATA,
   USER_LOGIN_DATA_SENT,
   USER_LOGOUT,
+  USER_VERIFY_AUTH,
+  USER_VERIFY_AUTH_FAILED
 } from "./actionType";
 import axios from "axios";
 const sendUserData = (payload) => {
@@ -25,10 +27,31 @@ const userDataSendFailed = (payload) => {
   };
 };
 
-export const userLogout = (payload) => {
+const userLogout = (payload) => {
   return {
     type: USER_LOGOUT,
     payload: payload,
+  };
+};
+
+const userLogoutFailed = (payload) => {
+  return {
+    type: USER_LOGOUT,
+    payload: payload,
+  };
+};
+
+const userVerifyAuth = (payload) => {
+  return {
+    type: USER_VERIFY_AUTH,
+    payload: payload
+  };
+};
+
+const userVerifyAuthFailed = (payload) => {
+  return {
+    type: USER_VERIFY_AUTH_FAILED,
+    payload: payload
   };
 };
 
@@ -87,4 +110,20 @@ export const sendFacebookLoginData = (payload) => (dispatch) => {
       dispatch(userDataSent(res));
     })
     .catch((err) => dispatch(userDataSendFailed(err)));
+};
+
+export const logout = (payload) => (dispatch) => {
+  return axios
+    .post(`${process.env.REACT_APP_AUTH_HOST}/logout`, {
+      ...payload
+    })
+    .then((res) => dispatch(userLogout(res.data)))
+    .catch((err) => dispatch(userLogoutFailed(err)));
+};
+
+export const verifyAuth = () => (dispatch) => {
+  return axios
+    .get(`${process.env.REACT_APP_AUTH_HOST}/verifyAuth`)
+    .then((res) => dispatch(userVerifyAuth(res.data)))
+    .catch((err) => dispatch(userVerifyAuthFailed(err)));
 };
