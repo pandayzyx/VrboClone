@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
-    "date-and-time": "^0.13.1",
+    "date-and-time": "^0.14.2",
     "email-validator": "^2.0.4",
     "google-map-react": "^1.1.7",
     "js-cookie": "^2.2.1",
