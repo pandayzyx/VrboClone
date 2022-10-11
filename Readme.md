@@ -8,7 +8,7 @@ React vrbo clone is inspired from Vrbo website offering housing properties on re
 
 **Vrbo Web link:** https://www.vrbo.com
 
-**Vrbo clone demo:** https://vrboclone.devganesh.tech
+**Vrbo clone demo:** https://vrbo-rental-app.netlify.app
 
 ### :wrench: Tools Used
 
